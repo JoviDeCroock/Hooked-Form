@@ -1,0 +1,8 @@
+node_modules
+src
+example
+.editorconfig
+.gitignore
+yarn.lock
+tslint.json
+typings.d.ts
