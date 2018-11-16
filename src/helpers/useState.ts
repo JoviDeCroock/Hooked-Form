@@ -1,13 +1,8 @@
 import { useState } from "react";
 
-interface CounterOptions {
-  step?: number
-}
-
-export default (initial: Object = {}) => {
-  const [values, setValue] = useState(initial);
-  return {
-    setFieldValue: (fieldId, value) => setValue({ ...values, [fieldId]: value }),
-    values,
-  }
+export default (initial: object = {}): [object, (id: string, value: any) => void, (newState: object) => void] => {
+  const [values, innerSetValue] = useState(initial);
+  const setValue = (id: string, value: any) => innerSetValue({ ...values, [id]: value });
+  const setState = (newState: object) => innerSetValue(() => ({ ...newState }));
+  return [values, setValue, setState];
 };
