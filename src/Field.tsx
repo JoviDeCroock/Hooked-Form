@@ -16,14 +16,14 @@ const FieldContainer = React.memo(({ Component, fieldId, ...rest }: FieldProps) 
     setFieldTouched,
   } = React.useContext(formContext);
 
-  const resetFieldValue = () => setFieldValue(fieldId, initialValue || reset(value));
+  const resetFieldValue = React.useCallback(() => setFieldValue(fieldId, initialValue || reset(value)), [value]);
 
   return (
     <Component
       error={error}
       onBlur={setFieldTouched.bind(null, fieldId)}
       onChange={setFieldValue.bind(null, fieldId)}
-      reset={setFieldValue}
+      reset={resetFieldValue}
       value={value}
       {...rest}
     />

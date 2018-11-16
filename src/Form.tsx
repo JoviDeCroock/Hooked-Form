@@ -40,19 +40,19 @@ const OptionsContainer = ({ initialValues = {}, onSubmit, validate, onError, onS
     const [formErrors, setErrors, setErrorState] = useState(initialErrors)
     const [setSubmitting, isSubmitting] = useBoolean(false);
 
-    const validateForm = () => {
+    const validateForm = React.useCallback(() => {
       const errors = validate(values, touched);
       setErrorState({ ...errors });
-    }
+    }, [values, touched]);
 
-    const setFieldTouched = (fieldId: string) => {
+    const setFieldTouched = React.useCallback((fieldId: string) => {
       touch(fieldId, true);
       validateForm();
-    }
+    }, []);
 
-    const resetForm = () => {
+    const resetForm = React.useCallback(() => {
       setValuesState(initialValues);
-    }
+    }, []);
 
     return (
       <Provider value={{
