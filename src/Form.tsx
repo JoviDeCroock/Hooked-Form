@@ -88,7 +88,7 @@ const OptionsContainer = ({
     const onChangeProp = React.useCallback((fieldId: string, value: any) => {
       const newValues = setFieldValue(fieldId, value);
       if (validateOnChange) { validateForm(newValues, touched) }
-    }, [touched]);
+    }, [values, touched]);
 
     return (
       <Provider value={{

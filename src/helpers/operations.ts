@@ -2,12 +2,12 @@ import cloneDeep from 'lodash.clonedeep';
 import toPath from 'lodash.topath';
 
 export function get(source: any, key: any) {
-  let result = source;
+  let p = 0;
   const path = toPath(key);
-  path.forEach((subKey: string) => {
-    result = result[subKey];
-  });
-  return result;
+  while (source && p < path.length) {
+    source = source[path[p++]];
+  }
+  return source;
 }
 
 export function set(source: any, key: string, value: any) {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { formContext } from './helpers/context';
-import { get } from './helpers/operations';
+import { get, set } from './helpers/operations';
 import reset from './helpers/reset';
 
 interface FieldProps {
@@ -8,33 +8,36 @@ interface FieldProps {
   fieldId: string;
 }
 
-const FieldContainer = React.memo(({ Component, fieldId, ...rest }: FieldProps) => {
+const FieldArrayContainer = React.memo(({ Component, fieldId, ...rest }: FieldProps) => {
   const {
     errors,
     initialValues,
     values,
     setFieldValue,
-    setFieldTouched,
   } = React.useContext(formContext);
 
   const error = get(errors, fieldId);
   const initialValue = get(initialValues, fieldId);
-  const value = get(values, fieldId);
+  const value: Array<any> = get(values, fieldId) || [];
 
   const resetFieldValue = React.useCallback(() => {
     setFieldValue(fieldId, initialValue || reset(value));
   }, [value]);
 
+  const addElement = React.useCallback((element: any = {}) => {
+    setFieldValue(fieldId, [...value, element]);
+  }, [value]);
+
   return (
     <Component
+      addElement={addElement}
       error={error}
-      onBlur={setFieldTouched.bind(null, fieldId)}
-      onChange={setFieldValue.bind(null, fieldId)}
+      fieldId={fieldId}
       reset={resetFieldValue}
-      value={value || ''}
+      values={value}
       {...rest}
     />
   )
 });
 
-export default FieldContainer;
+export default FieldArrayContainer;
