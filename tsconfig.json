@@ -1,6 +1,7 @@
 {
   "version": "2.0.0",
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "jsx": "react",
     "target": "es5",
     "sourceMap": true,

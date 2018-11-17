@@ -10,61 +10,97 @@ interface FormOptions {
   onError: (error: object) => void;
   onSuccess: (result?: any) => void;
   onSubmit: (values: object) => any;
+  shouldSubmitWhenInvalid: boolean;
   validate: (values: object, touched: object) => object
+  validateOnBlur: boolean;
+  validateOnChange: boolean;
 }
 
-const OptionsContainer = ({ initialValues = {}, onSubmit, validate, onError, onSuccess }: FormOptions) => {
+const OptionsContainer = ({
+  initialValues = {},
+  onSubmit,
+  validate,
+  onError,
+  onSuccess,
+  shouldSubmitWhenInvalid = false,
+  validateOnBlur,
+  validateOnChange,
+}: FormOptions) => {
   const initialTouched = deriveInitial(initialValues, false);
   const initialErrors = deriveInitial(initialValues, null);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>, setSubmitting: (value: boolean) => void, values: object, errors: object) => {
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+    setSubmitting: (value: boolean) => void,
+    validateForm: (values: any, touched: any) => object,
+    values: object,
+    touched: object
+  ) => {
     try {
       if (event) {
         event.preventDefault();
-        event.stopPropagation();
       }
-
+      const errors = validateForm(values, touched);
+      if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) { return; }
       setSubmitting(true);
       const result = await onSubmit(values);
       setSubmitting(false);
-      onSuccess(result);
+      if (onSuccess) {
+        onSuccess(result);
+      }
     } catch (e) {
       setSubmitting(false);
-      onerror(e);
+      if (onError) {
+        onerror(e);
+      }
     }
   }
 
-  return React.memo((Component: any, ...props: Array<any>) => {
+  return (Component: any) => React.memo((props: object) => {
     const [values, setFieldValue, setValuesState] = useState(initialValues);
     const [touched, touch] = useState(initialTouched);
     const [formErrors, setErrors, setErrorState] = useState(initialErrors)
     const [setSubmitting, isSubmitting] = useBoolean(false);
 
-    const validateForm = React.useCallback(() => {
-      const errors = validate(values, touched);
-      setErrorState({ ...errors });
-    }, [values, touched]);
+    // Provide a way to reset the full form to the initialValues.
+    const resetForm = React.useCallback(() => setValuesState(initialValues), []);
 
+    // The validation step in our form, this memoization happens on values and touched.
+    const validateForm = (formValues: any, formTouched: any) => {
+      if (validate) {
+        const validationErrors = validate(formValues, formTouched);
+        setErrorState({ ...validationErrors });
+        return validationErrors;
+      }
+      return {};
+    };
+
+    // The submit for our form.
+    const handleSubmitProp = React.useCallback((event) => handleSubmit(event, setSubmitting, validateForm, values, touched), [values, touched]);
+
+    // The onBlur we can use for our Fields, should also be renewed context wise when our values are altered.
     const setFieldTouched = React.useCallback((fieldId: string) => {
-      touch(fieldId, true);
-      validateForm();
-    }, []);
+      const newTouched = touch(fieldId, true);
+      if (validateOnBlur) { validateForm(values, newTouched) }
+    }, [values]);
 
-    const resetForm = React.useCallback(() => {
-      setValuesState(initialValues);
-    }, []);
+    // The onChange we can use for our Fields, should also be renewed context wise when our touched are altered.
+    const onChangeProp = React.useCallback((fieldId: string, value: any) => {
+      const newValues = setFieldValue(fieldId, value);
+      if (validateOnChange) { validateForm(newValues, touched) }
+    }, [touched]);
 
     return (
       <Provider value={{
         errors: formErrors as Errors,
         initialValues,
         setFieldTouched,
-        setFieldValue,
+        setFieldValue: onChangeProp,
         touched: touched as Touched,
         values,
       }}>
         <Component
-          handleSubmit={handleSubmit.bind(null, setSubmitting, values, formErrors)}
+          handleSubmit={handleSubmitProp}
           validate={validateForm}
           isSubmitting={isSubmitting}
           resetForm={resetForm}
