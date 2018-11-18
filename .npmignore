@@ -6,3 +6,8 @@ example
 yarn.lock
 tslint.json
 typings.d.ts
+Dockerfile
+docker-compose.yml
+.dockerignore
+/website
+/docs

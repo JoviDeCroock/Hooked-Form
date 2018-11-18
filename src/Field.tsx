@@ -39,8 +39,6 @@ const FieldContainer = React.memo(({ component, fieldId, ...rest }: FieldProps) 
     onBlur: setFieldTouched.bind(null, fieldId),
     onChange: setFieldValue.bind(null, fieldId),
     reset: resetFieldValue,
-    setFieldTouched,
-    setFieldValue,
     value: value || '',
     ...rest,
   }

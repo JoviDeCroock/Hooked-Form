@@ -1,0 +1,9 @@
+{
+  "docs": {
+    "components": [
+      "components/form",
+      "components/field",
+      "components/fieldarray"
+    ]
+  }
+}
