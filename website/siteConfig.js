@@ -23,8 +23,8 @@ const users = [
 const siteConfig = {
   title: 'Formed-Hooks',
   tagline: '',
-  url: 'https://formed-hooks.github.io',
-  baseUrl: '/',
+  url: 'https://jovidecroock.github.io/',
+  baseUrl: '/hooked-form/',
 
   // Used for publishing and more
   projectName: 'Formed-Hooks',
