@@ -27,7 +27,7 @@ Form is used to wrap your component, you can pass options in and that will resul
 
 ## Example
 
-```javascript
+```js
 import React from 'react';
 import { Form } from 'hooked-form';
 

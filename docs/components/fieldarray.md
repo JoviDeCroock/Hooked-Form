@@ -27,7 +27,7 @@ The values has an altered .map function, this will be `(element, fieldId, index)
 
 ## Example
 
-```javascript
+```js
 import React from 'react';
 import { Form, Field } from 'hooked-form';
 

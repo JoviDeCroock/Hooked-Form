@@ -21,7 +21,7 @@ The Field component is used to inject the values of a certain field into the pas
 
 ## Example
 
-```javascript
+```js
 import React from 'react';
 import { Form, Field } from 'hooked-form';
 

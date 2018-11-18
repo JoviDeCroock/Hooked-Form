@@ -45,18 +45,11 @@ const siteConfig = {
 
   // On page navigation for the current documentation page.
   onPageNav: 'separate',
-  // No .html extensions for paths.
   cleanUrl: true,
 
   // Open Graph and Twitter card images.
   ogImage: 'img/favicon.png',
   twitterImage: 'img/favicon.png',
-
-  // Show documentation's last contributor's name.
-  // enableUpdateBy: true,
-
-  // Show documentation's last update time.
-  // enableUpdateTime: true,
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
