@@ -14,16 +14,16 @@ The FieldArray component is used to inject the values of a certain field into th
 
 ## Injected properties
 
-- addElement: (element = {}) - A function to add an element to the back of your array.
-- error: string - If this fieldArray has an error this will be passed.
-- fieldId: string - The passed fieldId so it's available in your function
-- removeElement: (toDelete: number | object) => void - The function to remove an element form your array, it accepts an element or an index.
-- reset: () => void - Will reset this one field to its initialValue or an empty array.
-- values: [any] - The current value of the field.
+- addElement: `(element = {}) => void` - A function to add an element to the back of your array.
+- error: `string` - If this fieldArray has an error this will be passed.
+- fieldId: `string` - The passed fieldId so it's available in your function
+- removeElement: `(toDelete: number | object) => void` - The function to remove an element form your array, it accepts an element or an index.
+- reset: `() => void` - Will reset this one field to its initialValue or an empty array.
+- values: `[any]` - The current value of the field.
 
 ## map
 
-The values has an altered .map function, this will be (element, fieldId, index) => element. The fieldId will automatically be `${FieldArrayFieldId}[${currentIndex}]`.
+The values has an altered .map function, this will be `(element, fieldId, index) => element`. The fieldId will automatically be `${FieldArrayFieldId}[${currentIndex}]`.
 
 ## Example
 

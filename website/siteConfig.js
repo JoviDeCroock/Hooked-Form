@@ -37,14 +37,14 @@ const siteConfig = {
   users,
 
   /* path to images for header/footer */
-  headerIcon: 'img/docusaurus.svg',
-  footerIcon: 'img/docusaurus.svg',
+  headerIcon: 'img/logo.png',
+  footerIcon: 'img/logo.png',
   favicon: 'img/favicon.png',
 
   /* Colors for website */
   colors: {
-    primaryColor: '#2E8555',
-    secondaryColor: '#205C3B',
+    primaryColor: '#2d7c85',
+    secondaryColor: '#204f5c',
   },
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
@@ -64,8 +64,8 @@ const siteConfig = {
   cleanUrl: true,
 
   // Open Graph and Twitter card images.
-  ogImage: 'img/docusaurus.png',
-  twitterImage: 'img/docusaurus.png',
+  ogImage: 'img/favicon.png',
+  twitterImage: 'img/favicon.png',
 
   // Show documentation's last contributor's name.
   // enableUpdateBy: true,
