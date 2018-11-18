@@ -32,7 +32,7 @@ const FieldArrayContainer = React.memo(({ component, render, fieldId, ...rest }:
   value.map = React.useCallback(callback => {
     const array: Array<any> = [];
     value.forEach((element: any, i: number) => {
-      const el = callback(element, `${fieldId}[${i}]`);
+      const el = callback(element, `${fieldId}[${i}]`, i);
       array.push(el);
     });
     return array;
@@ -52,7 +52,6 @@ const FieldArrayContainer = React.memo(({ component, render, fieldId, ...rest }:
     } else {
       setFieldValue(fieldId, value.filter(x => x !== toDelete));
     }
-    // TODO
   };
 
   const moveElement = (from: number, to: number) => {

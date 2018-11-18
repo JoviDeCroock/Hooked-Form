@@ -3,12 +3,8 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
-    "tagline": "",
+    "tagline": "Hooked-Form documentation.",
     "docs": {
-      "api": {
-        "title": "api",
-        "sidebar_label": "api"
-      },
       "components/field": {
         "title": "Field",
         "sidebar_label": "Field"

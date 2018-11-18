@@ -24,7 +24,7 @@ const siteConfig = {
   title: 'Hooked-Form',
   tagline: 'Hooked-Form documentation.',
   url: 'https://jovidecroock.github.io',
-  baseUrl: '/hooked-form',
+  baseUrl: '/hooked-form/',
   projectName: 'hooked-form',
   organizationName: 'jovidecroock',
 
