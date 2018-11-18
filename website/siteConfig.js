@@ -21,13 +21,13 @@ const users = [
 ];
 
 const siteConfig = {
-  title: 'Formed-Hooks',
+  title: 'Hooked-Form',
   tagline: '',
-  url: 'https://jovidecroock.github.io/',
-  baseUrl: '/hooked-form/',
+  url: 'https://jovidecroock.github.io',
+  baseUrl: '/hooked-form',
 
   // Used for publishing and more
-  projectName: 'Formed-Hooks',
+  projectName: 'hooked-form',
   organizationName: '',
   // For top-level user or org sites, the organization is still the same.
   // e.g., for the https://JoelMarcey.github.io site, it would be set like...
