@@ -32,7 +32,7 @@ const OptionsContainer = ({
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
     setSubmitting: (value: boolean) => void,
-    validateForm: (values: any, touched: any) => object,
+    validateForm: () => object,
     values: object,
     touched: object
   ) => {
@@ -40,7 +40,7 @@ const OptionsContainer = ({
       if (event) {
         event.preventDefault();
       }
-      const errors = validateForm(values, touched);
+      const errors = validateForm();
       if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) { return; }
       setSubmitting(true);
       const result = await onSubmit(values);
@@ -66,28 +66,37 @@ const OptionsContainer = ({
     const resetForm = React.useCallback(() => setValuesState(initialValues), []);
 
     // The validation step in our form, this memoization happens on values and touched.
-    const validateForm = (formValues: any, formTouched: any) => {
+    const validateForm = () => {
+      let result = {};
       if (validate) {
-        const validationErrors = validate(formValues, formTouched);
+        const validationErrors = validate(values, touched);
         setErrorState({ ...validationErrors });
-        return validationErrors;
+        result = validationErrors;
       }
-      return {};
+      return result;
     };
+
+    // Make our sideEffect when we have to validate onBlurring the field.
+    if (validateOnBlur) {
+      React.useEffect(() => { validateForm(); }, [touched])
+    }
+
+    // Make our sideEffect when we have to validate onChanging the field.
+    if (validateOnChange) {
+      React.useEffect(() => { validateForm(); }, [values])
+    }
 
     // The submit for our form.
     const handleSubmitProp = React.useCallback((event) => handleSubmit(event, setSubmitting, validateForm, values, touched), [values, touched]);
 
     // The onBlur we can use for our Fields, should also be renewed context wise when our values are altered.
     const setFieldTouched = React.useCallback((fieldId: string) => {
-      const newTouched = touch(fieldId, true);
-      if (validateOnBlur) { validateForm(values, newTouched) }
-    }, [values]);
+      touch(fieldId, true);
+    }, [values, touched]);
 
     // The onChange we can use for our Fields, should also be renewed context wise when our touched are altered.
     const onChangeProp = React.useCallback((fieldId: string, value: any) => {
-      const newValues = setFieldValue(fieldId, value);
-      if (validateOnChange) { validateForm(newValues, touched) }
+      setFieldValue(fieldId, value);
     }, [values, touched]);
 
     return (

@@ -2,57 +2,49 @@ import cloneDeep from 'lodash.clonedeep';
 import toPath from 'lodash.topath';
 
 export function get(source: any, key: any) {
-  let p = 0;
   const path = toPath(key);
-  while (source && p < path.length) {
-    source = source[path[p++]];
+  for (let i = 0; i < path.length && source; ++i) {
+    source = source[path[i]];
   }
   return source;
 }
 
-export function set(source: any, key: string, value: any) {
-  const res: any = {};
-  const pathArray = toPath(key);
-  let resVal: any = res;
-  let i = 0;
+interface Source {
+  [key: string]: any;
+}
 
-  for (; i < pathArray.length - 1; i++) {
-    const currentPath: string = pathArray[i];
-    const currentObj: any = get(source, pathArray.slice(0, i + 1));
+export const set = (source: Source | Array<any>, key: string, value: any) => setHelper(source, value, toPath(key), 0);
 
-    if (resVal[currentPath]) {
-      resVal = resVal[currentPath];
-    } else if (currentObj) {
-      resVal = resVal[currentPath] = cloneDeep(currentObj);
-    } else {
-      const nextPath: string = pathArray[i + 1];
-      resVal = resVal[currentPath] =
-        isInteger(nextPath) && Number(nextPath) >= 0 ? [] : {};
+function setHelper(source: Source | Array<any>, value: any, pathArray: Array<string>, currentIndex: number) {
+  if (currentIndex >= pathArray.length) {
+    return value;
+  }
+
+  const currentPath = pathArray[currentIndex];
+  // At this point we could be dealing with a FieldArray so be cautious not to use Stringed keys, if not it's an object.
+  const currentValue = source && (Array.isArray(source) ? source[Number(currentPath)] : source[currentPath]);
+  const continuedPath: any = setHelper(currentValue, value, pathArray, currentIndex + 1);
+
+  if (!source) {
+    if (typeof currentPath === 'number') {
+      const array = [];
+      array[Number(currentPath)] = continuedPath;
+      return array;
+    }
+    return {
+      [currentPath]: continuedPath
     }
   }
 
-  // Return original object if new value is the same as current
-  if ((i === 0 ? source : resVal)[pathArray[i]] === value) {
-    return source;
+  // FieldArray copying.
+  if (Array.isArray(source)) {
+    const copiedArray = [...source];
+    copiedArray[Number(currentPath)] = continuedPath;
+    return copiedArray;
   }
 
-  if (value === undefined) {
-    delete resVal[pathArray[i]];
-  } else {
-    resVal[pathArray[i]] = value;
+  return {
+    ...source,
+    [currentPath]: continuedPath,
   }
-
-  const result = { ...source, ...res };
-
-  // If the path array has a single element, the loop did not run.
-  // Deleting on `resVal` had no effect in this scenario, so we delete on the result instead.
-  if (i === 0 && value === undefined) {
-    delete result[pathArray[i]];
-  }
-
-  return result;
 }
-
-/** @private is the given object an integer? */
-export const isInteger = (source: any): boolean =>
-  String(Math.floor(Number(source))) === source;

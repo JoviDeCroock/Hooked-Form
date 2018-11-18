@@ -20,13 +20,13 @@
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
 
-"@types/lodash.clonedeep@^4.5.4":
+"@types/lodash.clonedeep@4.5.4":
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/@types/lodash.clonedeep/-/lodash.clonedeep-4.5.4.tgz#2515c5f08bc95afebfb597711871b0497f5d7da7"
   dependencies:
     "@types/lodash" "*"
 
-"@types/lodash.topath@^4.5.4":
+"@types/lodash.topath@4.5.4":
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/@types/lodash.topath/-/lodash.topath-4.5.4.tgz#edc27deae066303c13a2199337ce3680cc2e75d7"
   dependencies:
@@ -614,11 +614,7 @@ kind-of@^6.0.0:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
 
-lodash.clonedeep@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
-
-lodash.topath@^4.5.2:
+lodash.topath@4.5.2:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/lodash.topath/-/lodash.topath-4.5.2.tgz#3616351f3bba61994a0931989660bd03254fd009"
 

@@ -12,8 +12,8 @@
   "typings": "lib/index.d.ts",
   "license": "MIT",
   "devDependencies": {
-    "@types/lodash.clonedeep": "^4.5.4",
-    "@types/lodash.topath": "^4.5.4",
+    "@types/lodash.clonedeep": "4.5.4",
+    "@types/lodash.topath": "4.5.4",
     "@types/react": "16.7.6",
     "cross-env": "5.2.0",
     "react": "16.7.0-alpha.2",
@@ -29,8 +29,7 @@
     "typescript": "3.1.6"
   },
   "dependencies": {
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.topath": "^4.5.2"
+    "lodash.topath": "4.5.2"
   },
   "peerDependencies": {
     "react": "16.7.0-alpha.2",

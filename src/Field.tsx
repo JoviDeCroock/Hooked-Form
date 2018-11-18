@@ -4,11 +4,19 @@ import { get } from './helpers/operations';
 import reset from './helpers/reset';
 
 interface FieldProps {
-  Component: any;
+  component: any;
   fieldId: string;
 }
 
-const FieldContainer = React.memo(({ Component, fieldId, ...rest }: FieldProps) => {
+const FieldContainer = React.memo(({ component, fieldId, ...rest }: FieldProps) => {
+  if (!component) {
+    throw new Error('The Field needs a "component" property to  function correctly.');
+  }
+
+  if (!fieldId || typeof fieldId !== 'string') {
+    throw new Error('The Field needs a valid "fieldId" property to  function correctly.');
+  }
+
   const {
     errors,
     initialValues,
@@ -26,16 +34,18 @@ const FieldContainer = React.memo(({ Component, fieldId, ...rest }: FieldProps) 
     setFieldTouched(fieldId, false);
   }, [value]);
 
-  return (
-    <Component
-      error={error}
-      onBlur={setFieldTouched.bind(null, fieldId)}
-      onChange={setFieldValue.bind(null, fieldId)}
-      reset={resetFieldValue}
-      value={value || ''}
-      {...rest}
-    />
-  )
+  const props = {
+    error,
+    onBlur: setFieldTouched.bind(null, fieldId),
+    onChange: setFieldValue.bind(null, fieldId),
+    reset: resetFieldValue,
+    setFieldTouched,
+    setFieldValue,
+    value: value || '',
+    ...rest,
+  }
+
+  return React.createElement(component, props);
 });
 
 export default FieldContainer;
