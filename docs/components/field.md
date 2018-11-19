@@ -10,6 +10,7 @@ The Field component is used to inject the values of a certain field into the pas
 
 - component - A react component.
 - fieldId - The name for this field.
+- innerRef - The ref to pass through to your custom component.
 
 ## Injected properties
 

@@ -38,9 +38,9 @@ const FieldContainer = ({ component, fieldId, innerRef, ...rest }: FieldProps) =
 
   const props = {
     error,
-    innerRef,
     onBlur: setFieldTouched.bind(null, fieldId),
     onChange: setFieldValue.bind(null, fieldId),
+    ref: innerRef,
     reset: resetFieldValue,
     value: value || '',
     ...rest,

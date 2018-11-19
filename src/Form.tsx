@@ -105,6 +105,7 @@ const OptionsContainer = ({
       }}>
         <Component
           change={onChangeProp}
+          errors={formErrors}
           handleSubmit={handleSubmitProp}
           validate={validateForm}
           isSubmitting={isSubmitting}

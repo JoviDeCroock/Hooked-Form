@@ -39,7 +39,7 @@ const StringField = ({ myOwnCustomProp = 'label', onChange, onBlur, error, value
   </React.Fragment>
 );
 
-const Friends = ({ values, addElement }) => (
+const Friends = ({ removeElement, values, addElement }) => (
   <React.Fragment>
     {values.map((element, fieldId, i) => (
       <Field
