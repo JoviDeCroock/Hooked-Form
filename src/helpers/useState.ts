@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import { set } from './operations';
 
 export default (initial: object = {}): [object, (id: string, value: any) => void, (newState: object) => void] => {
