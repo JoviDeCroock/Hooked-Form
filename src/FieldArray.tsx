@@ -9,7 +9,7 @@ interface FieldProps {
   render: (props: object) => any;
 }
 
-const FieldArrayContainer = React.memo(({ component, render, fieldId, ...rest }: FieldProps) => {
+const FieldArrayContainer = ({ component, render, fieldId, ...rest }: FieldProps) => {
   if (!component && ! render) {
     throw new Error('The FieldArray needs a "component" or a "render" property to  function correctly.');
   }
@@ -69,6 +69,6 @@ const FieldArrayContainer = React.memo(({ component, render, fieldId, ...rest }:
   }
 
   return component ? React.createElement(component, props) : render(props);
-});
+};
 
 export default FieldArrayContainer;

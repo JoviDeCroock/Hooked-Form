@@ -6,14 +6,14 @@ import useState from './helpers/useState';
 import { Errors, InitialValues, Touched } from './types';
 
 interface FormOptions {
-  initialValues: InitialValues;
-  onError: (error: object) => void;
-  onSuccess: (result?: any) => void;
+  initialValues?: InitialValues;
+  onError?: (error: object) => void;
+  onSuccess?: (result?: any) => void;
   onSubmit: (values: object) => any;
-  shouldSubmitWhenInvalid: boolean;
-  validate: (values: object, touched: object) => object
-  validateOnBlur: boolean;
-  validateOnChange: boolean;
+  shouldSubmitWhenInvalid?: boolean;
+  validate?: (values: object, touched: object) => object
+  validateOnBlur?: boolean;
+  validateOnChange?: boolean;
 }
 
 const OptionsContainer = ({
@@ -56,7 +56,7 @@ const OptionsContainer = ({
     }
   }
 
-  return (Component: any) => React.memo((props: object) => {
+  return (Component: any) => (props: object) => {
     const [values, setFieldValue, setValuesState] = useState(initialValues);
     const [touched, touch] = useState(initialTouched);
     const [formErrors, setErrors, setErrorState] = useState(initialErrors)
@@ -114,11 +114,12 @@ const OptionsContainer = ({
           validate={validateForm}
           isSubmitting={isSubmitting}
           resetForm={resetForm}
+          values={values}
           {...props}
         />
       </Provider>
     )
-  });
+  };
 }
 
 export default OptionsContainer;

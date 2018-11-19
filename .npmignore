@@ -11,3 +11,4 @@ docker-compose.yml
 .dockerignore
 /website
 /docs
+__tests__

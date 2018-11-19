@@ -17,31 +17,9 @@ const FieldContainer = ({ component, fieldId, ...rest }: FieldProps) => {
     throw new Error('The Field needs a valid "fieldId" property to  function correctly.');
   }
 
-  const {
-    errors,
-    initialValues,
-    values,
-    setFieldValue,
-    setFieldTouched,
-  } = React.useContext(formContext);
-
+  const { errors, } = React.useContext(formContext);
   const error = get(errors, fieldId);
-  const initialValue = get(initialValues, fieldId);
-  const value = get(values, fieldId);
-
-  const resetFieldValue = React.useCallback(() => {
-    setFieldValue(fieldId, initialValue || reset(value));
-    setFieldTouched(fieldId, false);
-  }, [value]);
-
-  const props = {
-    error,
-    onBlur: setFieldTouched.bind(null, fieldId),
-    onChange: setFieldValue.bind(null, fieldId),
-    reset: resetFieldValue,
-    value: value || '',
-    ...rest,
-  }
+  const props = { error, ...rest };
 
   return React.createElement(component, props);
 };

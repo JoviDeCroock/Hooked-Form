@@ -6,10 +6,9 @@
     "target": "es5",
     "sourceMap": true,
     "declaration": true,
-    "module": "es2015",
+    "module": "commonjs",
     "removeComments": true,
     "outDir": "lib/",
-    "noImplicitAny": true,
     "moduleResolution": "node",
     "experimentalDecorators": false,
     "strict": true,
@@ -17,13 +16,10 @@
     "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-    "noImplicitThis": true,
     "importHelpers": true,
     "stripInternal": true,
     "lib": ["es6", "dom"],
-    "typeRoots": [
-      "typings.d.ts"
-    ]
   },
+  "include": ["src/**/*", "__tests__"],
   "files": ["src/index.ts"]
 }

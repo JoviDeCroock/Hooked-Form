@@ -1,5 +1,4 @@
-import cloneDeep from 'lodash.clonedeep';
-import toPath from 'lodash.topath';
+import toPath = require('lodash.topath');
 
 export function get(source: any, key: any) {
   const path = toPath(key);
@@ -19,7 +18,6 @@ function setHelper(source: Source | Array<any>, value: any, pathArray: Array<str
   if (currentIndex >= pathArray.length) {
     return value;
   }
-
   const currentPath = pathArray[currentIndex];
   // At this point we could be dealing with a FieldArray so be cautious not to use Stringed keys, if not it's an object.
   const currentValue = source && (Array.isArray(source) ? source[Number(currentPath)] : source[currentPath]);
