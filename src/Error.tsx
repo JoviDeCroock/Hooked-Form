@@ -6,6 +6,7 @@ import reset from './helpers/reset';
 interface FieldProps {
   component: any;
   fieldId: string;
+  [x: string]: any;
 }
 
 const FieldContainer = ({ component, fieldId, ...rest }: FieldProps) => {

@@ -28,12 +28,6 @@
   version "23.3.9"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.9.tgz#c16b55186ee73ae65e001fbee69d392c51337ad1"
 
-"@types/lodash.clonedeep@4.5.4":
-  version "4.5.4"
-  resolved "https://registry.yarnpkg.com/@types/lodash.clonedeep/-/lodash.clonedeep-4.5.4.tgz#2515c5f08bc95afebfb597711871b0497f5d7da7"
-  dependencies:
-    "@types/lodash" "*"
-
 "@types/lodash.topath@4.5.4":
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/@types/lodash.topath/-/lodash.topath-4.5.4.tgz#edc27deae066303c13a2199337ce3680cc2e75d7"

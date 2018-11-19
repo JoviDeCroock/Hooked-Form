@@ -1,6 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { render, wait } from 'react-testing-library';
+import { render } from 'react-testing-library';
 import { ErrorMessage, Form } from '../src';
 
 const ErrorDisplay = ({ error }: { error: string }) => <p data-testid="error">{error}</p>

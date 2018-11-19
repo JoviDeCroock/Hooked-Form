@@ -5,8 +5,8 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsc && rollup -c",
-    "test": "jest --env=jsdom",
-    "test:watch": "npm run test -- --watch"
+    "test": "cross-env jest --env=jsdom",
+    "test:watch": "cross-env npm run test -- --watch"
   },
   "main": "dist/form-hooks.js",
   "umd:main": "dist/form-hooks.umd.js",

@@ -33,8 +33,7 @@ const OptionsContainer = ({
     event: React.FormEvent<HTMLFormElement>,
     setSubmitting: (value: boolean) => void,
     validateForm: () => object,
-    values: object,
-    touched: object
+    values: object
   ) => {
     try {
       if (event) {
@@ -87,17 +86,13 @@ const OptionsContainer = ({
     }
 
     // The submit for our form.
-    const handleSubmitProp = React.useCallback((event) => handleSubmit(event, setSubmitting, validateForm, values, touched), [values, touched]);
+    const handleSubmitProp = React.useCallback((event) => handleSubmit(event, setSubmitting, validateForm, values), [values]);
 
     // The onBlur we can use for our Fields, should also be renewed context wise when our values are altered.
-    const setFieldTouched = React.useCallback((fieldId: string) => {
-      touch(fieldId, true);
-    }, [values, touched]);
+    const setFieldTouched = React.useCallback((fieldId: string) => { touch(fieldId, true); }, [values, touched]);
 
     // The onChange we can use for our Fields, should also be renewed context wise when our touched are altered.
-    const onChangeProp = React.useCallback((fieldId: string, value: any) => {
-      setFieldValue(fieldId, value);
-    }, [values, touched]);
+    const onChangeProp = React.useCallback((fieldId: string, value: any) => { setFieldValue(fieldId, value); }, [values, touched]);
 
     return (
       <Provider value={{

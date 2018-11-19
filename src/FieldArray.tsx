@@ -7,6 +7,7 @@ interface FieldProps {
   component: any;
   fieldId: string;
   render: (props: object) => any;
+  [x: string]: any;
 }
 
 const FieldArrayContainer = ({ component, render, fieldId, ...rest }: FieldProps) => {

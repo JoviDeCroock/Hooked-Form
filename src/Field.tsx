@@ -6,9 +6,11 @@ import reset from './helpers/reset';
 interface FieldProps {
   component: any;
   fieldId: string;
+  innerRef?: () => void;
+  [x: string]: any;
 }
 
-const FieldContainer = ({ component, fieldId, ...rest }: FieldProps) => {
+const FieldContainer = ({ component, fieldId, innerRef, ...rest }: FieldProps) => {
   if (!component) {
     throw new Error('The Field needs a "component" property to  function correctly.');
   }
@@ -36,6 +38,7 @@ const FieldContainer = ({ component, fieldId, ...rest }: FieldProps) => {
 
   const props = {
     error,
+    innerRef,
     onBlur: setFieldTouched.bind(null, fieldId),
     onChange: setFieldValue.bind(null, fieldId),
     reset: resetFieldValue,
