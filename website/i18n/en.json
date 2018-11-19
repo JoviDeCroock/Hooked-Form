@@ -5,6 +5,10 @@
     "previous": "Previous",
     "tagline": "You will get hooked.",
     "docs": {
+      "components/error": {
+        "title": "Error",
+        "sidebar_label": "Error"
+      },
       "components/field": {
         "title": "Field",
         "sidebar_label": "Field"
