@@ -2,6 +2,7 @@ Form:
 
 - enableReinitialize
 - dirty
+- onSubmit events
 
 FieldArray:
 
