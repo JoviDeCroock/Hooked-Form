@@ -1,13 +1,21 @@
 {
   "name": "hooked-form",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
+  "description": "Forms done with React-Hooks",
   "sideEffects": false,
   "scripts": {
     "build": "tsc && rollup -c",
     "test": "cross-env jest --env=jsdom",
     "test:watch": "cross-env npm run test -- --watch"
   },
+  "keywords": [
+    "react",
+    "forms",
+    "react-hooks",
+    "formmanagement",
+    "hooks",
+    "validation"
+  ],
   "main": "dist/form-hooks.js",
   "umd:main": "dist/form-hooks.umd.js",
   "module": "dist/form-hooks.module.js",
