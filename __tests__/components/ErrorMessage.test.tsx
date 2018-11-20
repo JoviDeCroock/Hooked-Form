@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-testing-library';
-import { ErrorMessage, Form } from '../src';
+import { ErrorMessage, Form } from '../../src';
 
 const ErrorDisplay = ({ error }: { error: string }) => <p data-testid="error">{error}</p>
 const Component = () => (<ErrorMessage fieldId="name" component={ErrorDisplay} />);

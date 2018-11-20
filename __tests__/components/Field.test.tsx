@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import { fireEvent, render, wait } from 'react-testing-library';
-import { Field, Form } from '../src';
+import { Field, Form } from '../../src';
 
 const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
   <React.Fragment>
@@ -55,7 +55,7 @@ describe('Field', () => {
       expect(nameErrorField.textContent).toEqual('bad');
       fireEvent.change(nameField, {target: {value: 'upper'}});
       expect(nameErrorField.textContent).toEqual(null);
-    }, { timeout: 250 });
+    }, { timeout: 100 });
   });
 
   it('should validate on blurring the stringfields', () => {
