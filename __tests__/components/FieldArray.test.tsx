@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { fireEvent, render, wait } from 'react-testing-library';
-import { FieldArray, Field, Form } from '../../src';
+import { Field, FieldArray, Form } from '../../src';
 
 const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
   <React.Fragment>
@@ -16,7 +16,14 @@ const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error
 
 const Component = ({ fieldId }: { fieldId: string }) => (<Field fieldId={fieldId} component={StringField} id={fieldId} />);
 
-const ArrayContainer = ({ addElement, values, removeElement }: { addElement: (input: object) => void, values: any, removeElement: (input: object | number) => void }) => {
+const ArrayContainer = ({ addElement, values, removeElement, swapElement, insertElement }:
+  {
+    addElement: (input: object) => void,
+    values: any,
+    removeElement: (input: object | number) => void,
+    swapElement: (from: number, to: number) => void,
+    insertElement: (at: number, input: object) => void,
+  }) => {
   return (
     <React.Fragment>
       {values.map((value: object, fieldId: string, i: number) => (
@@ -26,6 +33,9 @@ const ArrayContainer = ({ addElement, values, removeElement }: { addElement: (in
         </React.Fragment>
       ))}
       <button data-testid="add-element" onClick={() => addElement({ name: `${values.length}` })}>Add</button>
+      <button data-testid="insert-element" onClick={() => insertElement(1, { name: `${values.length}` })}>Insert</button>
+      <button data-testid="swap-element" onClick={() => swapElement(0, 1)}>Swap</button>
+      <button data-testid="move-element" onClick={() => swapElement(0, 1)}>Move</button>
     </React.Fragment>
   );
 }
@@ -85,6 +95,63 @@ describe('FieldArray', () => {
     wait(() => {
       expect(values.friends).toHaveLength(3);
       expect(values.friends[2].name).toEqual('3')
+    }, { timeout: 100 });
+  });
+
+  it('Should swap fields when asked to', () => {
+    const { getByTestId, getProps } = makeForm();
+    const swapButton = getByTestId('swap-element');
+    fireEvent.click(swapButton);
+    const { values } = getProps();
+    wait(() => {
+      expect(values.friends).toHaveLength(2);
+      expect(values.friends[0].name).toEqual('J');
+      expect(values.friends[1].name).toEqual('K')
+      fireEvent.click(swapButton);
+      wait(() => {
+        expect(values.friends).toHaveLength(2);
+        expect(values.friends[1].name).toEqual('J');
+        expect(values.friends[0].name).toEqual('K')
+      }, { timeout: 100 });
+    }, { timeout: 100 });
+  });
+
+  it('Should insert fields when asked to', () => {
+    const { getByTestId, getProps } = makeForm();
+    const insertpButton = getByTestId('insert-element');
+    fireEvent.click(insertpButton);
+    const { values } = getProps();
+    wait(() => {
+      expect(values.friends).toHaveLength(3);
+      expect(values.friends[0].name).toEqual('J');
+      expect(values.friends[1].name).toEqual('2');
+      expect(values.friends[2].name).toEqual('K');
+      fireEvent.click(insertpButton);
+      wait(() => {
+        expect(values.friends).toHaveLength(4);
+        expect(values.friends[0].name).toEqual('J');
+        expect(values.friends[1].name).toEqual('3');
+        expect(values.friends[1].name).toEqual('2');
+        expect(values.friends[3].name).toEqual('K');
+      }, { timeout: 100 });
+    }, { timeout: 100 });
+  });
+
+  it('Should move fields when asked to', () => {
+    const { getByTestId, getProps } = makeForm();
+    const moveButton = getByTestId('move-element');
+    fireEvent.click(moveButton);
+    const { values } = getProps();
+    wait(() => {
+      expect(values.friends).toHaveLength(2);
+      expect(values.friends[0].name).toEqual('J');
+      expect(values.friends[1].name).toEqual('K')
+      fireEvent.click(moveButton);
+      wait(() => {
+        expect(values.friends).toHaveLength(2);
+        expect(values.friends[1].name).toEqual('J');
+        expect(values.friends[0].name).toEqual('K')
+      }, { timeout: 100 });
     }, { timeout: 100 });
   });
 
