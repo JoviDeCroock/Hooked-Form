@@ -28,9 +28,6 @@ export function add(input: Array<any> = [], element: object) {
 }
 
 export function remove(input: Array<any> = [], toDelete: object | number) {
-  if (typeof toDelete === 'number') {
-    return [...input].splice(toDelete, 1);
-  } else {
-    return input.filter(x => x !== toDelete);
-  }
+  if (typeof toDelete === 'number') { return [...input].splice(toDelete, 1); }
+  else { return input.filter(x => x !== toDelete); }
 }

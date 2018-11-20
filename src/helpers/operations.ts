@@ -1,4 +1,4 @@
-import toPath = require('lodash.topath');
+import toPath from './toPath';
 
 export function get(source: any, key: any) {
   const path = toPath(key);

@@ -1,6 +1,6 @@
 {
   "name": "hooked-form",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Forms done with React-Hooks",
   "sideEffects": false,
   "scripts": {
@@ -44,9 +44,7 @@
     "tslint-react": "3.6.0",
     "typescript": "3.1.6"
   },
-  "dependencies": {
-    "lodash.topath": "4.5.2"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "16.7.0-alpha.2",
     "react-dom": "16.7.0-alpha.2"

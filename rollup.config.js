@@ -17,6 +17,7 @@ export default [
     output: {
       file: "./dist/form-hooks.js",
       format: "cjs",
+      exports: 'named',
       globals: {
         react: "React",
       },
@@ -28,6 +29,7 @@ export default [
     input,
     output: {
       file: "./dist/form-hooks.umd.js",
+      exports: 'named',
       format: "umd",
       name: "form-hooks",
       globals: {
@@ -41,6 +43,7 @@ export default [
     input,
     output: {
       file: "./dist/form-hooks.module.js",
+      exports: 'named',
       format: "es",
       globals: {
         react: "React",
