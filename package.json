@@ -2,6 +2,9 @@
   "name": "hooked-form",
   "version": "0.0.4",
   "description": "Forms done with React-Hooks",
+  "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
+  "private": false,
+  "repository": "https://www.github.com/jovidecroock/hooked-form",
   "sideEffects": false,
   "scripts": {
     "build": "tsc && rollup -c",

@@ -46,7 +46,7 @@ const FieldArrayContainer = ({ component, render, fieldId, ...rest }: FieldProps
   const insertElement = React.useCallback((at: number, element: object) => { setFieldValue(fieldId, insert(value, at, element)) }, [value]);
   const moveElement = React.useCallback((from: number, to: number) => { setFieldValue(fieldId, move(value, from, to)) }, [value]);
   const removeElement = React.useCallback((toDelete: object | number) => { setFieldValue(fieldId, remove(value, toDelete)) }, [value]);
-  const replaceElement = React.useCallback((at: number, element: object) => { setFieldValue(fieldId, replace(value, at, element)) }, [value])
+  const replaceElement = React.useCallback((at: number, element: object) => { setFieldValue(fieldId, replace(value, at, element)) }, [value]);
 
   const props = {
     addElement,
