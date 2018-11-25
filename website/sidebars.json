@@ -4,7 +4,8 @@
       "components/form",
       "components/field",
       "components/fieldarray",
-      "components/error"
+      "components/error",
+      "components/get"
     ]
   }
 }
