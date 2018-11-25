@@ -2,10 +2,14 @@ import toPath from './toPath';
 
 export function get(source: any, key: any) {
   const path = toPath(key);
-  for (let i = 0; i < path.length && source; ++i) {
-    source = source[path[i]];
+  return getHelper(source, path, 0)
+}
+
+function getHelper(source: any, path: Array<string>, index: number): any {
+  if (!source || path.length <= index) {
+    return source;
   }
-  return source;
+  return getHelper(source[path[index]], path, index + 1);
 }
 
 interface Source {
