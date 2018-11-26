@@ -1,13 +1,24 @@
 {
-  "name": "form-hooks",
-  "version": "0.0.1",
-  "description": "",
+  "name": "hooked-form",
+  "version": "0.0.6",
+  "description": "Forms done with React-Hooks",
+  "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
+  "private": false,
+  "repository": "https://www.github.com/jovidecroock/hooked-form",
   "sideEffects": false,
   "scripts": {
     "build": "tsc && rollup -c",
     "test": "cross-env jest --env=jsdom",
     "test:watch": "cross-env npm run test -- --watch"
   },
+  "keywords": [
+    "react",
+    "forms",
+    "react-hooks",
+    "formmanagement",
+    "hooks",
+    "validation"
+  ],
   "main": "dist/form-hooks.js",
   "umd:main": "dist/form-hooks.umd.js",
   "module": "dist/form-hooks.module.js",
@@ -36,9 +47,7 @@
     "tslint-react": "3.6.0",
     "typescript": "3.1.6"
   },
-  "dependencies": {
-    "lodash.topath": "4.5.2"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "16.7.0-alpha.2",
     "react-dom": "16.7.0-alpha.2"

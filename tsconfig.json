@@ -4,9 +4,9 @@
     "allowSyntheticDefaultImports": true,
     "jsx": "react",
     "target": "es5",
-    "sourceMap": true,
+    "sourceMap": false,
     "declaration": true,
-    "module": "commonjs",
+    "module": "es2015",
     "removeComments": true,
     "outDir": "lib/",
     "moduleResolution": "node",
@@ -20,6 +20,6 @@
     "stripInternal": true,
     "lib": ["es6", "dom"],
   },
-  "include": ["src/**/*", "__tests__"],
+  "include": ["src/**/*"],
   "files": ["src/index.ts"]
 }

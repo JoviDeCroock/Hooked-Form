@@ -3,3 +3,4 @@ dist
 lib
 .yarn-error.log
 website/build
+yarn-error.log

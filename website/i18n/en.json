@@ -20,6 +20,9 @@
       "components/form": {
         "title": "Form",
         "sidebar_label": "Form"
+      },
+      "TODO": {
+        "title": "TODO"
       }
     },
     "links": {

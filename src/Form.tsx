@@ -56,10 +56,10 @@ const OptionsContainer = ({
   }
 
   return (Component: any) => (props: object) => {
-    const [values, setFieldValue, setValuesState] = useState(initialValues);
-    const [touched, touch] = useState(initialTouched);
-    const [formErrors, setErrors, setErrorState] = useState(initialErrors)
-    const [setSubmitting, isSubmitting] = useBoolean(false);
+    const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(initialValues);
+    const { 0: touched, 1:touch } = useState(initialTouched);
+    const { 0: formErrors, 2: setErrorState } = useState(initialErrors)
+    const { 0: setSubmitting, 1: isSubmitting } = useBoolean(false);
 
     // Provide a way to reset the full form to the initialValues.
     const resetForm = React.useCallback(() => setValuesState(initialValues), []);

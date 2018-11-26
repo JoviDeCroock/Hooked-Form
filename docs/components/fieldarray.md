@@ -16,9 +16,13 @@ The FieldArray component is used to inject the values of a certain field into th
 
 - addElement: `(element = {}) => void` - A function to add an element to the back of your array.
 - error: `string` - If this fieldArray has an error this will be passed.
-- fieldId: `string` - The passed fieldId so it's available in your function
+- fieldId: `string` - The passed fieldId so it's available in your function.
+- insertElement: `(at: number, element: object) => void` - Inserts given object at that spot.
+- moveElement: `(from: number, to: number) => void` - Moves from given location to the other location.
 - removeElement: `(toDelete: number | object) => void` - The function to remove an element form your array, it accepts an element or an index.
+- replaceElement: `(at: number, element: object) => void` - Replaces the object at the index with given new element.
 - reset: `() => void` - Will reset this one field to its initialValue or an empty array.
+- swapElement: `(from: number, to: number) => void` - will swap the two objects on the indexes from place.
 - values: `[any]` - The current value of the field.
 
 ## map

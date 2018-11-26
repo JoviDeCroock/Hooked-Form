@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { add, insert, move, remove, replace, swap } from './helpers/arrays';
 import { formContext } from './helpers/context';
-import { get, set } from './helpers/operations';
+import { get } from './helpers/operations';
 import reset from './helpers/reset';
 
 interface FieldProps {
@@ -39,32 +40,24 @@ const FieldArrayContainer = ({ component, render, fieldId, ...rest }: FieldProps
     return array;
   }, [value]);
 
-  const resetFieldValue = React.useCallback(() => {
-    setFieldValue(fieldId, initialValue || reset(value));
-  }, [value]);
-
-  const addElement = React.useCallback((element: any = {}) => {
-    setFieldValue(fieldId, [...value, element]);
-  }, [value]);
-
-  const removeElement = (toDelete: object | number) => {
-    if (typeof toDelete === 'number') {
-      setFieldValue(fieldId, value.splice(toDelete, 1));
-    } else {
-      setFieldValue(fieldId, value.filter(x => x !== toDelete));
-    }
-  };
-
-  const moveElement = (from: number, to: number) => {
-    // TODO
-  }
+  const resetFieldValue = React.useCallback(() => { setFieldValue(fieldId, initialValue || reset(value)); }, [value]);
+  const addElement = React.useCallback((element: any = {}) => { setFieldValue(fieldId, add(value, element)); }, [value]);
+  const swapElement = React.useCallback((first: number, second: number) => { setFieldValue(fieldId, swap(value, first, second)) }, [value]);
+  const insertElement = React.useCallback((at: number, element: object) => { setFieldValue(fieldId, insert(value, at, element)) }, [value]);
+  const moveElement = React.useCallback((from: number, to: number) => { setFieldValue(fieldId, move(value, from, to)) }, [value]);
+  const removeElement = React.useCallback((toDelete: object | number) => { setFieldValue(fieldId, remove(value, toDelete)) }, [value]);
+  const replaceElement = React.useCallback((at: number, element: object) => { setFieldValue(fieldId, replace(value, at, element)) }, [value]);
 
   const props = {
     addElement,
     error,
     fieldId,
+    insertElement,
+    moveElement,
     removeElement,
+    replaceElement,
     reset: resetFieldValue,
+    swapElement,
     values: value,
     ...rest,
   }

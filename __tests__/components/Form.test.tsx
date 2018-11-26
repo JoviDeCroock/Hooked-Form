@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { render, wait } from 'react-testing-library';
-import { Form } from '../src';
+import { Form } from '../../src';
 
 const Component = () => (<p>Hi</p>);
 
@@ -86,10 +86,12 @@ describe('Form', () => {
     const { handleSubmit } = getProps();
     handleSubmit();
     expect(handleSubmit).toBeCalledWith({ name: 'Jovi', age: 23 });
+    const { isSubmitting } = getProps();
+    expect(isSubmitting).toBeTruthy();
     wait(() => {
       expect(onSubmit).toBeCalledTimes(1);
       expect(onSuccess).toBeCalledTimes(1);
-    }, { timeout: 250 })
+    }, { timeout: 100 })
   });
 
   it('calls onError when needed', () => {
@@ -101,6 +103,6 @@ describe('Form', () => {
     wait(() => {
       expect(onSubmit).toBeCalledTimes(1);
       expect(onError).toBeCalledTimes(1);
-    }, { timeout: 250 })
+    }, { timeout: 100 })
   });
 });
