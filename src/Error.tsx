@@ -19,7 +19,7 @@ const FieldContainer = ({ component, fieldId, ...rest }: FieldProps) => {
   }
 
   const { errors, } = React.useContext(formContext);
-  const error = get(errors, fieldId);
+  const error = React.useMemo(() => get(errors, fieldId), [errors, fieldId]);
   const props = { error, ...rest };
 
   return React.createElement(component, props);

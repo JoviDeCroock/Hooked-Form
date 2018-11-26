@@ -27,9 +27,9 @@ const FieldArrayContainer = ({ component, render, fieldId, ...rest }: FieldProps
     setFieldValue,
   } = React.useContext(formContext);
 
-  const error = get(errors, fieldId);
-  const initialValue = get(initialValues, fieldId);
-  const value: Array<any> = get(values, fieldId) || [];
+  const error = React.useMemo(() => get(errors, fieldId), [errors, fieldId]);
+  const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues, fieldId]);
+  const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values, fieldId]);
 
   value.map = React.useCallback(callback => {
     const array: Array<any> = [];

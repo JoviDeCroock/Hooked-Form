@@ -27,9 +27,9 @@ const FieldContainer = ({ component, fieldId, innerRef, ...rest }: FieldProps) =
     setFieldTouched,
   } = React.useContext(formContext);
 
-  const error = get(errors, fieldId);
-  const initialValue = get(initialValues, fieldId);
-  const value = get(values, fieldId);
+  const error = React.useMemo(() => get(errors, fieldId), [errors, fieldId]);
+  const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues, fieldId]);
+  const value = React.useMemo(() => get(values, fieldId), [values, fieldId]);
 
   const resetFieldValue = React.useCallback(() => {
     setFieldValue(fieldId, initialValue || reset(value));
