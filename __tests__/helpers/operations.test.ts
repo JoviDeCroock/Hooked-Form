@@ -9,7 +9,7 @@ const source = {
     street: 'unknown',
   },
   friends: [
-    { name: 'K', enemies: [{ name: 'A'}] },
+    { name: 'K', enemies: [{ address: { street: 'unknown' }, family: [{ name: 'K' }], name: 'A'}] },
     { name: 'B' },
   ],
   name: 'Jovi',
@@ -24,8 +24,9 @@ describe('operations', () => {
     expect(typeof get(source, 'friends[0]')).toEqual('object');
     expect(get(source, 'friends[0].name')).toEqual('K');
     expect(get(source, 'friends[1].name')).toEqual('B');
-    // TODO: fails in toPath
-    // expect(get(source, 'friends[1].enemies[0].name')).toEqual('A');
+    expect(get(source, 'friends[0].enemies[0].name')).toEqual('A');
+    expect(get(source, 'friends[0].enemies[0].address.street')).toEqual('unknown');
+    expect(get(source, 'friends[0].enemies[0].family[0].name')).toEqual('K');
   });
 
   it('Should set the values', () => {
