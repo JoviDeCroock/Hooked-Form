@@ -5,5 +5,5 @@ export function deriveInitial(input: object, defaultValue: any): object {
     } else {
       return { ...acc, [key]: defaultValue }
     }
-  }, {});
+  }, {})
 }
