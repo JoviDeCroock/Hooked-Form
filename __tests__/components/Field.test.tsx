@@ -45,6 +45,7 @@ describe('Field', () => {
       validateOnBlur: true,
       validateOnChange: true,
     });
+
     const nameField = getByTestId('name');
     fireEvent.change(nameField, {target: {value: 'upper'}});
     expect((nameField as any).value).toEqual('upper');

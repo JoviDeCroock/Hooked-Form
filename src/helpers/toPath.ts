@@ -10,9 +10,6 @@ export function memoize(func: (input: string) => Array<string>) {
 
 const toPathArray = (input: string) => {
   const parts = input.split('.');
-  if (parts.length === 1) {
-    return parts;
-  }
   const result: Array<string> = []
   parts.forEach((part: string) => {
     if (part.includes('[')) {

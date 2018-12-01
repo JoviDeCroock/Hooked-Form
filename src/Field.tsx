@@ -36,10 +36,13 @@ const FieldContainer = ({ component, fieldId, innerRef, ...rest }: FieldProps) =
     setFieldTouched(fieldId, false)
   }, [value])
 
+  const onChange = React.useMemo(() => (val: any) => setFieldValue(fieldId, val), [fieldId])
+  const onBlur = React.useMemo(() => setFieldTouched.bind(null, fieldId), [fieldId])
+
   const props = {
     error,
-    onBlur: setFieldTouched.bind(null, fieldId),
-    onChange: setFieldValue.bind(null, fieldId),
+    onBlur,
+    onChange,
     ref: innerRef,
     reset: resetFieldValue,
     value: value || '',
