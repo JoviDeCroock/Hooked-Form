@@ -82,9 +82,10 @@ describe('Form', () => {
   it('calls onSubmit when needed', () => {
     const onSubmit = jest.fn();
     const onSuccess = jest.fn();
-    const { getProps } = makeForm({ onSubmit, onSuccess });
+    const { getProps } = makeForm({ initialValues: { name: 'Jovi', age: 23 }, onSubmit, onSuccess });
     const { handleSubmit } = getProps();
     handleSubmit();
+    expect(onSubmit).toBeCalledWith({ name: 'Jovi', age: 23 });
     const { isSubmitting } = getProps();
     expect(isSubmitting).toBeTruthy();
     wait(() => {

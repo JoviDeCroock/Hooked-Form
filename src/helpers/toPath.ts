@@ -1,27 +1,27 @@
-// This is the lodash.toPath function but slightly altered.
-// There were a lot of issues using lodash.toPath with TypeScript.
-const charCodeOfDot = '.'.charCodeAt(0);
-const reEscapeChar = /\\(\\)?/g;
-const rePropName = RegExp(
-  '[^.[\\]]+' + '|' +
-  '\\[(?:' +
-    '([^"\'].*)' + '|' +
-    '(["\'])((?:(?!\\2)[^\\\\]|\\\\.)*?)\\2' +
-  ')\\]'+ '|' +
-  '(?=(?:\\.|\\[\\])(?:\\.|\\[\\]|$))'
-, 'g');
-
-const toPathArray = (input: string) => {
-  const result: Array<string> = [];
-  if (input.charCodeAt(0) === charCodeOfDot) { result.push(''); }
-  input.replace(rePropName, (match: string, expression: any, quote: any, subString: string) => {
-    let key = match;
-    if (quote) { key = subString.replace(reEscapeChar, '$1'); }
-    else if (expression) { key = expression.trim(); }
-    result.push(key);
-    return key;
-  });
-  return result;
+export function memoize(func: (input: string) => Array<string>) {
+  const resultMapping: { [input: string]: Array<string> } = {};
+  return (input: string) => {
+    if (!resultMapping[input]) {
+      resultMapping[input] = func(input);
+    }
+    return resultMapping[input];
+  }
 }
 
-export default toPathArray;
+const toPathArray = (input: string) => {
+  const parts = input.split('.');
+  const result: Array<string> = []
+  parts.forEach((part: string) => {
+    if (part.includes('[')) {
+      const { 0: firstPart, 1: temp } = part.split('[');
+      result.push(firstPart)
+      const { 0: secondPart } = temp.split(']')
+      result.push(secondPart)
+    } else {
+      result.push(part);
+    }
+  });
+  return result
+}
+
+export default memoize(toPathArray);
