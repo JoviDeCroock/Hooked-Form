@@ -21,6 +21,10 @@
         "title": "Form",
         "sidebar_label": "Form"
       },
+      "components/get": {
+        "title": "Get",
+        "sidebar_label": "Get"
+      },
       "TODO": {
         "title": "TODO"
       }

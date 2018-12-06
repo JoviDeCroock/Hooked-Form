@@ -25,11 +25,13 @@ const FieldContainer = ({ component, fieldId, innerRef, ...rest }: FieldProps) =
     values,
     setFieldValue,
     setFieldTouched,
+    touched,
   } = React.useContext(formContext)
 
   const error = React.useMemo(() => get(errors, fieldId), [errors, fieldId])
   const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues, fieldId])
   const value = React.useMemo(() => get(values, fieldId), [values, fieldId])
+  const isFieldTouched = React.useMemo(() => get(touched, fieldId), [touched, fieldId])
 
   const resetFieldValue = React.useCallback(() => {
     setFieldValue(fieldId, initialValue || reset(value))
@@ -45,6 +47,7 @@ const FieldContainer = ({ component, fieldId, innerRef, ...rest }: FieldProps) =
     onChange,
     ref: innerRef,
     reset: resetFieldValue,
+    touched: isFieldTouched,
     value: value || '',
     ...rest,
   }
