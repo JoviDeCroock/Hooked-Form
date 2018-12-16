@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>UseField · Hooked-Form</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;We export an experimental hook that provides you with the building blocks to construct your own custom components.&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="UseField · Hooked-Form"/><meta property="og:type" content="website"/><meta property="og:url" content="https://jovidecroock.github.io/hooked-form/index.html"/><meta property="og:description" content="&lt;p&gt;We export an experimental hook that provides you with the building blocks to construct your own custom components.&lt;/p&gt;
+"/><meta property="og:image" content="https://jovidecroock.github.io/hooked-form/img/logo.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://jovidecroock.github.io/hooked-form/img/logo.png"/><link rel="shortcut icon" href="/hooked-form/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/hooked-form/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/hooked-form/"><img class="logo" src="/hooked-form/img/logo.png" alt="Hooked-Form"/><h2 class="headerTitleWithLogo">Hooked-Form</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/hooked-form/docs/components/form" target="_self">API</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">UseField</h1></header><article><div><span><p>We export an experimental hook that provides you with the building blocks to construct your own custom components.</p>
+<p>This accepts one parameter and that's a <code>fieldId</code>, analogue to the <code>Field</code> component.</p>
+<p>In return it will offer you an array with the first element being an object of operations and the second being an object of information about the field</p>
+<p>First object:</p>
+<ul>
+<li>onBlur: this indicates that the fieldId will be touched</li>
+<li>onChange: when passed a value it will change the value of this field</li>
+<li>setFieldValue: accepts a fieldId and a value, so you can change other fields as a reaction to this one</li>
+<li>resetField: resets the field to its initial value</li>
+</ul>
+<p>Second object:</p>
+<ul>
+<li>error: an error string if there's an error present.</li>
+<li>touched: a boolean indicating whether or not this field has been touched</li>
+<li>value: the current value of this field</li>
+</ul>
+<p>Example</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> StringField = <span class="hljs-function">(<span class="hljs-params">{ fieldId }</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> [
+    { onChange, onBlur },
+    { value, error, touched }
+  ] = useField(fieldId);
+
+  <span class="hljs-keyword">return</span> (
+    &lt;React.Fragment&gt;
+      &lt;input onChange={onChange} onBlur={onBlur} value={value} /&gt;
+      {touched &amp;&amp; error &amp;&amp; &lt;p&gt;{error}&lt;/p&gt;}
+    &lt;/React.Fragment&gt;
+  );
+}
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>Docs</h5><a href="/hooked-form/docs/en/components/form">API</a></div><div><h5>Community</h5><a href="https://twitter.com/JoviDeC" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/JoviDeCroock/hooked-form">GitHub</a><a class="github-button" href="https://github.com/JoviDeCroock/hooked-form" data-icon="octicon-star" data-count-href="/JoviDeCroock/hooked-form/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Jovi De Croock</section></footer></div></body></html>
