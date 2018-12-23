@@ -17,7 +17,6 @@ export default [
     output: {
       file: "./dist/form-hooks.js",
       format: "cjs",
-      exports: 'named',
       globals: {
         react: "React",
       },
@@ -43,13 +42,12 @@ export default [
     input,
     output: {
       file: "./dist/form-hooks.module.js",
-      exports: 'named',
       format: "es",
       globals: {
         react: "React",
       },
     },
     external,
-    plugins: [resolve(), filesize(), commonjs()],
+    plugins: [resolve(), filesize()],
   }
 ];

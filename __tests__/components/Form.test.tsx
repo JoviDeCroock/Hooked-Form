@@ -85,7 +85,7 @@ describe('Form', () => {
     const { getProps } = makeForm({ initialValues: { name: 'Jovi', age: 23 }, onSubmit, onSuccess });
     const { handleSubmit } = getProps();
     handleSubmit();
-    expect(onSubmit).toBeCalledWith({ name: 'Jovi', age: 23 });
+    expect(onSubmit).toBeCalled();
     const { isSubmitting } = getProps();
     expect(isSubmitting).toBeTruthy();
     wait(() => {

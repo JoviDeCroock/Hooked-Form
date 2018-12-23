@@ -8,7 +8,7 @@ import { Errors, InitialValues, Touched } from './types'
 interface FormOptions {
   enableReinitialize?: boolean
   initialValues?: InitialValues
-  onError?: (error: object) => void
+  onError?: (error: object, setFormError: (error: any) => void) => void
   onSuccess?: (result?: any) => void
   onSubmit?: (values: object) => any
   shouldSubmitWhenInvalid?: boolean
@@ -36,6 +36,7 @@ const OptionsContainer = ({
     const { 0: touched, 1:touch, 2: setTouchedState } = useState(initialTouched)
     const { 0: formErrors, 2: setErrorState } = useState(initialErrors)
     const { 0: setSubmitting, 1: isSubmitting } = useBoolean(false)
+    const { 0: formError, 1: setFormError } = React.useState(null);
 
     // Provide a way to reset the full form to the initialValues.
     const resetForm = React.useCallback(() => {
@@ -66,7 +67,7 @@ const OptionsContainer = ({
         const errors = validateForm()
         if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) { return }
         setSubmitting(true)
-        const result = await submit(values)
+        const result = await submit(values, setFormError)
         setSubmitting(false)
         if (onSuccess) {
           onSuccess(result)
@@ -74,7 +75,7 @@ const OptionsContainer = ({
       } catch (e) {
         setSubmitting(false)
         if (onError) {
-          onerror(e)
+          onError(e, setFormError);
         }
       }
     }, [values, validateForm]);
@@ -103,6 +104,7 @@ const OptionsContainer = ({
       }}>
         <Component
           change={onChangeProp}
+          formError={formError}
           errors={formErrors}
           handleSubmit={handleSubmitProp}
           validate={validateForm}

@@ -3,6 +3,7 @@
     "components": [
       "components/form",
       "components/field",
+      "components/useField",
       "components/fieldarray",
       "components/error",
       "components/get"
