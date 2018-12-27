@@ -10,7 +10,7 @@ interface FormOptions {
   initialValues?: InitialValues
   onError?: (error: object, setFormError: (error: any) => void) => void
   onSuccess?: (result?: any) => void
-  onSubmit?: (values: object) => any
+  onSubmit?: (values: object, props: object) => any
   shouldSubmitWhenInvalid?: boolean
   validate?: (values: object, touched: object) => object
   validateOnBlur?: boolean
@@ -64,10 +64,12 @@ const OptionsContainer = ({
           event.preventDefault()
         }
         const submit = onSubmit || props.onSubmit;
+        const allTouched = deriveInitial(initialValues, true);
+        setTouchedState(allTouched);
         const errors = validateForm()
         if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) { return }
         setSubmitting(true)
-        const result = await submit(values, setFormError)
+        const result = await submit(values, props)
         setSubmitting(false)
         if (onSuccess) {
           onSuccess(result)
