@@ -10,7 +10,7 @@ interface FormOptions {
   initialValues?: InitialValues
   onError?: (error: object, setFormError: (error: any) => void) => void
   onSuccess?: (result?: any) => void
-  onSubmit?: (values: object, props: object) => any
+  onSubmit?: (values: object, props: object) => Promise<any> | any
   shouldSubmitWhenInvalid?: boolean
   validate?: (values: object, touched: object) => object
   validateOnBlur?: boolean

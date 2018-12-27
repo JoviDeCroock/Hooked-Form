@@ -11,7 +11,7 @@ Form is used to wrap your component, you can pass options in and that will resul
 - initialValues?: `object` - These values will be used to initialize your form.
 - onError?: `(error: object, setFormError: (error: string) => void) => void` - When an error occurs while submitting this function will run.
 - onSuccess?: `(result?: any) => void` - When the submit is successfull this function will be executed with your result.
-- onSubmit: `(values: object, setFormError: (error: string) => void) => any` - This function will be used to submit the properties inside the form.
+- onSubmit: `(values: object, props:any) => any` - This function will be used to submit the properties inside the form.
 - shouldSubmitWhenInvalid? : `boolean` = false - Indicates whether or not submit should be executed when your form is invalid.
 - validate?: `(values: object, touched: object) => object` - The function used to validate your form.
 - validateOnBlur?: `boolean` - Indicates that validation should be executed onBlur.
