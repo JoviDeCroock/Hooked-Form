@@ -2,7 +2,7 @@ import * as React from 'react'
 import { formContext } from './helpers/context'
 import { get } from './helpers/operations'
 
-interface FieldProps {
+export interface FieldProps {
   component: any
   fieldId: string
   [x: string]: any

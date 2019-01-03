@@ -5,7 +5,7 @@ import useBoolean from './helpers/useBoolean'
 import useState from './helpers/useState'
 import { Errors, InitialValues, Touched } from './types'
 
-interface FormOptions {
+export interface FormOptions {
   enableReinitialize?: boolean
   initialValues?: InitialValues
   onError?: (error: object, setFormError: (error: any) => void) => void

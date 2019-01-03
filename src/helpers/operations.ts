@@ -1,6 +1,6 @@
 import toPath from './toPath'
 
-interface Source {
+export interface Source {
   [key: string]: any
 }
 

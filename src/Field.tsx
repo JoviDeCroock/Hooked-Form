@@ -3,7 +3,7 @@ import { formContext } from './helpers/context'
 import { get } from './helpers/operations'
 import reset from './helpers/reset'
 
-interface FieldProps {
+export interface FieldProps {
   component: any
   fieldId: string
   innerRef?: () => void
@@ -39,7 +39,7 @@ const FieldContainer = ({ component, fieldId, innerRef, ...rest }: FieldProps) =
   }, [value])
 
   const onChange = React.useMemo(() => (val: any) => setFieldValue(fieldId, val), [fieldId])
-  const onBlur = React.useMemo(() => setFieldTouched.bind(null, fieldId), [fieldId])
+  const onBlur = React.useMemo(() => setFieldTouched.bind(null, fieldId, true), [fieldId])
 
   const props = {
     error,

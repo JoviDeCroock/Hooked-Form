@@ -3,14 +3,14 @@ import { formContext } from './helpers/context';
 import { get } from './helpers/operations';
 import reset from './helpers/reset';
 
-interface FieldOperations {
+export interface FieldOperations {
   onBlur: () => void
   onChange: (value: any) => void
   setFieldValue: (fieldId: string, value: any) => void
   resetField: () => void
 }
 
-interface FieldInformation {
+export interface FieldInformation {
   error: string
   touched: boolean
   value: any
@@ -35,7 +35,7 @@ export default function useField(fieldId: string): [FieldOperations, FieldInform
     setFieldTouched(fieldId, false)
   }, [value])
   const onChange = React.useMemo(() => (val: any) => setFieldValue(fieldId, val), [fieldId])
-  const onBlur = React.useMemo(() => setFieldTouched.bind(null, fieldId), [fieldId])
+  const onBlur = React.useMemo(() => setFieldTouched.bind(null, fieldId, true), [fieldId])
 
   return [
     { onChange, onBlur, resetField: resetFieldValue, setFieldValue },

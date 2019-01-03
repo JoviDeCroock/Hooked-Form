@@ -4,15 +4,15 @@ import { formContext } from './helpers/context'
 import { get } from './helpers/operations'
 import reset from './helpers/reset'
 
-interface FieldProps {
-  component: any
+export interface FieldProps {
+  component?: any
   fieldId: string
-  render: (props: object) => any
+  render?: (props: object) => any
   [x: string]: any
 }
 
 const FieldArrayContainer = ({ component, render, fieldId, ...rest }: FieldProps) => {
-  if (!component && ! render) {
+  if (!component && !render) {
     throw new Error('The FieldArray needs a "component" or a "render" property to  function correctly.')
   }
 
@@ -62,7 +62,7 @@ const FieldArrayContainer = ({ component, render, fieldId, ...rest }: FieldProps
     ...rest,
   }
 
-  return component ? React.createElement(component, props) : render(props)
+  return component ? React.createElement(component, props) : render && render(props)
 }
 
 export default FieldArrayContainer
