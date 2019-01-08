@@ -8,6 +8,7 @@ import { Errors, InitialValues, Touched } from './types'
 export interface FormOptions {
   enableReinitialize?: boolean
   initialValues?: InitialValues
+  mapPropsToValues?: (props: object) => InitialValues
   onError?: (error: object, setFormError: (error: any) => void) => void
   onSuccess?: (result?: any) => void
   onSubmit?: (values: object, props: object) => Promise<any> | any
@@ -19,7 +20,8 @@ export interface FormOptions {
 
 const OptionsContainer = ({
   enableReinitialize = false,
-  initialValues = {},
+  initialValues: formInitialValues = {},
+  mapPropsToValues,
   onSubmit,
   validate,
   onError,
@@ -28,10 +30,16 @@ const OptionsContainer = ({
   validateOnBlur,
   validateOnChange,
 }: FormOptions) => {
-  const initialTouched = deriveInitial(initialValues, false)
-  const initialErrors = deriveInitial(initialValues, null)
+  let initialValues = formInitialValues;
+  let initialTouched = deriveInitial(initialValues, false)
+  let initialErrors = deriveInitial(initialValues, null)
 
   return (Component: any) => (props: { [property: string]: any }) => {
+    if (mapPropsToValues) {
+      initialValues = React.useCallback(() => mapPropsToValues(props), [props])
+      initialTouched = React.useCallback(() => deriveInitial(initialValues, false), [initialValues])
+      initialErrors = React.useCallback(() => deriveInitial(initialValues, null), [initialValues])
+    }
     const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(initialValues)
     const { 0: touched, 1:touch, 2: setTouchedState } = useState(initialTouched)
     const { 0: formErrors, 2: setErrorState } = useState(initialErrors)

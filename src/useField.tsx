@@ -6,6 +6,7 @@ import reset from './helpers/reset';
 export interface FieldOperations {
   onBlur: () => void
   onChange: (value: any) => void
+  onFocus: () => void
   setFieldValue: (fieldId: string, value: any) => void
   resetField: () => void
 }
@@ -36,9 +37,10 @@ export default function useField(fieldId: string): [FieldOperations, FieldInform
   }, [value])
   const onChange = React.useMemo(() => (val: any) => setFieldValue(fieldId, val), [fieldId])
   const onBlur = React.useMemo(() => setFieldTouched.bind(null, fieldId, true), [fieldId])
+  const onFocus = React.useMemo(() => setFieldTouched.bind(null, fieldId, false), [fieldId])
 
   return [
-    { onChange, onBlur, resetField: resetFieldValue, setFieldValue },
+    { onChange, onBlur, onFocus, resetField: resetFieldValue, setFieldValue },
     { error, touched: isFieldTouched, value },
   ]
 }

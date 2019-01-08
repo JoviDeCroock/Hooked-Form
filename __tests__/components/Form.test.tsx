@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import { render, wait } from 'react-testing-library';
 import { Form } from '../../src';
 
