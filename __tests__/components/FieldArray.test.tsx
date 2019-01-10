@@ -84,7 +84,7 @@ describe('FieldArray', () => {
     expect((secondFriendField as any).value).toEqual('B');
 
     const firstFriendFieldError = getByTestId('friends[0].name-error');
-    wait(() => expect(firstFriendFieldError.textContent).toEqual('bad'), { timeout: 100 });
+    wait(() => expect(firstFriendFieldError.textContent).toEqual('bad'), { timeout: 0 });
   });
 
   it('Should add fields when asked to', () => {
@@ -95,7 +95,7 @@ describe('FieldArray', () => {
     wait(() => {
       expect(values.friends).toHaveLength(3);
       expect(values.friends[2].name).toEqual('3')
-    }, { timeout: 100 });
+    }, { timeout: 0 });
   });
 
   it('Should swap fields when asked to', () => {
@@ -112,8 +112,8 @@ describe('FieldArray', () => {
         expect(values.friends).toHaveLength(2);
         expect(values.friends[1].name).toEqual('J');
         expect(values.friends[0].name).toEqual('K')
-      }, { timeout: 100 });
-    }, { timeout: 100 });
+      }, { timeout: 0 });
+    }, { timeout: 0 });
   });
 
   it('Should insert fields when asked to', () => {
@@ -133,8 +133,8 @@ describe('FieldArray', () => {
         expect(values.friends[1].name).toEqual('3');
         expect(values.friends[1].name).toEqual('2');
         expect(values.friends[3].name).toEqual('K');
-      }, { timeout: 100 });
-    }, { timeout: 100 });
+      }, { timeout: 0 });
+    }, { timeout: 0 });
   });
 
   it('Should move fields when asked to', () => {
@@ -151,8 +151,8 @@ describe('FieldArray', () => {
         expect(values.friends).toHaveLength(2);
         expect(values.friends[1].name).toEqual('J');
         expect(values.friends[0].name).toEqual('K')
-      }, { timeout: 100 });
-    }, { timeout: 100 });
+      }, { timeout: 0 });
+    }, { timeout: 0 });
   });
 
   it('Should remove fields when asked to', () => {
@@ -163,6 +163,6 @@ describe('FieldArray', () => {
     wait(() => {
       expect(values.friends).toHaveLength(1);
       expect(values.friends[0].name).toEqual('J')
-    }, { timeout: 100 });
+    }, { timeout: 0 });
   });
 });

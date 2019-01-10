@@ -4,9 +4,7 @@ function reset(value: any) {
     case 'number': return 0
     case 'boolean': return false
     case 'object': {
-      if (value instanceof Date) {
-        return new Date()
-      }
+      if (value instanceof Date) { return new Date() }
       return {}
     }
     default: return undefined

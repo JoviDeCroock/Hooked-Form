@@ -22,7 +22,10 @@ export default [
       },
     },
     external,
-    plugins: [resolve(), filesize(), commonjs()],
+    plugins: [resolve({
+      module: true,
+      only: ['tslib']
+    }), commonjs(), filesize()],
   },
   {
     input,
@@ -36,7 +39,10 @@ export default [
       },
     },
     external,
-    plugins: [resolve(), replace(getEnvVariables(true)), uglify(), filesize(), commonjs()],
+    plugins: [resolve({
+      module: true,
+      only: ['tslib']
+    }), replace(getEnvVariables(true)), uglify(), filesize()],
   },
   {
     input,
@@ -48,6 +54,12 @@ export default [
       },
     },
     external,
-    plugins: [resolve(), filesize()],
+    plugins: [
+      resolve({
+        module: true,
+        only: ['tslib']
+      }),
+      filesize()
+    ],
   }
 ];

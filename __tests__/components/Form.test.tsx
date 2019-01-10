@@ -90,7 +90,7 @@ describe('Form', () => {
     wait(() => {
       expect(onSubmit).toBeCalledTimes(1);
       expect(onSuccess).toBeCalledTimes(1);
-    }, { timeout: 100 })
+    }, { timeout: 0 })
   });
 
   it('calls onError when needed', () => {
@@ -102,6 +102,6 @@ describe('Form', () => {
     wait(() => {
       expect(onSubmit).toBeCalledTimes(1);
       expect(onError).toBeCalledTimes(1);
-    }, { timeout: 100 })
+    }, { timeout: 0 })
   });
 });

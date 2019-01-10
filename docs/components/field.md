@@ -16,7 +16,8 @@ The Field component is used to inject the values of a certain field into the pas
 
 - error: `string` - If this field has an error this will be passed.
 - onBlur: `() => void` - You can pass this into the onBlur of your field to accurately represent the touched status of this field.
-- onChange: `(value: any)` => void - This function will be used to change the value of said field.
+- onChange: `(value: any) => void` - This function will be used to change the value of said field.
+- onFocus: `() => void` - This function sets the touched to false to hide errors.
 - reset: `() => void` - Will reset this one field to its initialValue or null.
 - value: `any` - The current value of the field.
 

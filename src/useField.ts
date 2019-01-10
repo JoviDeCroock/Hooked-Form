@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { formContext } from './helpers/context';
-import { get } from './helpers/operations';
-import reset from './helpers/reset';
+import * as React from 'react'
+import { formContext } from './helpers/context'
+import { get } from './helpers/operations'
+import reset from './helpers/reset'
 
 export interface FieldOperations {
   onBlur: () => void

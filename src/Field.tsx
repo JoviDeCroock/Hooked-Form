@@ -1,7 +1,5 @@
 import * as React from 'react'
-import { formContext } from './helpers/context'
-import { get } from './helpers/operations'
-import reset from './helpers/reset'
+import useField from './useField'
 
 export interface FieldProps {
   component: any
@@ -10,38 +8,18 @@ export interface FieldProps {
   [x: string]: any
 }
 
-const FieldContainer = ({ component, fieldId, innerRef, ...rest }: FieldProps) => {
+const FieldContainer: React.SFC<FieldProps> = ({ component, fieldId, innerRef, ...rest }) => {
   if (!component) {
     throw new Error('The Field needs a "component" property to  function correctly.')
   }
-
   if (!fieldId || typeof fieldId !== 'string') {
     throw new Error('The Field needs a valid "fieldId" property to  function correctly.')
   }
 
   const {
-    errors,
-    initialValues,
-    values,
-    setFieldValue,
-    setFieldTouched,
-    touched,
-  } = React.useContext(formContext)
-
-  const error = React.useMemo(() => get(errors, fieldId), [errors, fieldId])
-  const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues, fieldId])
-  const value = React.useMemo(() => get(values, fieldId), [values, fieldId])
-  const isFieldTouched = React.useMemo(() => get(touched, fieldId), [touched, fieldId])
-
-  const resetFieldValue = React.useCallback(() => {
-    setFieldValue(fieldId, initialValue || reset(value))
-    setFieldTouched(fieldId, false)
-  }, [value])
-
-  const onChange = React.useMemo(() => (val: any) => setFieldValue(fieldId, val), [fieldId])
-  const onBlur = React.useMemo(() => setFieldTouched.bind(null, fieldId, true), [fieldId])
-  const onFocus = React.useMemo(() => setFieldTouched.bind(null, fieldId, false), [fieldId])
-
+    0: { onChange, onBlur, onFocus, resetField: resetFieldValue },
+    1: { error, touched: isFieldTouched, value },
+  } = useField(fieldId)
   const props = {
     error,
     onBlur,
@@ -53,7 +31,6 @@ const FieldContainer = ({ component, fieldId, innerRef, ...rest }: FieldProps) =
     value: value || '',
     ...rest,
   }
-
   return React.createElement(component, props)
 }
 

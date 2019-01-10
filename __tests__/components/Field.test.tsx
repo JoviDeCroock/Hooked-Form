@@ -56,7 +56,7 @@ describe('Field', () => {
       expect(nameErrorField.textContent).toEqual('bad');
       fireEvent.change(nameField, {target: {value: 'upper'}});
       expect(nameErrorField.textContent).toEqual(null);
-    }, { timeout: 100 });
+    }, { timeout: 0 });
   });
 
   it('should validate on blurring the stringfields', () => {
