@@ -21,23 +21,32 @@
         "title": "Form",
         "sidebar_label": "Form"
       },
-      "components/get": {
-        "title": "Get",
-        "sidebar_label": "Get"
+      "components/useError": {
+        "title": "UseError",
+        "sidebar_label": "UseError"
       },
       "components/useField": {
         "title": "UseField",
         "sidebar_label": "UseField"
       },
+      "components/useFieldArray": {
+        "title": "UseFieldArray",
+        "sidebar_label": "UseFieldArray"
+      },
       "TODO": {
         "title": "TODO"
+      },
+      "utils/get": {
+        "title": "Get",
+        "sidebar_label": "Get"
       }
     },
     "links": {
       "API": "API"
     },
     "categories": {
-      "components": "components"
+      "components": "components",
+      "utilities": "utilities"
     }
   },
   "pages-strings": {

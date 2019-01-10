@@ -1,7 +1,7 @@
 ---
-id: useField
-title: UseField
-sidebar_label: UseField
+id: useFieldArray
+title: UseFieldArray
+sidebar_label: UseFieldArray
 ---
 
 We export an experimental hook that provides you with the building blocks to construct your own custom components.

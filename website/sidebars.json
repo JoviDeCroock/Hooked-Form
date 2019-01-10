@@ -5,8 +5,12 @@
       "components/field",
       "components/useField",
       "components/fieldarray",
+      "components/useFieldArray",
       "components/error",
-      "components/get"
+      "components/useError"
+    ],
+    "utilities": [
+      "utils/get"
     ]
   }
 }
