@@ -28,34 +28,44 @@
               }
             });
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">UseField</h1></header><article><div><span><p>We export an experimental hook that provides you with the building blocks to construct your own custom components.</p>
-<p>This accepts one parameter and that's a <code>fieldId</code>, analogue to the <code>Field</code> component.</p>
+<p>This accepts one parameter and that's a <code>fieldId</code>, analogue to the <code>FieldArray</code> component.</p>
 <p>In return it will offer you an array with the first element being an object of operations and the second being an object of information about the field</p>
 <p>First object:</p>
 <ul>
-<li>onBlur: this indicates that the fieldId will be touched</li>
-<li>onChange: when passed a value it will change the value of this field</li>
-<li>setFieldValue: accepts a fieldId and a value, so you can change other fields as a reaction to this one</li>
-<li>resetField: resets the field to its initial value</li>
+<li>addElement</li>
+<li>insertElement</li>
+<li>moveElement</li>
+<li>removeElement</li>
+<li>replaceElement</li>
+<li>resetField</li>
+<li>swapElement</li>
 </ul>
 <p>Second object:</p>
 <ul>
 <li>error: an error string if there's an error present.</li>
-<li>touched: a boolean indicating whether or not this field has been touched</li>
-<li>value: the current value of this field</li>
+<li>value: the current value of this field, with enhanced map function <code>(value: object, fieldId: string, index: number)</code></li>
 </ul>
 <p>Example</p>
-<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> StringField = <span class="hljs-function">(<span class="hljs-params">{ fieldId }</span>) =&gt;</span> {
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> MyArray = <span class="hljs-function">(<span class="hljs-params">{ fieldId }</span>) =&gt;</span> {
   <span class="hljs-keyword">const</span> [
-    { onChange, onBlur },
-    { value, error, touched }
-  ] = useField(fieldId);
+    {
+      addElement
+    },
+    { value, error }
+  ] = useFieldArray(fieldId);
 
   <span class="hljs-keyword">return</span> (
     &lt;React.Fragment&gt;
-      &lt;input onChange={onChange} onBlur={onBlur} value={value} /&gt;
-      {touched &amp;&amp; error &amp;&amp; &lt;p&gt;{error}&lt;/p&gt;}
+      {value.map((object, fieldId, index) =&gt; {
+        const [{ onChange, onBlur }, { value: fieldValue, touched, error: fieldError }] = useField(fieldId);
+        return (
+          &lt;input onChange={onChange} onBlur={onBlur} value={fieldValue} /&gt;
+          {touched &amp;&amp; fieldError &amp;&amp; &lt;p&gt;{fieldError}&lt;/p&gt;}
+        )
+      })}
+      &lt;Button onClick={addElement} label="add" /&gt;
     &lt;/React.Fragment&gt;
   );
 }
 </code></pre>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/hooked-form/docs/components/field"><span class="arrow-prev">← </span><span>Field</span></a><a class="docs-next button" href="/hooked-form/docs/components/fieldarray"><span class="function-name-prevnext">FieldArray</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>Docs</h5><a href="/hooked-form/docs/en/components/form">API</a></div><div><h5>Community</h5><a href="https://twitter.com/JoviDeC" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/JoviDeCroock/hooked-form">GitHub</a><a class="github-button" href="https://github.com/JoviDeCroock/hooked-form" data-icon="octicon-star" data-count-href="/JoviDeCroock/hooked-form/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Jovi De Croock</section></footer></div></body></html>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/hooked-form/docs/components/field"><span class="arrow-prev">← </span><span>Field</span></a><a class="docs-next button" href="/hooked-form/docs/components/fieldarray"><span class="function-name-prevnext">FieldArray</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>Docs</h5><a href="/hooked-form/docs/en/components/form">API</a></div><div><h5>Community</h5><a href="https://twitter.com/JoviDeC" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/JoviDeCroock/hooked-form">GitHub</a><a class="github-button" href="https://github.com/JoviDeCroock/hooked-form" data-icon="octicon-star" data-count-href="/JoviDeCroock/hooked-form/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 Jovi De Croock</section></footer></div></body></html>
