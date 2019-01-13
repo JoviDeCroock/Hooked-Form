@@ -8,6 +8,6 @@ export interface FieldInformation {
 
 export default function useError(fieldId: string): string | null {
   const { errors } = React.useContext(formContext)
-  const error = React.useMemo(() => get(errors, fieldId), [errors, fieldId])
+  const error = React.useMemo(() => get(errors, fieldId), [errors])
   return error
 }

@@ -21,16 +21,10 @@ export interface FieldInformation {
 }
 
 export default function useFieldArray(fieldId: string): [FieldOperations, FieldInformation] {
-  const {
-    errors,
-    initialValues,
-    values,
-    setFieldValue,
-  } = React.useContext(formContext)
-
-  const error = React.useMemo(() => get(errors, fieldId), [errors, fieldId])
-  const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues, fieldId])
-  const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values, fieldId])
+  const { errors, initialValues, values, setFieldValue } = React.useContext(formContext)
+  const error = React.useMemo(() => get(errors, fieldId), [errors])
+  const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues])
+  const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values,])
 
   value.map = React.useCallback((callback) => {
     const array: Array<any> = []
