@@ -1,14 +1,17 @@
 import * as React from 'react'
+
+import { areEqualMemoizedField } from './helpers/areEqual';
 import useField from './useField'
 
 export interface FieldProps {
   component: any
+  efficient?: boolean;
   fieldId: string
   innerRef?: () => void
   [x: string]: any
 }
 
-const FieldContainer: React.SFC<FieldProps> = ({ component, fieldId, innerRef, ...rest }) => {
+const FieldContainer: React.SFC<FieldProps> = React.memo(({ component, efficient, fieldId, innerRef, ...rest }) => {
   if (!component) {
     throw new Error('The Field needs a "component" property to  function correctly.')
   }
@@ -31,7 +34,12 @@ const FieldContainer: React.SFC<FieldProps> = ({ component, fieldId, innerRef, .
     value: value || '',
     ...rest,
   }
-  return React.createElement(component, props)
-}
+  const element = React.createElement(component, props)
+  return efficient ?
+    React.useMemo(
+      () => element,
+      [value, error, onChange, isFieldTouched]
+    ) : element;
+}, areEqualMemoizedField)
 
 export default FieldContainer
