@@ -5,19 +5,15 @@ import useField from './useField'
 
 export interface FieldProps {
   component: any
-  efficient?: boolean;
   fieldId: string
   innerRef?: () => void
+  watchableProps?: Array<string>
   [x: string]: any
 }
 
-const FieldContainer: React.SFC<FieldProps> = React.memo(({ component, efficient, fieldId, innerRef, ...rest }) => {
-  if (!component) {
-    throw new Error('The Field needs a "component" property to  function correctly.')
-  }
-  if (!fieldId || typeof fieldId !== 'string') {
-    throw new Error('The Field needs a valid "fieldId" property to  function correctly.')
-  }
+const FieldContainer: React.SFC<FieldProps> = React.memo(({ component, fieldId, innerRef, watchableProps = ['disabled', 'className'], ...rest }) => {
+  if (!component) { throw new Error('The Field needs a "component" property to  function correctly.') }
+  if (!fieldId || typeof fieldId !== 'string') { throw new Error('The Field needs a valid "fieldId" property to  function correctly.') }
 
   const {
     0: { onChange, onBlur, onFocus, resetField: resetFieldValue },
@@ -34,12 +30,11 @@ const FieldContainer: React.SFC<FieldProps> = React.memo(({ component, efficient
     value: value || '',
     ...rest,
   }
-  const element = React.createElement(component, props)
-  return efficient ?
-    React.useMemo(
-      () => element,
-      [value, error, onChange, isFieldTouched]
-    ) : element;
+
+  return React.useMemo(
+    () => React.createElement(component, props),
+    [value, error, isFieldTouched, ...(watchableProps.map((key: string) => rest[key]))]
+  );
 }, areEqualMemoizedField)
 
 export default FieldContainer

@@ -50,9 +50,7 @@ const OptionsContainer = ({
 
     // Provide a way to reset the full form to the initialValues.
     const resetForm = React.useCallback(() => {
-      if (mapPropsToValues) {
-        initialValues = React.useCallback(() => mapPropsToValues(props), [props])
-      }
+      initialValues = React.useCallback(() => mapPropsToValues ? mapPropsToValues(props) : initialValues, [mapPropsToValues, props])
       const newInitialTouched = deriveInitial(initialValues, false)
       const newInitialErrors = deriveInitial(initialValues, null)
       setValuesState(initialValues)
