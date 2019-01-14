@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render } from 'react-testing-library';
+import { cleanup, render } from 'react-testing-library';
 import { ErrorMessage, Form } from '../../src';
 
 const ErrorDisplay = ({ error }: { error: string }) => <p data-testid="error">{error}</p>
@@ -18,6 +18,8 @@ const makeForm = (formOptions?: object, props?: object) => {
 }
 
 describe('ErorrMessage', () => {
+  afterEach(() => cleanup());
+
   it('should render the correct error', () => {
     const { getProps, getByTestId } = makeForm({ validate: () => ({ name: 'bad' }), validateOnChange: true });
     const { change } = getProps();

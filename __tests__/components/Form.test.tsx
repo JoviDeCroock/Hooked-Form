@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, wait } from 'react-testing-library';
+import { cleanup, render, wait } from 'react-testing-library';
 import { Form } from '../../src';
 
 const Component = () => (<p>Hi</p>);
@@ -18,6 +18,8 @@ const makeForm = (formOptions?: object, props?: object) => {
 
 
 describe('Form', () => {
+  afterEach(() => cleanup());
+
   it('Renders with correct properties.', () => {
     const { getProps } = makeForm({ initialValues: { name: 'jovi', friends: [] } });
     const { change, handleSubmit, validate, isSubmitting, resetForm, values } = getProps();
@@ -78,7 +80,7 @@ describe('Form', () => {
     expect(validate).toBeCalledTimes(2);
   });
 
-  it('calls onSubmit when needed', () => {
+  it('calls onSubmit when needed', async () => {
     const onSubmit = jest.fn();
     const onSuccess = jest.fn();
     const { getProps } = makeForm({ initialValues: { name: 'Jovi', age: 23 }, onSubmit, onSuccess });
@@ -87,20 +89,19 @@ describe('Form', () => {
     expect(onSubmit).toBeCalled();
     const { isSubmitting } = getProps();
     expect(isSubmitting).toBeTruthy();
-    wait(() => {
+    await wait(() => {
       expect(onSubmit).toBeCalledTimes(1);
       expect(onSuccess).toBeCalledTimes(1);
     }, { timeout: 0 })
   });
 
-  it('calls onError when needed', () => {
+  it('calls onError when needed', async () => {
     const onSubmit = () => { throw new Error('hi') };
     const onError = jest.fn();
     const { getProps } = makeForm({ onSubmit, onError });
     const { handleSubmit } = getProps();
     handleSubmit();
-    wait(() => {
-      expect(onSubmit).toBeCalledTimes(1);
+    await wait(() => {
       expect(onError).toBeCalledTimes(1);
     }, { timeout: 0 })
   });

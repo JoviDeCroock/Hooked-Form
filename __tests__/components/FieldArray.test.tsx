@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { fireEvent, render, wait } from 'react-testing-library';
+import { cleanup, fireEvent, render, wait } from 'react-testing-library';
 import { Field, FieldArray, Form } from '../../src';
 
 const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
@@ -61,6 +61,8 @@ const makeForm = (formOptions?: object, props?: object) => {
 }
 
 describe('FieldArray', () => {
+  afterEach(() => cleanup());
+
   it('should render the stringfields and handle onChange aswell as validation', async () => {
     const { getByTestId } = makeForm({
       validate: (values: any) => {
@@ -139,7 +141,7 @@ describe('FieldArray', () => {
       expect(values.friends).toHaveLength(4);
       expect(values.friends[0].name).toEqual('K');
       expect(values.friends[1].name).toEqual('3');
-      expect(values.friends[1].name).toEqual('2');
+      expect(values.friends[2].name).toEqual('2');
       expect(values.friends[3].name).toEqual('J');
     }, { timeout: 0 });
   });

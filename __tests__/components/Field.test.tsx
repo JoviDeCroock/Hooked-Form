@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import { fireEvent, render, wait } from 'react-testing-library';
+import { cleanup, fireEvent, render, wait } from 'react-testing-library';
 import { Field, Form } from '../../src';
 
 const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
@@ -34,6 +34,8 @@ const makeForm = (formOptions?: object, props?: object) => {
 }
 
 describe('Field', () => {
+  afterEach(() => cleanup());
+
   it('should render the stringfields', async () => {
     const { getProps, getByTestId } = makeForm({
       validate: (values: { [fieldId: string]: any }) => {
