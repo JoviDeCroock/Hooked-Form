@@ -9,12 +9,8 @@ export interface FieldProps {
 }
 
 const FieldArrayContainer: React.SFC<FieldProps> = ({ component, render, fieldId, ...rest }) => {
-  if (!component && !render) {
-    throw new Error('The FieldArray needs a "component" or a "render" property to  function correctly.')
-  }
-  if (!fieldId || typeof fieldId !== 'string') {
-    throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.')
-  }
+  if (!component && !render) { throw new Error('The FieldArray needs a "component" or a "render" property to  function correctly.') }
+  if (!fieldId || typeof fieldId !== 'string') { throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.') }
 
   const {
     0: {

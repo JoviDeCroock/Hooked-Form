@@ -34,7 +34,7 @@ const makeForm = (formOptions?: object, props?: object) => {
 }
 
 describe('Field', () => {
-  it('should render the stringfields', () => {
+  it('should render the stringfields', async () => {
     const { getProps, getByTestId } = makeForm({
       validate: (values: { [fieldId: string]: any }) => {
         return {
@@ -51,11 +51,14 @@ describe('Field', () => {
     expect((nameField as any).value).toEqual('upper');
     fireEvent.change(nameField, {target: {value: 'u'}});
     expect((nameField as any).value).toEqual('u');
-    wait(() => {
+    await wait(() => {
       const nameErrorField = getByTestId('name-error');
       expect(nameErrorField.textContent).toEqual('bad');
       fireEvent.change(nameField, {target: {value: 'upper'}});
-      expect(nameErrorField.textContent).toEqual(null);
+    }, { timeout: 0 });
+    await wait (() => {
+      const nameErrorField = getByTestId('name-error');
+      expect(nameErrorField.textContent).toEqual('');
     }, { timeout: 0 });
   });
 

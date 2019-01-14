@@ -9,12 +9,8 @@ export interface FieldProps {
 }
 
 const FieldContainer: React.SFC<FieldProps> = ({ component, fieldId, innerRef, ...rest }) => {
-  if (!component) {
-    throw new Error('The Field needs a "component" property to  function correctly.')
-  }
-  if (!fieldId || typeof fieldId !== 'string') {
-    throw new Error('The Field needs a valid "fieldId" property to  function correctly.')
-  }
+  if (!component) { throw new Error('The Field needs a "component" property to  function correctly.') }
+  if (!fieldId || typeof fieldId !== 'string') { throw new Error('The Field needs a valid "fieldId" property to  function correctly.') }
 
   const {
     0: { onChange, onBlur, onFocus, resetField: resetFieldValue },
