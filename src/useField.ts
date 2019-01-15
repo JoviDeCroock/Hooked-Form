@@ -27,17 +27,17 @@ export default function useField(fieldId: string): [FieldOperations, FieldInform
     touched,
   } = React.useContext(formContext)
 
-  const error = React.useMemo(() => get(errors, fieldId), [errors, fieldId])
-  const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues, fieldId])
-  const value = React.useMemo(() => get(values, fieldId), [values, fieldId])
-  const isFieldTouched = React.useMemo(() => get(touched, fieldId), [touched, fieldId])
+  const error = React.useMemo(() => get(errors, fieldId), [errors])
+  const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues])
+  const value = React.useMemo(() => get(values, fieldId), [values])
+  const isFieldTouched = React.useMemo(() => get(touched, fieldId), [touched])
   const resetFieldValue = React.useCallback(() => {
     setFieldValue(fieldId, initialValue || reset(value))
     setFieldTouched(fieldId, false)
   }, [value])
-  const onChange = React.useMemo(() => (val: any) => setFieldValue(fieldId, val), [fieldId])
-  const onBlur = React.useMemo(() => setFieldTouched.bind(null, fieldId, true), [fieldId])
-  const onFocus = React.useMemo(() => setFieldTouched.bind(null, fieldId, false), [fieldId])
+  const onChange = React.useMemo(() => (val: any) => setFieldValue(fieldId, val), [])
+  const onBlur = React.useMemo(() => setFieldTouched.bind(null, fieldId, true), [])
+  const onFocus = React.useMemo(() => setFieldTouched.bind(null, fieldId, false), [])
   return [
     { onChange, onBlur, onFocus, resetField: resetFieldValue, setFieldValue },
     { error, touched: isFieldTouched, value },

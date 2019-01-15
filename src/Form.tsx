@@ -33,9 +33,9 @@ const OptionsContainer = ({
   let initialValues = formInitialValues
   let initialTouched = deriveInitial(initialValues, false)
   let initialErrors = deriveInitial(initialValues, null)
-  let hasInitialized = false;
+  let hasInitialized = false
 
-  return (Component: any) => (props: { [property: string]: any }) => {
+  return (Component: any) => React.memo((props: { [property: string]: any }) => {
     if (mapPropsToValues && (!hasInitialized)) {
       initialValues = mapPropsToValues(props)
       initialTouched = deriveInitial(initialValues, false)
@@ -67,11 +67,11 @@ const OptionsContainer = ({
     }, [props, mapPropsToValues, initialValues])
 
     // TODO: remove async in favor of Promise.resolve()
-    const handleSubmit = React.useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = React.useCallback(async (event?: React.FormEvent<HTMLFormElement>) => {
       try {
         if (event) { event.preventDefault() }
         const submit = onSubmit || props.onSubmit
-        const allTouched = deriveInitial(initialValues, true)
+        const allTouched = deriveInitial(values, true)
         setTouchedState(allTouched)
         const errors = validateForm()
         if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) { return }
@@ -85,16 +85,12 @@ const OptionsContainer = ({
       }
     }, [values, validateForm])
 
-    // Make our listener for the reinitialization when need be.
+    // Make our listener for the reinitialization when need be. TODO: mapPropsToValues
     if (enableReinitialize) { React.useEffect(() => resetForm(), [initialValues]) }
-    // TODO: maybe unify this to one approach.
-    // Make our sideEffect when we have to validate onBlurring the field.
-    if (validateOnBlur) { React.useEffect(() => { validateForm() }, [touched]) }
-    // Make our sideEffect when we have to validate onChanging the field.
-    if (validateOnChange) { React.useEffect(() => { validateForm() }, [values]) }
-
+    // Run validations when needed.
+    React.useEffect(() => { validateForm() }, [validateOnBlur && touched, validateOnChange && values])
     // The submit for our form.
-    const handleSubmitProp = React.useCallback((event) => handleSubmit(event), [values])
+    const handleSubmitProp = React.useCallback((event?: any) => handleSubmit(event), [handleSubmit])
     // The onBlur we can use for our Fields, should also be renewed context wise when our values are altered.
     const setFieldTouched = React.useCallback((fieldId: string) => { touch(fieldId, true) }, [touch])
     // The onChange we can use for our Fields, should also be renewed context wise when our touched are altered.
@@ -121,7 +117,7 @@ const OptionsContainer = ({
         />
       </Provider>
     )
-  }
+  })
 }
 
 export default OptionsContainer

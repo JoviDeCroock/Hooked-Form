@@ -7,7 +7,7 @@ export interface Touched {
 }
 
 export interface Errors {
-  [fieldId: string]: string
+  [fieldId: string]: string | Array<Errors>;
 }
 
 export interface InitialValues {

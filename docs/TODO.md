@@ -6,6 +6,7 @@
 
 ## Library
 
+- Add invariant
 - Add Field performance enhancer
 
   ```js
