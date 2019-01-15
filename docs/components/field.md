@@ -11,6 +11,8 @@ The Field component is used to inject the values of a certain field into the pas
 - component - A react component.
 - fieldId - The name for this field.
 - innerRef - The ref to pass through to your custom component.
+- watchableProps - The props that will be causing a rerender when changed, this will
+  default to `['className', 'disabled']`.
 
 ## Injected properties
 

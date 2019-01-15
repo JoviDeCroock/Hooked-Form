@@ -1,13 +1,16 @@
 {
   "docs": {
+    "philosophy": [
+      "philosophy/why"
+    ],
     "components": [
       "components/form",
-      "components/field",
       "components/useField",
-      "components/fieldarray",
+      "components/useError",
       "components/useFieldArray",
+      "components/field",
       "components/error",
-      "components/useError"
+      "components/fieldarray"
     ],
     "utilities": [
       "utils/get"

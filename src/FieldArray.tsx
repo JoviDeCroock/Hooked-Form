@@ -8,7 +8,7 @@ export interface FieldProps {
   [x: string]: any
 }
 
-const FieldArrayContainer: React.SFC<FieldProps> = ({ component, render, fieldId, ...rest }) => {
+const FieldArrayContainer: React.SFC<FieldProps> = React.memo(({ component, render, fieldId }) => {
   if (!component && !render) { throw new Error('The FieldArray needs a "component" or a "render" property to  function correctly.') }
   if (!fieldId || typeof fieldId !== 'string') { throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.') }
 
@@ -29,11 +29,12 @@ const FieldArrayContainer: React.SFC<FieldProps> = ({ component, render, fieldId
     replaceElement,
     reset: resetField,
     swapElement,
-    values: value,
-    ...rest,
+    values: value
   }
 
-  return component ? React.createElement(component, props) : render && render(props)
-}
+  return component ?
+    React.useMemo(() => React.createElement(component, props), [value, error])
+    : render && React.useMemo(() => render(props), [value, error])
+}, () => true)
 
 export default FieldArrayContainer

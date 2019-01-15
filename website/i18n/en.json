@@ -33,6 +33,10 @@
         "title": "UseFieldArray",
         "sidebar_label": "UseFieldArray"
       },
+      "philosophy/why": {
+        "title": "Why",
+        "sidebar_label": "Why"
+      },
       "TODO": {
         "title": "TODO"
       },
@@ -45,6 +49,7 @@
       "API": "API"
     },
     "categories": {
+      "philosophy": "philosophy",
       "components": "components",
       "utilities": "utilities"
     }
