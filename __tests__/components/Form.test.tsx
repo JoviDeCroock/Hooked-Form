@@ -83,8 +83,9 @@ describe('Form', () => {
   it('calls onSubmit when needed', async () => {
     const onSubmit = jest.fn();
     const onSuccess = jest.fn();
-    const { getProps } = makeForm({ initialValues: { name: 'Jovi', age: 23 }, onSubmit, onSuccess });
-    const { handleSubmit } = getProps();
+    const { getProps } = makeForm({ initialValues: { name: 'Jovi', age: 23 }, onSubmit, onSuccess });
+    let { handleSubmit } = getProps();
+    const { change } = getProps();
     handleSubmit();
     expect(onSubmit).toBeCalled();
     const { isSubmitting } = getProps();
@@ -92,6 +93,20 @@ describe('Form', () => {
     await wait(() => {
       expect(onSubmit).toBeCalledTimes(1);
       expect(onSuccess).toBeCalledTimes(1);
+      expect(onSubmit.mock.calls[0][0].name).toBe('Jovi');
+      expect(onSubmit.mock.calls[0][0].age).toBe(23);
+    }, { timeout: 0 });
+    change('age', 22)
+    change('name', 'Liesse')
+    await wait(async () => {
+      ({ handleSubmit } = getProps());
+      handleSubmit();
+      await wait(() => {
+        expect(onSubmit).toBeCalledTimes(2);
+        expect(onSuccess).toBeCalledTimes(2);
+        expect(onSubmit.mock.calls[1][0].name).toBe('Liesse');
+        expect(onSubmit.mock.calls[1][0].age).toBe(22);
+      }, { timeout: 0 })
     }, { timeout: 0 })
   });
 
