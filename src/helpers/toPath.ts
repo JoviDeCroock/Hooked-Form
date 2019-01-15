@@ -1,3 +1,4 @@
+// TODO: cleanup after 500+ entries to avoid memory leaks.
 export function memoize(func: (input: string) => Array<string>) {
   const resultMapping: { [input: string]: Array<string> } = {}
   return (input: string) => {

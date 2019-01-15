@@ -24,7 +24,7 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
   const { errors, initialValues, values, setFieldValue } = React.useContext(formContext)
   const error = React.useMemo(() => get(errors, fieldId), [errors])
   const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues])
-  const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values,])
+  const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values])
 
   value.map = React.useCallback((callback) => {
     const array: Array<any> = []
@@ -35,7 +35,7 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
     return array
   }, [value])
 
-  const resetFieldValue = React.useCallback(() => { setFieldValue(fieldId, initialValue || reset(value)) }, [value])
+  const resetFieldValue = React.useCallback(() => { setFieldValue(fieldId, initialValue || reset(value)) }, [value, initialValue])
   const addElement = React.useCallback((element: any = {}) => { setFieldValue(fieldId, add(value, element)) }, [value])
   const swapElement = React.useCallback((first: number, second: number) => { setFieldValue(fieldId, swap(value, first, second)) }, [value])
   const insertElement = React.useCallback((at: number, element: object) => { setFieldValue(fieldId, insert(value, at, element)) }, [value])

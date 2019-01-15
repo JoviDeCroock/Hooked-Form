@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import { fireEvent, render, wait } from 'react-testing-library';
+import { cleanup, fireEvent, render, wait } from 'react-testing-library';
 import { Field, Form } from '../../src';
 
 const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
@@ -34,7 +34,9 @@ const makeForm = (formOptions?: object, props?: object) => {
 }
 
 describe('Field', () => {
-  it('should render the stringfields', () => {
+  afterEach(() => cleanup());
+
+  it('should render the stringfields', async () => {
     const { getProps, getByTestId } = makeForm({
       validate: (values: { [fieldId: string]: any }) => {
         return {
@@ -51,11 +53,14 @@ describe('Field', () => {
     expect((nameField as any).value).toEqual('upper');
     fireEvent.change(nameField, {target: {value: 'u'}});
     expect((nameField as any).value).toEqual('u');
-    wait(() => {
+    await wait(() => {
       const nameErrorField = getByTestId('name-error');
       expect(nameErrorField.textContent).toEqual('bad');
       fireEvent.change(nameField, {target: {value: 'upper'}});
-      expect(nameErrorField.textContent).toEqual(null);
+    }, { timeout: 0 });
+    await wait (() => {
+      const nameErrorField = getByTestId('name-error');
+      expect(nameErrorField.textContent).toEqual('');
     }, { timeout: 0 });
   });
 

@@ -38,7 +38,6 @@ export default function useField(fieldId: string): [FieldOperations, FieldInform
   const onChange = React.useMemo(() => (val: any) => setFieldValue(fieldId, val), [])
   const onBlur = React.useMemo(() => setFieldTouched.bind(null, fieldId, true), [])
   const onFocus = React.useMemo(() => setFieldTouched.bind(null, fieldId, false), [])
-
   return [
     { onChange, onBlur, onFocus, resetField: resetFieldValue, setFieldValue },
     { error, touched: isFieldTouched, value },
