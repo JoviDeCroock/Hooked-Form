@@ -11,7 +11,7 @@ export interface FieldProps {
   [x: string]: any
 }
 
-const FieldContainer: React.SFC<FieldProps> = React.memo(({ component, fieldId, innerRef, watchableProps = ['disabled', 'className'], ...rest }) => {
+const FieldContainer: React.FC<FieldProps> = React.memo(({ component, fieldId, innerRef, watchableProps = ['disabled', 'className'], ...rest }) => {
   if (!component) { throw new Error('The Field needs a "component" property to  function correctly.') }
   if (!fieldId || typeof fieldId !== 'string') { throw new Error('The Field needs a valid "fieldId" property to  function correctly.') }
 
