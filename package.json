@@ -52,6 +52,9 @@
     "react": "16.8.0-alpha.1",
     "react-dom": "16.8.0-alpha.1"
   },
+  "mangle": {
+    "regex": "^_"
+  },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*{ts, tsx}"
