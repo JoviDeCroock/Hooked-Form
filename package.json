@@ -36,8 +36,8 @@
     "jest": "23.6.0",
     "jest-cli": "23.6.0",
     "microbundle": "^0.9.0",
-    "react": "16.8.0-alpha.0",
-    "react-dom": "16.8.0-alpha.0",
+    "react": "16.8.0-alpha.1",
+    "react-dom": "16.8.0-alpha.1",
     "react-testing-library": "5.4.4",
     "rimraf": "2.6.3",
     "ts-jest": "23.10.5",
@@ -49,8 +49,8 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "react": "16.8.0-alpha.0",
-    "react-dom": "16.8.0-alpha.0"
+    "react": "16.8.0-alpha.1",
+    "react-dom": "16.8.0-alpha.1"
   },
   "jest": {
     "collectCoverageFrom": [
