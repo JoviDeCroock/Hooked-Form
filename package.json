@@ -22,6 +22,7 @@
   "main": "dist/form-hooks.js",
   "umd:main": "dist/form-hooks.umd.js",
   "module": "dist/form-hooks.module.js",
+  "source": "src/index.ts",
   "typings": "lib/index.d.ts",
   "license": "MIT",
   "resolutions": {
