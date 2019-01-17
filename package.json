@@ -1,13 +1,13 @@
 {
   "name": "hooked-form",
-  "version": "1.2.0-alpha.0",
+  "version": "1.2.0",
   "description": "Forms done with React-Hooks",
   "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
   "private": false,
   "repository": "https://www.github.com/jovidecroock/hooked-form",
   "sideEffects": false,
   "scripts": {
-    "build": "rimraf dist && rimraf lib && tsc -b && rollup -c",
+    "build": "rimraf dist && microbundle",
     "test": "cross-env jest --env=jsdom",
     "test:watch": "cross-env npm run test -- --watch"
   },
@@ -39,12 +39,6 @@
     "react-dom": "16.8.0-alpha.0",
     "react-testing-library": "5.4.4",
     "rimraf": "2.6.3",
-    "rollup": "1.1.0",
-    "rollup-plugin-commonjs": "9.2.0",
-    "rollup-plugin-filesize": "6.0.0",
-    "rollup-plugin-node-resolve": "4.0.0",
-    "rollup-plugin-replace": "2.1.0",
-    "rollup-plugin-uglify": "6.0.0",
     "ts-jest": "23.10.5",
     "tslib": "1.9.3",
     "tslint": "5.11.0",

@@ -4,3 +4,6 @@ lib
 .yarn-error.log
 website/build
 yarn-error.log
+.rts2_cache_es
+.rts2_cache_umd
+.rts2_cache_cjs

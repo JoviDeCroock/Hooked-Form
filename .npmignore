@@ -12,3 +12,6 @@ docker-compose.yml
 /website
 /docs
 __tests__
+.rts2_cache_es
+.rts2_cache_umd
+.rts2_cache_cjs
