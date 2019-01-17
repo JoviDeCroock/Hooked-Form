@@ -1,8 +1,14 @@
-// TODO: cleanup after 500+ entries to avoid memory leaks.
 export function memoize(func: (input: string) => Array<string>) {
-  const resultMapping: { [input: string]: Array<string> } = {}
+  let resultMapping: { [input: string]: Array<string> } = {}
+  let count = 0;
   return (input: string) => {
-    if (!resultMapping[input]) { resultMapping[input] = func(input) }
+    if (!resultMapping[input]) {
+      resultMapping[input] = func(input)
+      count = count + 1;
+      if (count >= 600) {
+        resultMapping = {};
+      }
+    }
     return resultMapping[input]
   }
 }
@@ -14,7 +20,7 @@ const toPathArray = (input: string) => {
     if (part.includes('[')) {
       const { 0: firstPart, 1: temp } = part.split('[')
       result.push(firstPart)
-      const { 0: secondPart } = temp.split(']')
+      const { 0: secondPart } = temp.split(']')[0]
       result.push(secondPart)
     } else { result.push(part) }
   })
