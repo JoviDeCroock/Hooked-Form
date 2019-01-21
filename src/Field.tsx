@@ -12,8 +12,10 @@ export interface FieldProps {
 }
 
 const FieldContainer: React.FC<FieldProps> = React.memo(({ component, fieldId, innerRef, watchableProps = ['disabled', 'className'], ...rest }) => {
-  if (!component) { throw new Error('The Field needs a "component" property to  function correctly.') }
-  if (!fieldId || typeof fieldId !== 'string') { throw new Error('The Field needs a valid "fieldId" property to  function correctly.') }
+  if (process.env.NODE_ENV !== 'production') {
+    if (!component) { throw new Error('The Field needs a "component" property to  function correctly.') }
+    if (!fieldId || typeof fieldId !== 'string') { throw new Error('The Field needs a valid "fieldId" property to  function correctly.') }
+  }
   const {
     0: { onChange, onBlur, onFocus, resetField: resetFieldValue },
     1: { error, touched: isFieldTouched, value },
