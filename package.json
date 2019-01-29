@@ -1,6 +1,6 @@
 {
   "name": "hooked-form",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Forms done with React-Hooks",
   "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
   "private": false,
@@ -19,33 +19,33 @@
     "hooks",
     "validation"
   ],
-  "main": "dist/form-hooks.js",
-  "umd:main": "dist/form-hooks.umd.js",
-  "module": "dist/form-hooks.module.js",
+  "main": "dist/hooked-form.js",
+  "umd:main": "dist/hooked-form.umd.js",
+  "module": "dist/hooked-form.module.js",
   "source": "src/index.ts",
   "typings": "lib/index.d.ts",
   "license": "MIT",
   "resolutions": {
-    "@types/react": "16.7.18"
+    "@types/react": "16.7.20"
   },
   "devDependencies": {
-    "@types/jest": "23.3.10",
-    "@types/react": "16.7.18",
-    "@types/react-dom": "^16.0.11",
+    "@types/jest": "23.3.13",
+    "@types/react": "16.7.20",
+    "@types/react-dom": "16.0.11",
     "cross-env": "5.2.0",
     "jest": "23.6.0",
     "jest-cli": "23.6.0",
-    "microbundle": "^0.9.0",
+    "microbundle": "0.9.0",
     "react": "16.8.0-alpha.1",
     "react-dom": "16.8.0-alpha.1",
     "react-testing-library": "5.4.4",
     "rimraf": "2.6.3",
     "ts-jest": "23.10.5",
     "tslib": "1.9.3",
-    "tslint": "5.11.0",
-    "tslint-config-prettier": "1.16.0",
+    "tslint": "5.12.1",
+    "tslint-config-prettier": "1.17.0",
     "tslint-react": "3.6.0",
-    "typescript": "3.2.2"
+    "typescript": "3.2.4"
   },
   "dependencies": {},
   "peerDependencies": {
@@ -56,12 +56,8 @@
     "regex": "^_"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*{ts, tsx}"
-    ],
-    "testMatch": [
-      "<rootDir>/__tests__/**/?(*.)(test|spec).ts?(x)"
-    ],
+    "collectCoverageFrom": ["src/**/*{ts, tsx}"],
+    "testMatch": ["<rootDir>/__tests__/**/?(*.)(test|spec).ts?(x)"],
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
