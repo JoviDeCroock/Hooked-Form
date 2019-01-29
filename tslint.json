@@ -1,8 +1,5 @@
 {
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
-  "globals": {
-    "__DEV__": true
-  },
   "rules": {
     "array-type": [true, "generic"],
     "interface-name": false
