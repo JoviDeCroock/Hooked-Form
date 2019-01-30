@@ -77,15 +77,15 @@
   "bundlesize": [
     {
       "path": "./dist/hooked-form.module.js",
-      "maxSize": "5 kB"
+      "maxSize": "3.5 kB"
     },
     {
       "path": "./dist/hooked-form.umd.js",
-      "maxSize": "5 kB"
+      "maxSize": "3.5 kB"
     },
     {
       "path": "./dist/hooked-form.js",
-      "maxSize": "5 kB"
+      "maxSize": "3.5 kB"
     }
   ]
 }
