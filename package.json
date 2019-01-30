@@ -8,7 +8,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "rimraf dist && microbundle",
-    "test": "cross-env jest --env=jsdom",
+    "test": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env npm run test -- --watch"
   },
   "keywords": [
@@ -32,6 +32,7 @@
     "@types/jest": "23.3.13",
     "@types/react": "16.7.20",
     "@types/react-dom": "16.0.11",
+    "codecov": "3.1.0",
     "cross-env": "5.2.0",
     "jest": "23.6.0",
     "jest-cli": "23.6.0",
@@ -56,8 +57,11 @@
     "regex": "^_"
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*{ts, tsx}"],
-    "testMatch": ["<rootDir>/__tests__/**/?(*.)(test|spec).ts?(x)"],
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "testMatch": [
+      "<rootDir>/__tests__/**/?(*.)(test|spec).ts?(x)"
+    ],
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
