@@ -1,0 +1,13 @@
+sudo: false
+language: node_js
+node_js:
+  - 9.10
+cache:
+  yarn: true
+  directories:
+    - node_modules
+notifications:
+  email: false
+install:
+  - yarn
+script: yarn run test
