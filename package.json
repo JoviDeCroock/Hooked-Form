@@ -8,6 +8,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "rimraf dist && microbundle",
+    "filesize": "bundlesize",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env npm run test -- --watch"
   },
@@ -71,5 +72,19 @@
       "js",
       "jsx"
     ]
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/form-hooks.module.js",
+      "maxSize": "5 kB"
+    },
+    {
+      "path": "./dist/form-hooks.umd.js",
+      "maxSize": "5 kB"
+    },
+    {
+      "path": "./dist/form-hooks.js",
+      "maxSize": "5 kB"
+    }
+  ]
 }
