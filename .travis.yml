@@ -13,7 +13,8 @@ install:
   - yarn
 script:
   - npm install codecov -g
-  - yarn filesize
   - yarn test
+  - yarn build
+  - yarn filesize
 after_success:
   - codecov
