@@ -76,15 +76,15 @@
   },
   "bundlesize": [
     {
-      "path": "./dist/form-hooks.module.js",
+      "path": "./dist/hooked-form.module.js",
       "maxSize": "5 kB"
     },
     {
-      "path": "./dist/form-hooks.umd.js",
+      "path": "./dist/hooked-form.umd.js",
       "maxSize": "5 kB"
     },
     {
-      "path": "./dist/form-hooks.js",
+      "path": "./dist/hooked-form.js",
       "maxSize": "5 kB"
     }
   ]
