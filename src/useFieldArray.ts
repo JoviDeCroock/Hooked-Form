@@ -21,6 +21,9 @@ export interface FieldInformation {
 }
 
 export default function useFieldArray(fieldId: string): [FieldOperations, FieldInformation] {
+  if (process.env.NODE_ENV !== 'production') {
+    if (!fieldId || typeof fieldId !== 'string') { throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.') }
+  }
   const { errors, initialValues, values, setFieldValue } = React.useContext(formContext)
   const error = React.useMemo(() => get(errors, fieldId), [errors])
   const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues])
@@ -35,8 +38,8 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
     return array
   }, [value])
 
-  const resetFieldValue = React.useCallback(() => { setFieldValue(fieldId, initialValue || reset(value)) }, [value, initialValue])
-  const addElement = React.useCallback((element: any = {}) => { setFieldValue(fieldId, add(value, element)) }, [value])
+  const resetFieldValue = React.useCallback(() => { setFieldValue(fieldId, initialValue || reset(value)) }, [initialValue])
+  const addElement = React.useCallback((element: any) => { setFieldValue(fieldId, add(value, element)) }, [value])
   const swapElement = React.useCallback((first: number, second: number) => { setFieldValue(fieldId, swap(value, first, second)) }, [value])
   const insertElement = React.useCallback((at: number, element: object) => { setFieldValue(fieldId, insert(value, at, element)) }, [value])
   const moveElement = React.useCallback((from: number, to: number) => { setFieldValue(fieldId, move(value, from, to)) }, [value])
