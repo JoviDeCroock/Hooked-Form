@@ -5,6 +5,7 @@ example
 .gitignore
 yarn.lock
 tslint.json
+coverage
 typings.d.ts
 Dockerfile
 docker-compose.yml
