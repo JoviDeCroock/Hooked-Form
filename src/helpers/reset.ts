@@ -1,4 +1,4 @@
-function reset(value: any) {
+function reset(value: any): any {
   switch (typeof value) {
     case 'string': return ''
     case 'number': return 0
