@@ -1,13 +1,11 @@
 export function memoize(func: (input: string) => Array<string>) {
   let resultMapping: { [input: string]: Array<string> } = {}
   let count = 0;
-  return (input: string) => {
+  return function memoizedFunc(input: string) {
     if (!resultMapping[input]) {
       resultMapping[input] = func(input)
       count = count + 1;
-      if (count >= 600) {
-        resultMapping = {};
-      }
+      if (count >= 600) { resultMapping = {} }
     }
     return resultMapping[input]
   }
@@ -16,7 +14,7 @@ export function memoize(func: (input: string) => Array<string>) {
 const toPathArray = (input: string) => {
   const parts = input.split('.')
   const result: Array<string> = []
-  parts.forEach((part: string) => {
+  parts.forEach(function partHelper(part: string) {
     if (part.includes('[')) {
       const { 0: firstPart, 1: temp } = part.split('[')
       result.push(firstPart)
