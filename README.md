@@ -1,7 +1,7 @@
 # Hooked-Form
 
 [![npm version](https://badge.fury.io/js/hooked-form.svg)](https://badge.fury.io/js/hooked-form)
-[![Build Status](https://travis-ci.org/JoviDeCroock/MobX-Form.svg?branch=master)](https://travis-ci.org/JoviDeCroock/MobX-Form)
+[![Build Status](https://travis-ci.org/JoviDeCroock/hooked-form.svg?branch=master)](https://travis-ci.org/JoviDeCroock/hooked-form)
 [![Bundle size](https://badgen.net/bundlephobia/minzip/hooked-form)](https://badgen.net/bundlephobia/minzip/hooked-form)
 [![codecov](https://codecov.io/gh/JoviDeCroock/Hooked-Form/branch/master/graph/badge.svg)](https://codecov.io/gh/JoviDeCroock/Hooked-Form)
 
