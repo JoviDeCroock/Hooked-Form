@@ -8,6 +8,7 @@ tslint.json
 coverage
 typings.d.ts
 Dockerfile
+mangle.json
 docker-compose.yml
 .dockerignore
 /website

@@ -7,5 +7,6 @@ yarn-error.log
 .rts2_cache_es
 coverage
 .rts2_cache_umd
+mangle.json
 .rts2_cache_cjs
 mangle.json

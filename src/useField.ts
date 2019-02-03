@@ -18,6 +18,11 @@ export interface FieldInformation {
 }
 
 export default function useField(fieldId: string): [FieldOperations, FieldInformation] {
+  // Dev-check
+  if (process.env.NODE_ENV !== 'production') {
+    if (!fieldId || typeof fieldId !== 'string') { throw new Error('The Field needs a valid "fieldId" property to  function correctly.') }
+  }
+  // Context
   const {
     errors,
     initialValues,
@@ -26,18 +31,19 @@ export default function useField(fieldId: string): [FieldOperations, FieldInform
     setFieldTouched,
     touched,
   } = React.useContext(formContext)
-
+  // Values
   const error = React.useMemo(() => get(errors, fieldId), [errors])
   const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues])
   const value = React.useMemo(() => get(values, fieldId), [values])
   const isFieldTouched = React.useMemo(() => get(touched, fieldId), [touched])
+  // Methods
   const resetFieldValue = React.useCallback(() => {
     setFieldValue(fieldId, initialValue || reset(value))
     setFieldTouched(fieldId, false)
-  }, [value])
-  const onChange = React.useMemo(() => (val: any) => setFieldValue(fieldId, val), [])
-  const onBlur = React.useMemo(() => setFieldTouched.bind(null, fieldId, true), [])
-  const onFocus = React.useMemo(() => setFieldTouched.bind(null, fieldId, false), [])
+  }, [])
+  const onChange = React.useCallback((val: any) => setFieldValue(fieldId, val), [])
+  const onBlur = React.useCallback(() => setFieldTouched(fieldId, true), [])
+  const onFocus = React.useCallback(() => setFieldTouched(fieldId, false), [])
   return [
     { onChange, onBlur, onFocus, resetField: resetFieldValue, setFieldValue },
     { error, touched: isFieldTouched, value },
