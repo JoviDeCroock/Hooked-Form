@@ -1,6 +1,8 @@
 
 import * as React from 'react';
+import { act } from 'react-dom/test-utils';
 import { cleanup, fireEvent, render, wait } from 'react-testing-library';
+
 import { Field, Form } from '../../src';
 
 const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
@@ -49,14 +51,20 @@ describe('Field', () => {
     });
 
     const nameField = getByTestId('name');
-    fireEvent.change(nameField, {target: {value: 'upper'}});
+    act(() => {
+      fireEvent.change(nameField, {target: {value: 'upper'}})
+    });
     expect((nameField as any).value).toEqual('upper');
-    fireEvent.change(nameField, {target: {value: 'u'}});
+    act(() => {
+      fireEvent.change(nameField, {target: {value: 'u'}})
+    });
     expect((nameField as any).value).toEqual('u');
     await wait(() => {
       const nameErrorField = getByTestId('name-error');
       expect(nameErrorField.textContent).toEqual('bad');
-      fireEvent.change(nameField, {target: {value: 'upper'}});
+      act(() => {
+        fireEvent.change(nameField, {target: {value: 'upper'}})
+      });
     }, { timeout: 0 });
     await wait (() => {
       const nameErrorField = getByTestId('name-error');
@@ -77,11 +85,17 @@ describe('Field', () => {
     });
     const nameField = getByTestId('name');
     const nameErrorField = getByTestId('name-error');
-    fireEvent.change(nameField, {target: {value: 'upper'}});
+    act(() => {
+      fireEvent.change(nameField, {target: {value: 'upper'}})
+    });
     expect((nameField as any).value).toEqual('upper');
-    fireEvent.change(nameField, {target: {value: 'u'}});
+    act(() => {
+      fireEvent.change(nameField, {target: {value: 'u'}})
+    });
     expect((nameField as any).value).toEqual('u');
-    fireEvent.blur(nameField);
+    act(() => {
+      fireEvent.blur(nameField)
+    });
     expect(nameErrorField.textContent).toEqual('bad');
   });
 });
