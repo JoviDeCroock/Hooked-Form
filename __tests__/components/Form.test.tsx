@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { act } from 'react-dom/test-utils';
 import { cleanup, render, wait } from 'react-testing-library';
+
 import { Form } from '../../src';
 
 const Component = () => (<p>Hi</p>);
@@ -53,7 +55,7 @@ describe('Form', () => {
   it('Changes when calling change', () => {
     const { getProps } = makeForm();
     const { change } = getProps();
-    change('name', 'joviMutated');
+    act(() => { change('name', 'joviMutated') });
     const { values } = getProps();
     expect(values.name).toEqual('joviMutated');
   });
@@ -61,10 +63,12 @@ describe('Form', () => {
   it('Resets correctly', () => {
     const { getProps } = makeForm({ initialValues: { name: 'jovi' }});
     const { change } = getProps();
-    change('name', 'joviMutated');
+    act(() => {
+      change('name', 'joviMutated')
+    });
     let { values, resetForm } = getProps();
     expect(values.name).toEqual('joviMutated');
-    resetForm();
+    act(() => { resetForm() });
     ({ values, resetForm } = getProps());
     expect(values.name).toEqual('jovi');
   });
@@ -73,11 +77,15 @@ describe('Form', () => {
     const validate = jest.fn();
     const { getProps } = makeForm({ validate, validateOnChange: true });
     let { change } = getProps();
-    change('name', 'joviMutated');
-    expect(validate).toBeCalledTimes(1);
+    act(() => {
+      change('name', 'joviMutated')
+      expect(validate).toBeCalledTimes(1);
+    });
     ({ change } = getProps());
-    change('name', 'joviMutated');
-    expect(validate).toBeCalledTimes(2);
+    act(() => {
+      change('name', 'joviMutated')
+      expect(validate).toBeCalledTimes(2);
+    });
   });
 
   it('calls onSubmit when needed', async () => {
@@ -86,7 +94,9 @@ describe('Form', () => {
     const { getProps } = makeForm({ initialValues: { name: 'Jovi', age: 23 }, onSubmit, onSuccess });
     let { handleSubmit } = getProps();
     const { change } = getProps();
-    handleSubmit();
+    act(() => {
+      handleSubmit()
+    });
     expect(onSubmit).toBeCalled();
     const { isSubmitting } = getProps();
     expect(isSubmitting).toBeTruthy();
@@ -96,11 +106,13 @@ describe('Form', () => {
       expect(onSubmit.mock.calls[0][0].name).toBe('Jovi');
       expect(onSubmit.mock.calls[0][0].age).toBe(23);
     }, { timeout: 0 });
-    change('age', 22)
-    change('name', 'Liesse')
+    act(() => { change('age', 22) });
+    act(() => { change('name', 'Liesse') });
     await wait(async () => {
       ({ handleSubmit } = getProps());
-      handleSubmit();
+      act(() => {
+        handleSubmit()
+      });
       await wait(() => {
         expect(onSubmit).toBeCalledTimes(2);
         expect(onSuccess).toBeCalledTimes(2);
@@ -115,7 +127,9 @@ describe('Form', () => {
     const onError = jest.fn();
     const { getProps } = makeForm({ onSubmit, onError });
     const { handleSubmit } = getProps();
-    handleSubmit();
+    act(() => {
+      handleSubmit()
+    });
     await wait(() => {
       expect(onError).toBeCalledTimes(1);
     }, { timeout: 0 })

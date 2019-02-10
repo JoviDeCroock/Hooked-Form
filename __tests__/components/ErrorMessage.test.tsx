@@ -25,7 +25,9 @@ describe('ErorrMessage', () => {
   it('should render the correct error', () => {
     const { getProps, getByTestId } = makeForm({ validate: () => ({ name: 'bad' }), validateOnChange: true });
     const { change } = getProps();
-    act(() => change('name', 'jovi'));
+    act(() => {
+      change('name', 'jovi')
+    });
     const errorPTag = getByTestId('error');
     expect(errorPTag.textContent).toEqual('bad');
   })
