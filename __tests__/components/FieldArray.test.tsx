@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { act } from 'react-dom/test-utils';
 import { cleanup, fireEvent, render, wait } from 'react-testing-library';
+
 import { Field, FieldArray, Form } from '../../src';
 
 const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
@@ -84,7 +86,9 @@ describe('FieldArray', () => {
 
     expect((firstFriendField as any).value).toEqual('K');
     expect((secondFriendField as any).value).toEqual('J');
-    fireEvent.change(firstFriendField, { target: { value: 'A' } });
+    act(() => {
+      fireEvent.change(firstFriendField, { target: { value: 'A' } })
+    });
     expect((firstFriendField as any).value).toEqual('A');
     await wait(() => {
       const firstFriendFieldError = getByTestId('friends[0].name-error');
@@ -95,7 +99,9 @@ describe('FieldArray', () => {
   it('Should add fields when asked to', async () => {
     const { getByTestId, getProps } = makeForm();
     const addButton = getByTestId('add-element');
-    fireEvent.click(addButton);
+    act(() => {
+      fireEvent.click(addButton);
+    });
     await wait(async () => {
       const { values } = getProps();
       expect(values.friends).toHaveLength(3);
@@ -106,14 +112,18 @@ describe('FieldArray', () => {
   it('Should swap fields when asked to', async () => {
     const { getByTestId, getProps } = makeForm();
     let swapButton = getByTestId('swap-element');
-    fireEvent.click(swapButton);
+    act(() => {
+      fireEvent.click(swapButton);
+    });
     await wait(() => {
       const { values } = getProps();
       expect(values.friends).toHaveLength(2);
       expect(values.friends[0].name).toEqual('J');
       expect(values.friends[1].name).toEqual('K')
       swapButton = getByTestId('swap-element');
-      fireEvent.click(swapButton);
+      act(() => {
+        fireEvent.click(swapButton);
+      });
     }, { timeout: 0 });
     await wait(() => {
       const { values } = getProps();
@@ -126,7 +136,9 @@ describe('FieldArray', () => {
   it('Should insert fields when asked to', async () => {
     const { getByTestId, getProps } = makeForm();
     let insertButton = getByTestId('insert-element');
-    fireEvent.click(insertButton);
+    act(() => {
+      fireEvent.click(insertButton);
+    });
     await wait(() => {
       const { values } = getProps();
       expect(values.friends).toHaveLength(3);
@@ -134,7 +146,9 @@ describe('FieldArray', () => {
       expect(values.friends[1].name).toEqual('2');
       expect(values.friends[2].name).toEqual('J');
       insertButton = getByTestId('insert-element');
-      fireEvent.click(insertButton);
+      act(() => {
+        fireEvent.click(insertButton);
+      });
     }, { timeout: 0 });
     await wait(() => {
       const { values } = getProps();
@@ -149,14 +163,18 @@ describe('FieldArray', () => {
   it('Should move fields when asked to', async () => {
     const { getByTestId, getProps } = makeForm();
     let moveButton = getByTestId('move-element');
-    fireEvent.click(moveButton);
+    act(() => {
+      fireEvent.click(moveButton);
+    });
     await wait(() => {
       const { values } = getProps();
       expect(values.friends).toHaveLength(2);
       expect(values.friends[0].name).toEqual('J');
       expect(values.friends[1].name).toEqual('K')
       moveButton = getByTestId('move-element');
-      fireEvent.click(moveButton);
+      act(() => {
+        fireEvent.click(moveButton);
+      });
     }, { timeout: 0 });
     await wait(() => {
       const { values } = getProps();
@@ -169,7 +187,9 @@ describe('FieldArray', () => {
   it('Should remove fields when asked to', async () => {
     const { getByTestId, getProps } = makeForm();
     const removeFirstFieldButton = getByTestId('remove-element-0');
-    fireEvent.click(removeFirstFieldButton);
+    act(() => {
+      fireEvent.click(removeFirstFieldButton);
+    });
     await wait(() => {
       const { values } = getProps();
       expect(values.friends).toHaveLength(1);
