@@ -18,13 +18,14 @@ const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error
 
 const Component = ({ fieldId }: { fieldId: string }) => (<Field fieldId={fieldId} component={StringField} id={fieldId} />);
 
-const ArrayContainer = ({ addElement, values, removeElement, swapElement, insertElement }:
+const ArrayContainer = ({ addElement, values, removeElement, swapElement, insertElement, moveElement }:
   {
     addElement: (input: object) => void,
     values: any,
     removeElement: (input: object | number) => void,
     swapElement: (from: number, to: number) => void,
     insertElement: (at: number, input: object) => void,
+    moveElement: (from: number, to: number) => void,
   }) => {
   return (
     <React.Fragment>
@@ -37,7 +38,7 @@ const ArrayContainer = ({ addElement, values, removeElement, swapElement, insert
       <button data-testid="add-element" onClick={() => addElement({ name: `${values.length}` })}>Add</button>
       <button data-testid="insert-element" onClick={() => insertElement(1, { name: `${values.length}` })}>Insert</button>
       <button data-testid="swap-element" onClick={() => swapElement(0, 1)}>Swap</button>
-      <button data-testid="move-element" onClick={() => swapElement(0, 1)}>Move</button>
+      <button data-testid="move-element" onClick={() => moveElement(0, 1)}>Move</button>
     </React.Fragment>
   );
 }
