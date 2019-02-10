@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { act } from 'react-dom/test-utils';
 import { cleanup, render } from 'react-testing-library';
+
 import { ErrorMessage, Form } from '../../src';
 
 const ErrorDisplay = ({ error }: { error: string }) => <p data-testid="error">{error}</p>
@@ -23,7 +25,7 @@ describe('ErorrMessage', () => {
   it('should render the correct error', () => {
     const { getProps, getByTestId } = makeForm({ validate: () => ({ name: 'bad' }), validateOnChange: true });
     const { change } = getProps();
-    change('name', 'jovi')
+    act(() => change('name', 'jovi'));
     const errorPTag = getByTestId('error');
     expect(errorPTag.textContent).toEqual('bad');
   })

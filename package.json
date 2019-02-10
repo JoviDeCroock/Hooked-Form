@@ -27,12 +27,12 @@
   "typings": "lib/index.d.ts",
   "license": "MIT",
   "resolutions": {
-    "@types/react": "16.8.1"
+    "@types/react": "16.8.2"
   },
   "devDependencies": {
     "@types/jest": "23.3.13",
-    "@types/react": "16.8.1",
-    "@types/react-dom": "16.0.11",
+    "@types/react": "16.8.2",
+    "@types/react-dom": "16.8.0",
     "bundlesize": "0.17.1",
     "codecov": "3.1.0",
     "cross-env": "5.2.0",
@@ -41,19 +41,19 @@
     "microbundle": "0.9.0",
     "react": "16.8.0",
     "react-dom": "16.8.0",
-    "react-testing-library": "5.4.4",
+    "react-testing-library": "5.5.4",
     "rimraf": "2.6.3",
     "ts-jest": "23.10.5",
     "tslib": "1.9.3",
     "tslint": "5.12.1",
-    "tslint-config-prettier": "1.17.0",
+    "tslint-config-prettier": "1.18.0",
     "tslint-react": "3.6.0",
     "typescript": "3.2.4"
   },
   "dependencies": {},
   "peerDependencies": {
-    "react": "16.8.0",
-    "react-dom": "16.8.0"
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "mangle": {
     "regex": "^_"
