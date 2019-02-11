@@ -13,10 +13,13 @@ docker-compose.yml
 .dockerignore
 /website
 /docs
-__tests__
 .rts2_cache_es
 .rts2_cache_umd
 .rts2_cache_cjs
 mangle.json
 /lib
 /src
+.travis.yml
+.github
+/__tests__
+tsconfig.json
