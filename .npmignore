@@ -18,3 +18,4 @@ __tests__
 .rts2_cache_umd
 .rts2_cache_cjs
 mangle.json
+/lib
