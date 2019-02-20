@@ -1,0 +1,18 @@
+{
+  "testMatch": [
+    "<rootDir>/__tests__/**/?(*.)(test|spec).ts?(x)"
+  ],
+  "transform": {
+    ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+  },
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "jsx"
+  ],
+  "moduleNameMapper": {
+    "^react$": "preact-compat",
+    "react-dom$": "preact-compat"
+  }
+}
