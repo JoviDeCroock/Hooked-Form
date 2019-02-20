@@ -10,6 +10,7 @@
     "build": "rimraf dist && microbundle",
     "filesize": "bundlesize",
     "test": "cross-env NODE_ENV=test jest",
+    "test:preact": "cross-env jest --config ./jest.preact.config.json",
     "test:watch": "cross-env npm run test -- --watch"
   },
   "keywords": [
@@ -39,6 +40,8 @@
     "jest": "23.6.0",
     "jest-cli": "23.6.0",
     "microbundle": "0.9.0",
+    "preact": "^8.4.2",
+    "preact-compat": "^3.18.4",
     "react": "16.8.1",
     "react-dom": "16.8.1",
     "react-testing-library": "5.5.4",
