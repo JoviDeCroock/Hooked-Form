@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Provider } from './helpers/context'
 import { deriveInitial } from './helpers/deriveInitial'
-import useBoolean from './helpers/useBoolean'
 import useState from './helpers/useState'
 import { Errors, InitialValues, Touched } from './types'
 
@@ -45,7 +44,7 @@ const OptionsContainer = ({
     const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(initialValues)
     const { 0: touched, 1:touch, 2: setTouchedState } = useState(initialTouched)
     const { 0: formErrors, 2: setErrorState } = useState(initialErrors)
-    const { 0: setSubmitting, 1: isSubmitting } = useBoolean(false)
+    const { 0: isSubmitting, 1: setSubmitting } = React.useState(false)
     const { 0: formError, 1: setFormError } = React.useState(null)
 
     // The validation step in our form, this memoization happens on values and touched.
@@ -67,21 +66,22 @@ const OptionsContainer = ({
     }, [props, mapPropsToValues, initialValues])
 
     const handleSubmit = React.useCallback(async function submitFunc(event?: React.FormEvent<HTMLFormElement>) {
-      try {
-        if (event && event.preventDefault) { event.preventDefault() }
-        const submit = onSubmit || props.onSubmit
-        const allTouched = deriveInitial(values, true)
-        setTouchedState(allTouched)
-        const errors = validateForm()
-        if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) { return }
-        setSubmitting(true)
-        const result = await submit(values, props, setFormError)
-        setSubmitting(false)
-        if (onSuccess) { onSuccess(result) }
-      } catch (e) {
-        setSubmitting(false)
-        if (onError) { onError(e, setFormError) }
-      }
+      if (event && event.preventDefault) { event.preventDefault() }
+      const submit = onSubmit || props.onSubmit
+      const allTouched = deriveInitial(values, true)
+      setTouchedState(allTouched)
+      const errors = validateForm()
+      if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) { return }
+      setSubmitting(() => true)
+      new Promise((resolve) => resolve(submit(values, props, setFormError)))
+        .then((result: any) => {
+          setSubmitting(() => false)
+          if (onSuccess) { onSuccess(result) }
+        })
+        .catch((e: any) => {
+          setSubmitting(() => false)
+          if (onError) { onError(e, setFormError) }
+        })
     }, [values])
 
     // Make our listener for the reinitialization when need be.
