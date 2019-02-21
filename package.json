@@ -1,31 +1,36 @@
 {
   "name": "hooked-form",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Forms done with React-Hooks",
   "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
   "private": false,
   "repository": "https://www.github.com/jovidecroock/hooked-form",
   "sideEffects": false,
   "scripts": {
-    "build": "rimraf dist && microbundle",
+    "build": "rimraf dist && microbundle --name hookedForm --output dist/prod && microbundle --no-compress --name hookedForm --output dist/",
     "filesize": "bundlesize",
     "test": "cross-env NODE_ENV=test jest",
     "test:preact": "cross-env jest --config ./jest.preact.config.json",
-    "test:watch": "cross-env npm run test -- --watch"
+    "test:watch": "cross-env npm run test -- --watch",
+    "prepublishOnly": "npm run test && npm run build && npm run filesize"
   },
   "keywords": [
     "react",
     "forms",
     "react-hooks",
+    "low-bundlesize",
     "formmanagement",
     "hooks",
     "validation"
   ],
   "main": "dist/hooked-form.js",
+  "browser": "dist/hooked-form.umd.js",
   "umd:main": "dist/hooked-form.umd.js",
+  "jsnext:main": "dist/hooked-form.module.js",
   "module": "dist/hooked-form.module.js",
   "source": "src/index.ts",
-  "typings": "lib/index.d.ts",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
   "license": "MIT",
   "resolutions": {
     "@types/react": "16.8.2"
@@ -79,16 +84,16 @@
   },
   "bundlesize": [
     {
-      "path": "./dist/hooked-form.module.js",
-      "maxSize": "3 kB"
+      "path": "./dist/prod/hooked-form.module.js",
+      "maxSize": "2.5 kB"
     },
     {
-      "path": "./dist/hooked-form.umd.js",
-      "maxSize": "3 kB"
+      "path": "./dist/prod/hooked-form.umd.js",
+      "maxSize": "2.5 kB"
     },
     {
-      "path": "./dist/hooked-form.js",
-      "maxSize": "3 kB"
+      "path": "./dist/prod/hooked-form.js",
+      "maxSize": "2.5 kB"
     }
   ]
 }
