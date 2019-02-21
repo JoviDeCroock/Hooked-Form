@@ -13,4 +13,37 @@ bundle size isn't only the concern of the application developer. It is also a
 commitment that should be made by library authors.
 
 [Docs](https://jovidecroock.github.io/hooked-form/)
+
 [Example](https://codesandbox.io/s/k8mylo9lo)
+
+## Installation
+
+**yarn**
+
+```bash
+  yarn add hooked-form
+```
+
+**npm**
+
+```bash
+  npm i --save hooked-form
+```
+
+**UMD**
+
+_dev_:
+
+```html
+<script src="https://unpkg.com/hooked-form@latest/dist/hooked-form.umd.js"></script>
+```
+
+_prod_:
+
+```html
+<script src="https://unpkg.com/hooked-form@latest/dist/prod/hooked-form.umd.js"></script>
+```
+
+## Credits
+
+- [Microbundle](https://github.com/developit/microbundle)
