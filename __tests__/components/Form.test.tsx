@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { act } from 'react-dom/test-utils';
-import { cleanup, render, wait } from 'react-testing-library';
+import { act, cleanup, render, wait } from 'react-testing-library';
 
 import { Form } from '../../src';
 
@@ -58,6 +57,13 @@ describe('Form', () => {
     act(() => { change('name', 'joviMutated') });
     const { values } = getProps();
     expect(values.name).toEqual('joviMutated');
+  });
+
+  it('should use mapPropsToValues correctly', () => {
+    const { getProps } = makeForm({ mapPropsToValues: ({ name }: any) => ({ name, friends: [] }) }, { name: 'jovi' });
+    const { values } = getProps();
+    expect(values.name).toEqual('jovi');
+    expect(values.friends.length).toEqual(0);
   });
 
   it('Resets correctly', () => {
