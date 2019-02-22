@@ -91,7 +91,7 @@ const OptionsContainer = ({
     // The submit for our form.
     const handleSubmitProp = React.useCallback((event?: any) => handleSubmit(event), [handleSubmit])
     // The onBlur we can use for our Fields, should also be renewed context wise when our values are altered.
-    const setFieldTouched = React.useCallback((fieldId: string) => { touch(fieldId, true) }, [])
+    const setFieldTouched = React.useCallback((fieldId: string, value?: boolean) => { touch(fieldId, value === undefined ? true : value) }, [])
     // The onChange we can use for our Fields, should also be renewed context wise when our touched are altered.
     const onChangeProp = React.useCallback((fieldId: string, value: any) => setFieldValue(fieldId, value), [])
     return (
