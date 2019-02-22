@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { act } from 'react-dom/test-utils';
-import { cleanup, fireEvent, render, wait } from 'react-testing-library';
+import { act, cleanup, fireEvent, render, wait } from 'react-testing-library';
 
 import { Field, FieldArray, Form } from '../../src';
 
