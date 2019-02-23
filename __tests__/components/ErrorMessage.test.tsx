@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { act } from 'react-dom/test-utils';
-import { cleanup, render } from 'react-testing-library';
+import { act, cleanup, render } from 'react-testing-library';
 
 import { ErrorMessage, Form } from '../../src';
 
