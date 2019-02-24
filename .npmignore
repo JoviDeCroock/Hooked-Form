@@ -3,6 +3,7 @@ example
 .editorconfig
 .gitignore
 yarn.lock
+.rpt2_cache
 tslint.json
 coverage
 typings.d.ts
