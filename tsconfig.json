@@ -3,8 +3,8 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "jsx": "react",
-    "target": "es5",
-    "sourceMap": false,
+    "target": "es2015",
+    "sourceMap": true,
     "declaration": true,
     "module": "es2015",
     "removeComments": true,
