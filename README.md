@@ -44,6 +44,29 @@ _prod_:
 <script src="https://unpkg.com/hooked-form@latest/dist/prod/hooked-form.umd.js"></script>
 ```
 
+## Modern build
+
+This library offers a modern build (ES2015 output), this is smaller and parses faster in the browser.
+So if you don't plan to target older browsers feel free to use this.
+
+### Webpack
+
+```json
+  "resolve": {
+    "alias": {
+      "hooked-form": "hooked-form/dist/hooked-form.modern.js"
+    }
+  }
+```
+
+### Parcel
+
+```json
+  "alias": {
+    "hooked-form": "hooked-form/dist/hooked-form.modern.js"
+  }
+```
+
 ## Credits
 
 - [Microbundle](https://github.com/developit/microbundle)
