@@ -16,6 +16,7 @@ export interface InitialValues {
 
 export interface FormHookContext {
   errors: Errors
+  formError?: string | null;
   initialValues: InitialValues
   setFieldValue: (fieldId: string, value: any) => void
   setFieldTouched: (fieldId: string, value: any) => void

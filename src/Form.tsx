@@ -97,6 +97,7 @@ const OptionsContainer = ({
     return (
       <Provider value={{
         errors: formErrors as Errors,
+        formError,
         initialValues,
         setFieldTouched,
         setFieldValue: onChangeProp,
@@ -106,12 +107,10 @@ const OptionsContainer = ({
         <Component
           change={onChangeProp}
           formError={formError}
-          errors={formErrors}
           handleSubmit={handleSubmitProp}
           validate={validateForm}
           isSubmitting={isSubmitting}
           resetForm={resetForm}
-          values={values}
           {...props}
         />
       </Provider>
