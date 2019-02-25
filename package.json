@@ -7,7 +7,11 @@
   "repository": "https://www.github.com/jovidecroock/hooked-form",
   "sideEffects": false,
   "scripts": {
-    "build": "rimraf dist && microbundle --name hookedForm --output dist/prod && microbundle --no-compress --name hookedForm --output dist/",
+    "build": "rimraf dist && yarn build:es5 && yarn build:modern && yarn build:minified && yarn cleanup",
+    "build:minified": "microbundle --define process.env.NODE_ENV=production --name hookedForm --output dist/prod",
+    "build:es5": "microbundle --no-compress --name hookedForm --output dist/",
+    "build:modern": "rollup -c",
+    "cleanup": "rimraf .rpt2_cache && rimraf .rts2_cache_cjs && rimraf .rts2_cache_umd && rimraf .rts2_cache_es",
     "filesize": "bundlesize",
     "test": "cross-env NODE_ENV=test jest",
     "test:preact": "cross-env jest --config ./jest.preact.config.json",
@@ -26,7 +30,7 @@
   "main": "dist/hooked-form.js",
   "browser": "dist/hooked-form.umd.js",
   "umd:main": "dist/hooked-form.umd.js",
-  "jsnext:main": "dist/hooked-form.module.js",
+  "jsnext:main": "dist/hooked-form.modern.js",
   "module": "dist/hooked-form.module.js",
   "source": "src/index.ts",
   "types": "dist/index.d.ts",
@@ -44,14 +48,18 @@
     "cross-env": "5.2.0",
     "jest": "23.6.0",
     "jest-cli": "23.6.0",
-    "microbundle": "0.9.0",
+    "microbundle": "0.10.1",
     "preact": "8.4.2",
     "preact-compat": "3.18.4",
-    "preact-testing-library": "^0.3.0",
-    "react": "16.8.2",
-    "react-dom": "16.8.2",
+    "preact-testing-library": "0.3.0",
+    "react": "16.8.3",
+    "react-dom": "16.8.3",
     "react-testing-library": "5.9.0",
     "rimraf": "2.6.3",
+    "rollup": "1.2.3",
+    "rollup-plugin-filesize": "6.0.1",
+    "rollup-plugin-node-resolve": "4.0.1",
+    "rollup-plugin-typescript2": "0.19.2",
     "ts-jest": "23.10.5",
     "tslib": "1.9.3",
     "tslint": "5.12.1",
@@ -68,6 +76,7 @@
     "regex": "^_"
   },
   "jest": {
+    "coveragePathIgnorePatterns": ["rollup.config.js"],
     "coverageDirectory": "./coverage/",
     "collectCoverage": true,
     "testMatch": [
@@ -95,6 +104,10 @@
     {
       "path": "./dist/prod/hooked-form.js",
       "maxSize": "2.5 kB"
+    },
+    {
+      "path": "./dist/prod/hooked-form.modern.js",
+      "maxSize": "2.25 kB"
     }
   ]
 }
