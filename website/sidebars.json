@@ -5,6 +5,7 @@
     ],
     "components": [
       "components/form",
+      "components/useFormConnect",
       "components/useField",
       "components/useError",
       "components/useFieldArray",

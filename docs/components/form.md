@@ -27,8 +27,6 @@ Form is used to wrap your component, you can pass options in and that will resul
 - isSubmitting: `boolean` - A value indicating whether or not our form is in the process of submitting.
 - resetForm `() => void` - A function to return to our initialValues.
 - change: `(fieldId: string, value: any) => void` - A function used to manually change a fields value.
-- values `{ [fieldId: string]: any }` - The current values in our form
-- errors `{ [fieldId: string]: string }` - The current errors in our form
 
 ## Example
 
