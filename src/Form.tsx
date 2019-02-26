@@ -33,7 +33,6 @@ const OptionsContainer = ({
   let initialTouched = deriveInitial(initialValues, false)
   let initialErrors = deriveInitial(initialValues, null)
   let hasInitialized = false
-
   return (Component: any) => React.memo((props: { [property: string]: any }) => {
     if (mapPropsToValues && !hasInitialized) {
       initialValues = mapPropsToValues(props)
@@ -111,6 +110,8 @@ const OptionsContainer = ({
           validate={validateForm}
           isSubmitting={isSubmitting}
           resetForm={resetForm}
+          values={values}
+          touched={touched}
           {...props}
         />
       </Provider>
