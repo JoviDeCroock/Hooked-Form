@@ -45,10 +45,13 @@ const ArrayContainer = ({ addElement, values, removeElement, swapElement, insert
 const makeForm = (formOptions?: object, props?: object) => {
   let injectedProps: any;
   const TestForm = Form({
-    initialValues: { friends: [
-      { name: 'K' },
-      { name: 'J' },
-    ]},
+    initialValues: {
+      friends: [
+        { name: 'K' },
+        { name: 'J' },
+      ],
+      hobby: { id: 1, name: 'badass' },
+    },
     onSubmit: () => null,
     ...formOptions,
   })((formProps: any) => (injectedProps = formProps) && (
