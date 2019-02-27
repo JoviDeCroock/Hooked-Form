@@ -33,6 +33,10 @@
         "title": "UseFieldArray",
         "sidebar_label": "UseFieldArray"
       },
+      "components/useFormConnect": {
+        "title": "UseFormConnect",
+        "sidebar_label": "UseFormConnect"
+      },
       "philosophy/why": {
         "title": "Why",
         "sidebar_label": "Why"
@@ -51,6 +55,7 @@
     "categories": {
       "philosophy": "philosophy",
       "components": "components",
+      "hooks": "hooks",
       "utilities": "utilities"
     }
   },
