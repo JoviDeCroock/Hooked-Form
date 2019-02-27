@@ -5,13 +5,15 @@
     ],
     "components": [
       "components/form",
-      "components/useFormConnect",
-      "components/useField",
-      "components/useError",
-      "components/useFieldArray",
       "components/field",
       "components/error",
       "components/fieldarray"
+    ],
+    "hooks": [
+      "components/useFormConnect",
+      "components/useField",
+      "components/useError",
+      "components/useFieldArray"
     ],
     "utilities": [
       "utils/get"
