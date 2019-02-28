@@ -1,0 +1,23 @@
+{
+  "projectName": "hooked-form",
+  "projectOwner": "JoviDeCroock",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Pruxis",
+      "name": "Laurens Lavaert",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/6225486?v=4",
+      "profile": "https://www.faktion.com",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
