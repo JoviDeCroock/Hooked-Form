@@ -64,6 +64,7 @@
     "ts-jest": "23.10.5",
     "tslib": "1.9.3",
     "tslint": "5.12.1",
+    "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "1.18.0",
     "tslint-react": "3.6.0",
     "typescript": "3.3.1"
@@ -77,14 +78,16 @@
     "regex": "^_"
   },
   "jest": {
-    "coveragePathIgnorePatterns": ["rollup.config.js"],
+    "coveragePathIgnorePatterns": [
+      "rollup.config.js"
+    ],
     "coverageDirectory": "./coverage/",
     "collectCoverage": true,
     "testMatch": [
       "<rootDir>/__tests__/**/?(*.)(test|spec).ts?(x)"
     ],
     "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      ".(ts|tsx)": "ts-jest"
     },
     "moduleFileExtensions": [
       "ts",

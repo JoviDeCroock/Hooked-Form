@@ -1,7 +1,12 @@
 {
-  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-airbnb"],
   "rules": {
+    "align": false,
     "array-type": [true, "generic"],
-    "interface-name": false
+    "interface-name": false,
+    "object-shorthand-properties-first": false,
+    "prefer-array-literal": false,
+    "jsx-no-multiline-js": false,
+    "variable-name": false
   }
 }
