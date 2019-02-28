@@ -18,6 +18,7 @@ jest.preact.config.json
 .rts2_cache_umd
 .rts2_cache_cjs
 mangle.json
+.all-contributorsrc
 /lib
 /src
 .travis.yml
