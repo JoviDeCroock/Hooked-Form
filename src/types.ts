@@ -1,9 +1,9 @@
 export interface Values {
-  [fieldId: string]: any
+  [fieldId: string]: any;
 }
 
 export interface Touched {
-  [fieldId: string]: boolean
+  [fieldId: string]: boolean;
 }
 
 export interface Errors {
@@ -11,15 +11,15 @@ export interface Errors {
 }
 
 export interface InitialValues {
-  [fieldId: string]: any
+  [fieldId: string]: any;
 }
 
 export interface FormHookContext {
-  errors: Errors
+  errors: Errors;
   formError?: string | null;
-  initialValues: InitialValues
-  setFieldValue: (fieldId: string, value: any) => void
-  setFieldTouched: (fieldId: string, value: any) => void
-  touched: Touched
-  values: Values
+  initialValues: InitialValues;
+  setFieldValue: (fieldId: string, value: any) => void;
+  setFieldTouched: (fieldId: string, value: any) => void;
+  touched: Touched;
+  values: Values;
 }

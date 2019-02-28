@@ -16,6 +16,8 @@ commitment that should be made by library authors.
 
 [Example](https://codesandbox.io/s/k8mylo9lo)
 
+[Architecture](https://www.jovidecroock.com/forms/)
+
 ## Installation
 
 **yarn**

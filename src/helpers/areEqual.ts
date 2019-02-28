@@ -5,5 +5,6 @@ interface Props {
 
 export const areEqualMemoizedField = ({
   watchableProps: prevWatchable, ...prev }: Props,
-  { watchAbleProps: nextWatchable, ...next }: Props
-) => (nextWatchable || ['className', 'disabled']).every((prop: string) => prev[prop] === next[prop]);
+  { watchAbleProps: nextWatchable, ...next }: Props,
+) => (nextWatchable || ['className', 'disabled']).every(
+  (prop: string) => prev[prop] === next[prop]);
