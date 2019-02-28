@@ -12,6 +12,7 @@ mangle.json
 docker-compose.yml
 .dockerignore
 /website
+jest.preact.config.json
 /docs
 .rts2_cache_es
 .rts2_cache_umd
