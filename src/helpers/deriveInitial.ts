@@ -1,11 +1,14 @@
 export function deriveInitial(input: { [fieldId: string]: any }, defaultValue: any): { [fieldId: string]: any } {
   return Object.keys(input).reduce((acc: { [fieldId: string]: any }, key: string) => {
     if (Array.isArray(input[key])) {
-      return { ...acc, [key]: input[key].map((value: any) => deriveInitial(value, defaultValue)) };
-    }  if (typeof input[key] === 'object') {
-      return { ...acc, [key]: deriveInitial(input[key], defaultValue) };
+      acc[key] = input[key].map((value: any) => deriveInitial(value, defaultValue));
+      return acc;
+    } else if (typeof input[key] === 'object') {
+      acc[key] = deriveInitial(input[key], defaultValue);
+      return acc;
+    } else {
+      acc[key] = defaultValue;
+      return acc;
     }
-    return { ...acc, [key]: defaultValue };
-
   }, {});
 }
