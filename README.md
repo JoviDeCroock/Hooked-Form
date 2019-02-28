@@ -1,6 +1,5 @@
 # Hooked-Form
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
-
 [![npm version](https://badge.fury.io/js/hooked-form.svg)](https://badge.fury.io/js/hooked-form)
 [![Build Status](https://travis-ci.org/JoviDeCroock/hooked-form.svg?branch=master)](https://travis-ci.org/JoviDeCroock/hooked-form)
 [![Bundle size](https://badgen.net/bundlephobia/minzip/hooked-form)](https://badgen.net/bundlephobia/minzip/hooked-form)
@@ -80,7 +79,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars1.githubusercontent.com/u/6225486?v=4" width="100px;" alt="Laurens Lavaert"/><br /><sub><b>Laurens Lavaert</b></sub>](https://www.faktion.com)<br />[💻](https://github.com/JoviDeCroock/hooked-form/commits?author=Pruxis "Code") | [<img src="https://avatars3.githubusercontent.com/u/17125876?v=4" width="100px;" alt="Jovi De Croock"/><br /><sub><b>Jovi De Croock</b></sub>](https://www.jovidecroock.com/)<br />[🚇](#infra-JoviDeCroock "Infrastructure (Hosting, Build-Tools, etc)") [⚠️](https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock "Tests") [👀](#review-JoviDeCroock "Reviewed Pull Requests") [📖](https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock "Documentation") [💻](https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock "Code") |
+| [<img src="https://avatars3.githubusercontent.com/u/17125876?v=4" width="100px;" alt="Jovi De Croock"/><br /><sub><b>Jovi De Croock</b></sub>](https://www.jovidecroock.com/)<br />[🚇](#infra-JoviDeCroock "Infrastructure (Hosting, Build-Tools, etc)") [⚠️](https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock "Tests") [👀](#review-JoviDeCroock "Reviewed Pull Requests") [📖](https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock "Documentation") [💻](https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock "Code") | [<img src="https://avatars1.githubusercontent.com/u/6225486?v=4" width="100px;" alt="Laurens Lavaert"/><br /><sub><b>Laurens Lavaert</b></sub>](https://www.faktion.com)<br />[💻](https://github.com/JoviDeCroock/hooked-form/commits?author=Pruxis "Code") |
 | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
