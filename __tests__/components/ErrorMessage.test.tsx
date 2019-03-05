@@ -1,9 +1,14 @@
 import * as React from 'react';
-import { act, cleanup, render } from 'react-testing-library';
+import { act as nativeAct, cleanup, render } from 'react-testing-library';
 
 import { ErrorMessage, Form } from '../../src';
 
-const ErrorDisplay = ({ error }: { error: string }) => <p data-testid="error">{error}</p>
+let act = nativeAct;
+if (!act) {
+  act = func => func();
+}
+
+const ErrorDisplay = ({ error }: { error: string }) => <p data-testid="error">{error}</p>;
 const Component = () => (<ErrorMessage fieldId="name" component={ErrorDisplay} />);
 
 const makeForm = (formOptions?: object, props?: object) => {
@@ -14,9 +19,9 @@ const makeForm = (formOptions?: object, props?: object) => {
   })((formProps: any) => (injectedProps = formProps) && <Component {...formProps} />);
   return {
     getProps: () => injectedProps,
-    ...render(<TestForm {...props} />)
-  }
-}
+    ...render(<TestForm {...props} />),
+  };
+};
 
 describe('ErorrMessage', () => {
   afterEach(() => cleanup());
@@ -25,9 +30,9 @@ describe('ErorrMessage', () => {
     const { getProps, getByTestId } = makeForm({ validate: () => ({ name: 'bad' }), validateOnChange: true });
     const { change } = getProps();
     act(() => {
-      change('name', 'jovi')
+      change('name', 'jovi');
     });
     const errorPTag = getByTestId('error');
     expect(errorPTag.textContent).toEqual('bad');
-  })
+  });
 });
