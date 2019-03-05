@@ -6,10 +6,12 @@ export function deriveInitial(
       acc[key] = input[key].map((value: any) => deriveInitial(value, defaultValue));
       return acc;
     }
-    if (typeof input[key] === 'object') {
+
+    if (input[key] && typeof input[key] === 'object') {
       acc[key] = deriveInitial(input[key], defaultValue);
       return acc;
     }
+
     acc[key] = defaultValue;
     return acc;
   }, {});

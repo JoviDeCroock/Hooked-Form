@@ -1,0 +1,36 @@
+{
+  "projectName": "hooked-form",
+  "projectOwner": "JoviDeCroock",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Pruxis",
+      "name": "Laurens Lavaert",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/6225486?v=4",
+      "profile": "https://www.faktion.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "JoviDeCroock",
+      "name": "Jovi De Croock",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/17125876?v=4",
+      "profile": "https://www.jovidecroock.com/",
+      "contributions": [
+        "infra",
+        "test",
+        "review",
+        "doc",
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
