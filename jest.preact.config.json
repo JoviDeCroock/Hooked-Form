@@ -12,8 +12,8 @@
     "jsx"
   ],
   "moduleNameMapper": {
-    "^react$": "preact-compat",
-    "react-dom$": "preact-compat",
+    "^react$": "preact/compat",
+    "react-dom$": "preact/compat",
     "^react-testing-library$": "preact-testing-library"
   }
 }
