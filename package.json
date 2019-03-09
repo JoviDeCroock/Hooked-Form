@@ -48,7 +48,7 @@
     "cross-env": "5.2.0",
     "jest": "23.6.0",
     "jest-cli": "23.6.0",
-    "microbundle": "0.10.1",
+    "microbundle": "0.11.0",
     "preact": "next",
     "preact-testing-library": "0.3.0",
     "react": "16.8.3",
