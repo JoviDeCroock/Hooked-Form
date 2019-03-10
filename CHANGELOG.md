@@ -1,5 +1,11 @@
 # Releases
 
+## Vnext
+
+- update redundant if-statements by [Pruxis](https://github.com/Pruxis) in [PR #22](https://github.com/JoviDeCroock/hooked-form/pull/2)
+- deprecate values to be passed to formwrapper
+- provide useFormConnect to replace deprecated feature
+
 ## 1.5.2
 
 - Bug fixed where an array of non-object values would fail in deriving initial
