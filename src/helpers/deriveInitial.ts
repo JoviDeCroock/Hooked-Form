@@ -3,7 +3,8 @@ export function deriveInitial(
 ): { [fieldId: string]: any } {
   return input && Object.keys(input).reduce((acc: { [fieldId: string]: any }, key: string) => {
     if (Array.isArray(input[key])) {
-      acc[key] = input[key].map((value: any) => deriveInitial(value, defaultValue));
+      acc[key] = input[key].map((value: any) =>
+        typeof value === 'object' ? deriveInitial(value, defaultValue) : defaultValue);
       return acc;
     }
 
