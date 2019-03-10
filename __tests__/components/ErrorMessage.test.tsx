@@ -5,10 +5,12 @@ import { ErrorMessage, Form } from '../../src';
 
 let act = nativeAct;
 if (!act) {
-  act = func => func();
+  console.log((React as any).act);
+  act = (React as any).act;
 }
 
 const ErrorDisplay = ({ error }: { error: string }) => <p data-testid="error">{error}</p>;
+// @ts-ignore
 const Component = () => (<ErrorMessage fieldId="name" component={ErrorDisplay} />);
 
 const makeForm = (formOptions?: object, props?: object) => {
@@ -19,6 +21,7 @@ const makeForm = (formOptions?: object, props?: object) => {
   })((formProps: any) => (injectedProps = formProps) && <Component {...formProps} />);
   return {
     getProps: () => injectedProps,
+    // @ts-ignore
     ...render(<TestForm {...props} />),
   };
 };
@@ -27,7 +30,8 @@ describe('ErorrMessage', () => {
   afterEach(() => cleanup());
 
   it('should render the correct error', () => {
-    const { getProps, getByTestId } = makeForm({ validate: () => ({ name: 'bad' }), validateOnChange: true });
+    const { getProps, getByTestId } =
+      makeForm({ validate: () => ({ name: 'bad' }), validateOnChange: true });
     const { change } = getProps();
     act(() => {
       change('name', 'jovi');
