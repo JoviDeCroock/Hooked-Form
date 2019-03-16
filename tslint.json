@@ -8,5 +8,10 @@
     "prefer-array-literal": false,
     "jsx-no-multiline-js": false,
     "variable-name": false
+  },
+  "linterOptions": {
+    "exclude": [
+      "__tests__/**"
+    ]
   }
 }
