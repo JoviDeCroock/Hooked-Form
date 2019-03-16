@@ -2,8 +2,8 @@
 
 ## vNext
 
-- deprecate values, touched and validateForm to be passed to formwrapper
-- testing preact
+- deprecate values, touched and validateForm to be passed to formwrapper (limit rerenders)
+- preact x support with tests (on official release)
 
 ## 1.6.0
 
