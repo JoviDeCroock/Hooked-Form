@@ -7,10 +7,8 @@ export interface FieldInformation {
 }
 
 export default function useError(fieldId: string): string | null {
-  if (process.env.NODE_ENV !== 'production') {
-    if (!fieldId || typeof fieldId !== 'string') {
-      throw new Error('The Error needs a valid "fieldId" property to  function correctly.');
-    }
+  if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
+    throw new Error('The Error needs a valid "fieldId" property to  function correctly.');
   }
   const { errors } = React.useContext(formContext);
   const error = React.useMemo(() => get(errors, fieldId), [errors]);

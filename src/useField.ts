@@ -19,10 +19,8 @@ export interface FieldInformation {
 
 export default function useField(fieldId: string): [FieldOperations, FieldInformation] {
   // Dev-check
-  if (process.env.NODE_ENV !== 'production') {
-    if (!fieldId || typeof fieldId !== 'string') {
-      throw new Error('The Field needs a valid "fieldId" property to  function correctly.');
-    }
+  if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
+    throw new Error('The Field needs a valid "fieldId" property to  function correctly.');
   }
   // Context
   const {
