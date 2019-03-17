@@ -8,7 +8,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "rimraf dist && yarn build:es5 && yarn build:modern && yarn build:minified && yarn cleanup",
-    "build:minified": "microbundle --define process.env.NODE_ENV=production --name hookedForm --output dist/prod --format umd",
+    "build:minified": "microbundle --define process.env.NODE_ENV=production --name hookedForm --output dist/prod",
     "build:es5": "microbundle --no-compress --name hookedForm --output dist/",
     "build:modern": "rollup -c && node ./scripts/sliceLicense.js",
     "cleanup": "rimraf .rpt2_cache && rimraf .rts2_cache_cjs && rimraf .rts2_cache_umd && rimraf .rts2_cache_es",
