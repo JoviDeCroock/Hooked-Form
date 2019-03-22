@@ -34,7 +34,7 @@
   "module": "dist/hooked-form.module.js",
   "source": "src/index.ts",
   "syntax": {
-    "esmodules": "dist/hooked-form.module.js"
+    "esmodules": "dist/hooked-form.modern.js"
   },
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",

@@ -7,6 +7,7 @@ let act = nativeAct;
 if (!act) {
   const { act: preactAct } = require('preact/test-utils');
   act = preactAct
+}
 
 const ErrorDisplay = ({ error }: { error: string }) => <p data-testid="error">{error}</p>;
 // @ts-ignore
