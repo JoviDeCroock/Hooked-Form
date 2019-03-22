@@ -5,7 +5,6 @@ import { ErrorMessage, Form } from '../../src';
 
 let act = nativeAct;
 if (!act) {
-  console.log((React as any).act);
   act = (React as any).act;
 }
 

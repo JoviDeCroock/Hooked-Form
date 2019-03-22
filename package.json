@@ -33,6 +33,9 @@
   "jsnext:main": "dist/hooked-form.modern.js",
   "module": "dist/hooked-form.module.js",
   "source": "src/index.ts",
+  "syntax": {
+    "esmodules": "dist/hooked-form.module.js"
+  },
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
   "license": "MIT",
