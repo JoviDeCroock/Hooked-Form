@@ -1,7 +1,13 @@
 import * as React from 'react';
-import { act, cleanup, fireEvent, render, wait } from 'react-testing-library';
+import { act as nativeAct, cleanup, fireEvent, render, wait } from 'react-testing-library';
 
-import { Field, FieldArray, Form } from '../../src';
+import { Field, FieldArray, Form, useFormConnect } from '../../src';
+
+let act = nativeAct;
+if (!act) {
+  const { act: preactAct } = require('preact/test-utils');
+  act = preactAct;
+}
 
 const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
   <React.Fragment>
@@ -54,11 +60,15 @@ const makeForm = (formOptions?: object, props?: object) => {
     },
     onSubmit: () => null,
     ...formOptions,
-  })((formProps: any) => (injectedProps = formProps) && (
-    <React.Fragment>
+  })((formProps: any) => {
+    const formContext = useFormConnect();
+    injectedProps = { ...formProps, ...formContext };
+    return (
+      <React.Fragment>
       <FieldArray fieldId="friends" component={ArrayContainer} />
     </React.Fragment>
-  ));
+    )
+  });
   return {
     getProps: () => injectedProps,
     ...render(<TestForm {...props} />)
@@ -90,13 +100,15 @@ describe('FieldArray', () => {
     expect((firstFriendField as any).value).toEqual('K');
     expect((secondFriendField as any).value).toEqual('J');
     act(() => {
-      fireEvent.change(firstFriendField, { target: { value: 'A' } })
-    });
+      fireEvent.change(firstFriendField, { target: { value: 'A' } });
+    })
+
     expect((firstFriendField as any).value).toEqual('A');
-    await wait(() => {
-      const firstFriendFieldError = getByTestId('friends[0].name-error');
-      expect(firstFriendFieldError.textContent).toEqual('bad')
-    }, { timeout: 0 });
+    const firstFriendFieldError = getByTestId('friends[0].name-error');
+    // TODO: why is this needed in preact act.
+    setTimeout(() => {
+      expect(firstFriendFieldError.textContent).toEqual('bad');
+    }, 250);
   });
 
   it('Should add fields when asked to', async () => {

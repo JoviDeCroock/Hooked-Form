@@ -21,10 +21,8 @@ export interface FieldInformation {
 }
 
 export default function useFieldArray(fieldId: string): [FieldOperations, FieldInformation] {
-  if (process.env.NODE_ENV !== 'production') {
-    if (!fieldId || typeof fieldId !== 'string') {
-      throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.');
-    }
+  if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
+    throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.');
   }
   const { errors, initialValues, values, setFieldValue } = React.useContext(formContext);
   const error = React.useMemo(() => get(errors, fieldId), [errors]);
@@ -38,7 +36,7 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
       array.push(el);
     });
     return array;
-  },                            [value]);
+  }, [value]);
 
   const resetFieldValue = React.useCallback(() => {
     setFieldValue(fieldId, initialValue || reset(value));

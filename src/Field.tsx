@@ -14,10 +14,8 @@ export interface FieldProps {
 const FieldContainer: React.FC<FieldProps> = React.memo((
   { component, fieldId, innerRef, watchableProps, ...rest },
 ) => {
-  if (process.env.NODE_ENV !== 'production') {
-    if (!component) {
-      throw new Error('The Field needs a "component" property to  function correctly.');
-    }
+  if (process.env.NODE_ENV !== 'production' && !component) {
+    throw new Error('The Field needs a "component" property to  function correctly.');
   }
   const {
     0: { onChange, onBlur, onFocus, resetField: resetFieldValue },

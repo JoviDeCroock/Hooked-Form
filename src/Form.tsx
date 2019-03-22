@@ -33,7 +33,8 @@ const OptionsContainer = ({
   let initialTouched = deriveInitial(initialValues, false);
   let initialErrors = deriveInitial(initialValues, null);
   let hasInitialized = false;
-  return (Component: any) => React.memo((props: { [property: string]: any }) => {
+  let isDirty = false;
+  return (Component: any) => (props: { [property: string]: any }) => {
     if (mapPropsToValues && !hasInitialized) {
       initialValues = mapPropsToValues(props);
       initialTouched = deriveInitial(initialValues, false);
@@ -58,6 +59,7 @@ const OptionsContainer = ({
 
     // Provide a way to reset the full form to the initialValues.
     const resetForm = React.useCallback(() => {
+      isDirty = false;
       initialValues = mapPropsToValues ? mapPropsToValues(props) : initialValues;
       setValuesState(initialValues);
       setTouchedState(deriveInitial(initialValues, false));
@@ -99,17 +101,21 @@ const OptionsContainer = ({
     }, []);
     // The onChange we can use for our Fields,
     // should also be renewed context wise when our touched are altered.
-    const onChangeProp = React.useCallback((fieldId: string, value: any) =>
-      setFieldValue(fieldId, value), []);
+    const onChangeProp = React.useCallback((fieldId: string, value: any) => {
+      isDirty = true;
+      setFieldValue(fieldId, value);
+    }, []);
     return (
       <Provider
         value={{
           errors: formErrors as Errors,
           formError,
           initialValues,
+          isDirty,
           setFieldTouched,
           setFieldValue: onChangeProp,
           touched: touched as Touched,
+          validate: validateForm,
           values,
         }}
       >
@@ -117,16 +123,17 @@ const OptionsContainer = ({
           change={onChangeProp}
           formError={formError}
           handleSubmit={handleSubmitProp}
-          validate={validateForm}
+          validate={validateForm} // TODO: should deprecate in next release.
           isSubmitting={isSubmitting}
           resetForm={resetForm}
-          values={values}
-          touched={touched}
+          values={values}  // TODO: should deprecate in next release.
+          touched={touched} // TODO: should deprecate in next release.
+          isDirty={isDirty}
           {...props}
         />
       </Provider>
     );
-  });
+  };
 };
 
 export default OptionsContainer;

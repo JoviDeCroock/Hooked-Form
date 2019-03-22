@@ -8,10 +8,8 @@ export interface FieldProps {
 }
 
 const ErrorContainer: React.FC<FieldProps> = React.memo(({ component, fieldId, ...rest }) => {
-  if (process.env.NODE_ENV !== 'production') {
-    if (!component) {
-      throw new Error('The Field needs a "component" property to  function correctly.');
-    }
+  if (process.env.NODE_ENV !== 'production' && !component) {
+    throw new Error('The Field needs a "component" property to  function correctly.');
   }
   const error = useError(fieldId);
   return React.useMemo(() => React.createElement(component, { error, ...rest }), [error]);

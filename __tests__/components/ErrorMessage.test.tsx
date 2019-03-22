@@ -5,8 +5,8 @@ import { ErrorMessage, Form } from '../../src';
 
 let act = nativeAct;
 if (!act) {
-  act = (React as any).act;
-}
+  const { act: preactAct } = require('preact/test-utils');
+  act = preactAct
 
 const ErrorDisplay = ({ error }: { error: string }) => <p data-testid="error">{error}</p>;
 // @ts-ignore

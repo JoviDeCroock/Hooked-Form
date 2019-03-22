@@ -1,7 +1,13 @@
 import * as React from 'react';
-import { act, cleanup, render, wait } from 'react-testing-library';
+import { act as nativeAct, cleanup, render, wait } from 'react-testing-library';
 
-import { Form } from '../../src';
+import { Form, useFormConnect } from '../../src';
+
+let act = nativeAct;
+if (!act) {
+  const { act: preactAct } = require('preact/test-utils');
+  act = preactAct;
+}
 
 const Component = () => (<p>Hi</p>);
 
@@ -10,13 +16,18 @@ const makeForm = (formOptions?: object, props?: object) => {
   const TestForm = Form({
     onSubmit: () => null,
     ...formOptions,
-  })((formProps: any) => (injectedProps = formProps) && <Component {...formProps} />);
+  })((formProps: any) => {
+    const formContext = useFormConnect();
+    injectedProps = { ...formProps, ...formContext };
+    return (
+      <Component {...formProps} />
+    );
+  });
   return {
     getProps: () => injectedProps,
     ...render(<TestForm {...props} />)
   }
 }
-
 
 describe('Form', () => {
   afterEach(() => cleanup());
@@ -80,18 +91,23 @@ describe('Form', () => {
   });
 
   it('calls validate onChange', () => {
+    // TODO: act() of preact seems to not flush the initial effect triggered
+    // to validate.
     const validate = jest.fn();
     const { getProps } = makeForm({ validate, validateOnChange: true });
+    expect(getProps().isDirty).toBe(false);
     let { change } = getProps();
     act(() => {
       change('name', 'joviMutated')
-      expect(validate).toBeCalledTimes(1);
-    });
+    })
+    expect(getProps().isDirty).toBe(true);
+    expect(validate).toBeCalledTimes(2);
+
     ({ change } = getProps());
     act(() => {
       change('name', 'joviMutated')
-      expect(validate).toBeCalledTimes(2);
     });
+    expect(validate).toBeCalledTimes(3);
   });
 
   it('calls onSubmit when needed', async () => {

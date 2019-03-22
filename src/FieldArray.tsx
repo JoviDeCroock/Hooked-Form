@@ -11,12 +11,10 @@ export interface FieldProps {
 const FieldArrayContainer: React.FC<FieldProps> = React.memo((
   { component, render, fieldId, ...rest },
 ) => {
-  if (process.env.NODE_ENV !== 'production') {
-    if (!component && !render) {
-      throw new Error(
-        'The FieldArray needs a "component" or a "render" property to function correctly.',
-      );
-    }
+  if (process.env.NODE_ENV !== 'production' && !component && !render) {
+    throw new Error(
+      'The FieldArray needs a "component" or a "render" property to function correctly.',
+    );
   }
   const {
     0: {
