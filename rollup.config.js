@@ -34,25 +34,21 @@ const config = [
         only: ['tslib']
       }),
       typescriptPlugin({ typescript, tsconfig: './tsconfig.json', objectHashIgnoreUnknownHack: true }),
-      compiler({
-        debug: true,
-        formatting: 'PRETTY_PRINT',
-        compilation_level: 'BUNDLE',
+      compiler(),
+      terser({
+        sourcemap: true,
+        output: { comments: false },
+        compress: {
+          keep_infinity: true,
+          pure_getters: true,
+          passes: 10,
+          global_defs: { 'process.env.NODE_ENV': 'production' }
+        },
+        warnings: true,
+        ecma: 6,
+        toplevel: true,
+        mangle: { properties: '^_' },
       }),
-      // terser({
-      //   sourcemap: true,
-      //   output: { comments: false },
-      //   compress: {
-      //     keep_infinity: true,
-      //     pure_getters: true,
-      //     passes: 10,
-      //     global_defs: { 'process.env.NODE_ENV': 'production' }
-      //   },
-      //   warnings: true,
-      //   ecma: 6,
-      //   toplevel: true,
-      //   mangle: { properties: '^_' },
-      // }),
       filesize(),
     ],
    }
