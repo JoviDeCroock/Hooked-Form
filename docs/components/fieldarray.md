@@ -56,7 +56,7 @@ const Friends = ({ removeElement, values, addElement }) => (
   </React.Fragment>
 )
 
-const FormContainer = ({ handleSubmit }) => (
+const FormComponent = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <FieldArray
       component={Friends}
@@ -68,5 +68,5 @@ const FormContainer = ({ handleSubmit }) => (
 
 export default Form({
   onSubmit: (values) => console.log(values),
-})(FormContainer);
+})(FormComponent);
 ```

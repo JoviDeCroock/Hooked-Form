@@ -34,7 +34,7 @@ Form is used to wrap your component, you can pass options in and that will resul
 import React from 'react';
 import { Form } from 'hooked-form';
 
-const FormContainer = ({ handleSubmit }) => (
+const FormComponent = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit} />
 );
 
@@ -47,5 +47,5 @@ export default Form({
     }
     return errors;
   }
-})(FormContainer);
+})(FormComponent);
 ```

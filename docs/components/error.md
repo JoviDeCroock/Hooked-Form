@@ -23,7 +23,7 @@ import { ErrorMessage, Form } from 'hooked-form';
 
 const ErrorContainer = ({ error }) => <p>{error}</p>
 
-const FormContainer = ({ handleSubmit }) => (
+const FormComponent = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <ErrorMessage fieldId="name" component={ErrorContainer} />
   </form>
@@ -38,6 +38,6 @@ export default Form({
     }
     return errors;
   }
-})(FormContainer);
+})(FormComponent);
 ```
 
