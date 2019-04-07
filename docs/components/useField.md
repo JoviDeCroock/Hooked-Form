@@ -4,7 +4,7 @@ title: UseField
 sidebar_label: UseField
 ---
 
-We export an experimental hook that provides you with the building blocks to construct your own custom components.
+We export a hook that provides you with the building blocks to construct your own custom components.
 
 This accepts one parameter and that's a `fieldId`, analogue to the `Field` component.
 
