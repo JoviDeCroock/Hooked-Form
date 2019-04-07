@@ -49,15 +49,20 @@ default to <code>['className', 'disabled']</code>.</li>
 <pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> { Form, Field } <span class="hljs-keyword">from</span> <span class="hljs-string">'hooked-form'</span>;
 
-<span class="hljs-keyword">const</span> StringField = <span class="hljs-function">(<span class="hljs-params">{ myOwnCustomProp, onChange, onBlur, error, value }</span>) =&gt;</span> (
-  &lt;React.Fragment&gt;
-    &lt;p&gt;{myOwnCustomProp}&lt;/p&gt;
-    &lt;input onchange={(e) =&gt; onChange(e.currentTarget.value)} onBlur={onBlur} value={value} /&gt;
-    &lt;p&gt;{error}&lt;/p&gt;
-  &lt;/React.Fragment&gt;
-);
+<span class="hljs-keyword">const</span> StringField = <span class="hljs-function">(<span class="hljs-params">{ myOwnCustomProp, onChange, onBlur, error, value }</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> onInput = React.useCallback(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> { <span class="hljs-comment">// Wrapping this in a useCallback prevents unneeded rerenders</span>
+    onChange(e.currentTarget.value)
+  }, [onChange]);
+  <span class="hljs-keyword">return</span> (
+    &lt;React.Fragment&gt;
+      &lt;p&gt;{myOwnCustomProp}&lt;/p&gt;
+      &lt;input onchange={onInput} onBlur={onBlur} value={value} /&gt;
+      &lt;p&gt;{error}&lt;/p&gt;
+    &lt;/React.Fragment&gt;
+  )
+}
 
-const FormContainer = ({ handleSubmit }) =&gt; (
+const FormComponent = ({ handleSubmit }) =&gt; (
   &lt;form onSubmit={handleSubmit}&gt;
     &lt;Field
       component={StringField}
@@ -68,14 +73,14 @@ const FormContainer = ({ handleSubmit }) =&gt; (
 );
 
 export default Form({
-  onSubmit: (values) =&gt; console.log(values),
-  validate: (values, touched) =&gt; {
+  onSubmit: console.log,
+  validate: (values) =&gt; {
     const errors = {};
-    if (touched.name &amp;&amp; values.name.length &lt; 3) {
+    if (values.name &amp;&amp; values.name.length &lt; 3) {
       errors.name = 'Too short';
     }
     return errors;
   }
-})(FormContainer);
+})(FormComponent);
 </code></pre>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/hooked-form/docs/components/form"><span class="arrow-prev">← </span><span>Form</span></a><a class="docs-next button" href="/hooked-form/docs/components/error"><span>Error</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#input-properties">Input properties</a></li><li><a href="#injected-properties">Injected properties</a></li><li><a href="#example">Example</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>Docs</h5><a href="/hooked-form/docs/en/components/form">API</a></div><div><h5>Community</h5><a href="https://twitter.com/JoviDeC" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/JoviDeCroock/hooked-form">GitHub</a><a class="github-button" href="https://github.com/JoviDeCroock/hooked-form" data-icon="octicon-star" data-count-href="/JoviDeCroock/hooked-form/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 Jovi De Croock</section></footer></div></body></html>
