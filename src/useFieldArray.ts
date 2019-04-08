@@ -24,12 +24,13 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
   if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
     throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.');
   }
+
   const { errors, initialValues, values, setFieldValue } = React.useContext(formContext);
   const error = React.useMemo(() => get(errors, fieldId), [errors]);
   const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues]);
   const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values]);
 
-  value.map = React.useCallback((callback) => {
+  value.map = React.useCallback((callback) => { // TODO: change this to only happen on proto.map
     const array: Array<any> = [];
     value.forEach((element: any, i: number) => {
       const el = callback(element, `${fieldId}[${i}]`, i);
@@ -38,6 +39,7 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
     return array;
   }, [value]);
 
+  // TODO: Rename these.
   const resetFieldValue = React.useCallback(() => {
     setFieldValue(fieldId, initialValue || reset(value));
   }, [initialValue]);
