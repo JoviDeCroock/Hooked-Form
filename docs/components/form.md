@@ -23,10 +23,10 @@ Form is used to wrap your component, you can pass options in and that will resul
 
 - formError `string` - A formErorr that can be set in the `onSubmit` or `onError` function.
 - handleSubmit `() => void` - You can pass this to your Form or use it in a function.
-- validate `() => void` - When you want to manually validate all fields.
 - isSubmitting: `boolean` - A value indicating whether or not our form is in the process of submitting.
 - resetForm `() => void` - A function to return to our initialValues.
 - change: `(fieldId: string, value: any) => void` - A function used to manually change a fields value.
+- isDirty: `boolean` - Whether the field is dirty or not.
 
 ## Example
 
@@ -39,10 +39,13 @@ const FormComponent = ({ handleSubmit }) => (
 );
 
 export default Form({
-  onSubmit: (values) => console.log(values),
-  validate: (values, touched) => {
+  onSubmit: console.log(values),
+  validate: (values) => {
     const errors = {};
-    if (touched.name && values.name.length < 3) {
+    if (!values.name) {
+      errors.name = 'Required';
+    }
+    else if (values.name.length < 3) {
       errors.name = 'Too short';
     }
     return errors;
