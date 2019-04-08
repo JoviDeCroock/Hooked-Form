@@ -123,11 +123,8 @@ const OptionsContainer = ({
           change={onChangeProp}
           formError={formError}
           handleSubmit={handleSubmitProp}
-          validate={validateForm} // TODO: should deprecate in next release.
           isSubmitting={isSubmitting}
           resetForm={resetForm}
-          values={values}  // TODO: should deprecate in next release.
-          touched={touched} // TODO: should deprecate in next release.
           isDirty={isDirty}
           {...props}
         />
