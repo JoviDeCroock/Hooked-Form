@@ -16,7 +16,7 @@ First object:
 - onChange: when passed a value it will change the value of this field
 - onFocus: used to untouch the field
 - setFieldValue: accepts a fieldId and a value, so you can change other fields as a reaction to this one
-- resetField: resets the field to its initial value
+- reset: resets the field to its initial value
 
 Second object:
 
