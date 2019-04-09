@@ -18,7 +18,7 @@ const FieldContainer: React.FC<FieldProps> = React.memo((
     throw new Error('The Field needs a "component" property to  function correctly.');
   }
   const {
-    0: { onChange, onBlur, onFocus, resetField: resetFieldValue },
+    0: { onChange, onBlur, onFocus, reset },
     1: { error, touched: isFieldTouched, value },
   } = useField(fieldId);
   const props = {
@@ -27,7 +27,7 @@ const FieldContainer: React.FC<FieldProps> = React.memo((
     onChange,
     onFocus,
     ref: innerRef,
-    reset: resetFieldValue,
+    reset,
     touched: isFieldTouched,
     value: value || '',
     ...rest,
