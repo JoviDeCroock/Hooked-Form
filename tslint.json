@@ -7,7 +7,8 @@
     "object-shorthand-properties-first": false,
     "prefer-array-literal": false,
     "jsx-no-multiline-js": false,
-    "variable-name": false
+    "variable-name": false,
+    "import-name": false
   },
   "linterOptions": {
     "exclude": [
