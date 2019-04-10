@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { formContext } from './helpers/context';
 import { get } from './helpers/operations';
-import reset from './helpers/reset';
+import baseReset from './helpers/reset';
 
 export interface FieldOperations {
   onBlur: () => void;
   onChange: (value: any) => void;
   onFocus: () => void;
   setFieldValue: (fieldId: string, value: any) => void;
-  resetField: () => void;
+  reset: () => void;
 }
 
 export interface FieldInformation {
@@ -37,15 +37,15 @@ export default function useField(fieldId: string): [FieldOperations, FieldInform
   const value = React.useMemo(() => get(values, fieldId), [values]);
   const isFieldTouched = React.useMemo(() => get(touched, fieldId), [touched]);
   // Methods
-  const resetFieldValue = React.useCallback(() => {
-    setFieldValue(fieldId, initialValue || reset(value));
+  const reset = React.useCallback(() => {
+    setFieldValue(fieldId, initialValue || baseReset(value));
     setFieldTouched(fieldId, false);
-  },                                        []);
+  }, []);
   const onChange = React.useCallback((val: any) => setFieldValue(fieldId, val), []);
   const onBlur = React.useCallback(() => setFieldTouched(fieldId, true), []);
   const onFocus = React.useCallback(() => setFieldTouched(fieldId, false), []);
   return [
-    { onChange, onBlur, onFocus, resetField: resetFieldValue, setFieldValue },
+    { onChange, onBlur, onFocus, reset, setFieldValue },
     { error, touched: isFieldTouched, value },
   ];
 }
