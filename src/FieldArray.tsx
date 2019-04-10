@@ -18,22 +18,22 @@ const FieldArrayContainer: React.FC<FieldProps> = React.memo((
   }
   const {
     0: {
-      addElement, insertElement, moveElement, removeElement,
-      replaceElement, resetField, swapElement,
+      add, insert, move, remove,
+      replace, reset, swap,
     },
     1: { value, error },
   } = useFieldArray(fieldId);
   const props = {
-    addElement, // TODO: rename to add
+    add,
     error,
     fieldId,
-    insertElement, // TODO: rename to insert
-    moveElement, // TODO: rename to move
-    removeElement, // TODO: rename to remove
-    replaceElement, // TODO: rename to replace
-    reset: resetField,
-    swapElement, // TODO: rename to swap
-    values: value, // TODO: rename to value
+    insert,
+    move,
+    remove,
+    replace,
+    reset,
+    swap,
+    value,
     ...rest,
   };
 
