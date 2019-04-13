@@ -21,6 +21,7 @@ const FieldContainer: React.FC<FieldProps> = React.memo((
     0: { onChange, onBlur, onFocus, reset },
     1: { error, touched: isFieldTouched, value },
   } = useField(fieldId);
+  // TODO: consider allocating in createElement.
   const props = {
     error,
     onBlur,

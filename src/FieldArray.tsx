@@ -23,6 +23,7 @@ const FieldArrayContainer: React.FC<FieldProps> = React.memo((
     },
     1: { value, error },
   } = useFieldArray(fieldId);
+
   const props = {
     add,
     error,
