@@ -46,6 +46,8 @@ _prod_:
 <script src="https://unpkg.com/hooked-form@latest/dist/prod/hooked-form.umd.js"></script>
 ```
 
+## Example
+
 ## Modern build
 
 This library offers a modern build (ES2015 output), this is smaller and parses faster in the browser.
@@ -68,6 +70,13 @@ So if you don't plan to target older browsers feel free to use this.
     "hooked-form": "hooked-form/dist/hooked-form.modern.js"
   }
 ```
+
+## FAQ
+
+- When initially submitting my form shows no errors?
+  
+  onSubmit your values get traversed however if the application doesn't know what your values are
+  it can't set anything as touched. This can be solved with passing `mapPropsToValues` or `initialValues`.
 
 ## Credits
 
