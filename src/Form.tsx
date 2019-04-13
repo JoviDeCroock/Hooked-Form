@@ -34,7 +34,7 @@ const OptionsContainer = ({
   let initialErrors = deriveInitial(initialValues, null);
   let hasInitialized = false;
   let isDirty = false;
-  return (Component: any) => (props: { [property: string]: any }) => {
+  return (Component: any) => function FormWrapper(props: { [property: string]: any }) {
     if (mapPropsToValues && !hasInitialized) {
       initialValues = mapPropsToValues(props);
       initialTouched = deriveInitial(initialValues, false);
@@ -52,7 +52,7 @@ const OptionsContainer = ({
       if (validate) {
         const validationErrors = validate(values);
         setErrorState({ ...validationErrors });
-        return validationErrors;
+        return validationErrors || {};
       }
       return {};
     }, [values]);
@@ -69,10 +69,10 @@ const OptionsContainer = ({
     const handleSubmit = React.useCallback(async (event?: React.FormEvent<HTMLFormElement>) => {
       if (event && event.preventDefault) { event.preventDefault(); }
       const submit = onSubmit || props.onSubmit;
-      const allTouched = deriveInitial(values, true);
-      setTouchedState(allTouched);
+      setTouchedState(deriveInitial(values, true));
       const errors = validateForm();
-      if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) { return; }
+      setTouchedState(deriveInitial(errors, true));
+      if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) return;
       setSubmitting(() => true);
       new Promise(resolve => resolve(submit(values, props, setFormError)))
         .then((result: any) => {
