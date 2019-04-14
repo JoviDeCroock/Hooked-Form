@@ -12,11 +12,11 @@
 
 - lose `Element` postfix on operations
 - values -> value
-- resetField -> reset
+- resetField got depreacated
 
 ### Field + useField
 
-- resetField -> reset
+- resetField got deprecated
 
 ## 1.6.0
 
