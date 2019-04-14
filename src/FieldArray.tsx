@@ -19,7 +19,7 @@ const FieldArrayContainer: React.FC<FieldProps> = React.memo((
   const {
     0: {
       add, insert, move, remove,
-      replace, reset, swap,
+      replace, swap,
     },
     1: { value, error },
   } = useFieldArray(fieldId);
@@ -32,7 +32,6 @@ const FieldArrayContainer: React.FC<FieldProps> = React.memo((
     move,
     remove,
     replace,
-    reset,
     swap,
     value,
     ...rest,
@@ -40,7 +39,7 @@ const FieldArrayContainer: React.FC<FieldProps> = React.memo((
 
   return component ?
     React.useMemo(() => React.createElement(component, props), [value, error])
-    : render && React.useMemo(() => render(props), [value, error]);
+    : React.useMemo(() => render!(props), [value, error]);
 }, () => true);
 
 export default FieldArrayContainer;
