@@ -69,7 +69,6 @@ const OptionsContainer = ({
     const handleSubmit = React.useCallback(async (event?: React.FormEvent<HTMLFormElement>) => {
       if (event && event.preventDefault) { event.preventDefault(); }
       const submit = onSubmit || props.onSubmit;
-      setTouchedState(deriveInitial(values, true));
       const errors = validateForm();
       setTouchedState(deriveInitial(errors, true));
       if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) return;
