@@ -11,8 +11,8 @@ if (!act) {
 }
 
 const StringField = (
-  { touched, error, onChange, onBlur, value, id, reset }:
-  { reset: () => void, touched: boolean, id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
+  { touched, error, onChange, onBlur, value, id }:
+  { touched: boolean, id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
   <React.Fragment>
     <input
       data-testid={id}
@@ -22,7 +22,6 @@ const StringField = (
     />
     <p data-testid={`${id}-error`}>{error}</p>
     <p data-testid={`${id}-touched`}>{touched ? 'touched' : 'untouched'}</p>
-    <button data-testid={`${id}-reset`} onClick={reset}>Reset</button>
   </React.Fragment>
 )
 
@@ -79,37 +78,6 @@ describe('Field', () => {
       });
       nameErrorField = getByTestId('name-error');
       expect(nameErrorField.textContent).toEqual('');
-    }, 0);
-  });
-
-  it('should reset the value', async () => {
-    const { getProps, getByTestId } = makeForm({
-      validate: (values: { [fieldId: string]: any }) => {
-        return {
-          age: values.age && values.age > 2 ? undefined : 'bad',
-          name: values.name && values.name.length > 2 ? undefined : 'bad',
-        }
-      },
-      validateOnBlur: true,
-      validateOnChange: true,
-    });
-    let touchedField = getByTestId('name-touched');
-    const nameField = getByTestId('name');
-    act(() => {
-      fireEvent.change(nameField, {target: {value: 'upper'}})
-      fireEvent.blur(nameField)
-    });
-    expect((touchedField as any).textContent).toEqual('touched');
-    expect((nameField as any).value).toEqual('upper');
-    const resetButton = getByTestId('name-reset');
-    act(() => {
-      fireEvent.click(resetButton)
-    });
-    touchedField = getByTestId('name-touched');
-    expect((touchedField as any).textContent).toEqual('untouched');
-    // TODO: why is this needed in preact act.
-    setTimeout(() => {
-      expect((nameField as any).value).toEqual('');
     }, 0);
   });
 

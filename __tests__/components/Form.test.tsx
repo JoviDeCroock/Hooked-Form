@@ -91,8 +91,6 @@ describe('Form', () => {
   });
 
   it('calls validate onChange', () => {
-    // TODO: act() of preact seems to not flush the initial effect triggered
-    // to validate.
     const validate = jest.fn();
     const { getProps } = makeForm({ validate, validateOnChange: true });
     expect(getProps().isDirty).toBe(false);
@@ -108,6 +106,18 @@ describe('Form', () => {
       change('name', 'joviMutated')
     });
     expect(validate).toBeCalledTimes(3);
+  });
+
+  it('makes error onSubmit', async () => {
+    const onSubmit = jest.fn();
+    const { getProps } = makeForm({ onSubmit, validate: (values: any) => ({ name: !values.name ? 'required' : undefined }) });
+    let { handleSubmit } = getProps();
+    const { change } = getProps();
+    act(() => { handleSubmit() });
+    const { errors, touched } = getProps();
+    expect(onSubmit).not.toBeCalled();
+    expect(errors.name).toBe('required');
+    expect(touched.name).toBeTruthy();
   });
 
   it('calls onSubmit when needed', async () => {
