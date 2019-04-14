@@ -9,7 +9,6 @@ import {
 } from './helpers/arrays';
 import { formContext } from './helpers/context';
 import { get } from './helpers/operations';
-import baseReset from './helpers/reset';
 
 export interface FieldOperations {
   add: (item: any) => void;
@@ -18,7 +17,6 @@ export interface FieldOperations {
   setFieldValue: (fieldId: string, value: any) => void;
   remove: (toDelete: object | number) => void;
   replace: (at: number, element: object) => void;
-  reset: () => void;
   swap: (first: number, second: number) => void;
 }
 
@@ -33,7 +31,6 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
   }
 
   const { errors, initialValues, values, setFieldValue } = React.useContext(formContext);
-  const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues]);
   const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values]);
 
   value.map = React.useCallback((callback) => { // TODO: change this to only happen on proto.map
@@ -57,8 +54,6 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
         setFieldValue(fieldId, aRemove(value, toDelete)), [value]),
       replace: React.useCallback((at: number, element: object) =>
         setFieldValue(fieldId, aReplace(value, at, element)), [value]),
-      reset: React.useCallback(() =>
-        setFieldValue(fieldId, initialValue || baseReset(value)), [initialValue]),
       setFieldValue,
       swap: React.useCallback((first: number, second: number) =>
         setFieldValue(fieldId, aSwap(value, first, second)), [value]),
