@@ -11,6 +11,5 @@ export default function useError(fieldId: string): string | null {
     throw new Error('The Error needs a valid "fieldId" property to  function correctly.');
   }
   const { errors } = React.useContext(formContext);
-  const error = React.useMemo(() => get(errors, fieldId), [errors]);
-  return error;
+  return React.useMemo(() => get(errors, fieldId), [errors]);
 }

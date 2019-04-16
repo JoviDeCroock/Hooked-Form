@@ -34,7 +34,7 @@ const OptionsContainer = ({
   let initialErrors = deriveInitial(initialValues, null);
   let hasInitialized = false;
   let isDirty = false;
-  return (Component: any) => (props: { [property: string]: any }) => {
+  return (Component: any) => function FormWrapper(props: { [property: string]: any }) {
     if (mapPropsToValues && !hasInitialized) {
       initialValues = mapPropsToValues(props);
       initialTouched = deriveInitial(initialValues, false);
@@ -52,7 +52,7 @@ const OptionsContainer = ({
       if (validate) {
         const validationErrors = validate(values);
         setErrorState({ ...validationErrors });
-        return validationErrors;
+        return validationErrors || {};
       }
       return {};
     }, [values]);
@@ -69,10 +69,9 @@ const OptionsContainer = ({
     const handleSubmit = React.useCallback(async (event?: React.FormEvent<HTMLFormElement>) => {
       if (event && event.preventDefault) { event.preventDefault(); }
       const submit = onSubmit || props.onSubmit;
-      const allTouched = deriveInitial(values, true);
-      setTouchedState(allTouched);
       const errors = validateForm();
-      if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) { return; }
+      setTouchedState(deriveInitial(errors, true));
+      if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) return;
       setSubmitting(() => true);
       new Promise(resolve => resolve(submit(values, props, setFormError)))
         .then((result: any) => {
@@ -87,24 +86,29 @@ const OptionsContainer = ({
 
     // Make our listener for the reinitialization when need be.
     if (enableReinitialize) { React.useEffect(() => resetForm(), [initialValues, props]); }
+
     // Run validations when needed.
     React.useEffect(() => {
       validateForm();
     }, [validateOnBlur && touched, validateOnChange && values]);
+
     // The submit for our form.
     const handleSubmitProp = React.useCallback((event?: any) =>
       handleSubmit(event), [handleSubmit]);
+
     // The onBlur we can use for our Fields,
     // should also be renewed context wise when our values are altered.
     const setFieldTouched = React.useCallback((fieldId: string, value?: boolean) => {
       touch(fieldId, value === undefined ? true : value);
     }, []);
+
     // The onChange we can use for our Fields,
     // should also be renewed context wise when our touched are altered.
-    const onChangeProp = React.useCallback((fieldId: string, value: any) => {
+    const onChange = React.useCallback((fieldId: string, value: any) => {
       isDirty = true;
       setFieldValue(fieldId, value);
     }, []);
+
     return (
       <Provider
         value={{
@@ -113,21 +117,18 @@ const OptionsContainer = ({
           initialValues,
           isDirty,
           setFieldTouched,
-          setFieldValue: onChangeProp,
+          setFieldValue: onChange,
           touched: touched as Touched,
           validate: validateForm,
           values,
         }}
       >
         <Component
-          change={onChangeProp}
+          change={onChange}
           formError={formError}
           handleSubmit={handleSubmitProp}
-          validate={validateForm} // TODO: should deprecate in next release.
           isSubmitting={isSubmitting}
           resetForm={resetForm}
-          values={values}  // TODO: should deprecate in next release.
-          touched={touched} // TODO: should deprecate in next release.
           isDirty={isDirty}
           {...props}
         />

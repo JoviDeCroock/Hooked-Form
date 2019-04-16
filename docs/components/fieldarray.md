@@ -14,16 +14,16 @@ The FieldArray component is used to inject the values of a certain field into th
 
 ## Injected properties
 
-- addElement: `(element = {}) => void` - A function to add an element to the back of your array.
+- add: `(element = {}) => void` - A function to add an element to the back of your array.
 - error: `string` - If this fieldArray has an error this will be passed.
 - fieldId: `string` - The passed fieldId so it's available in your function.
-- insertElement: `(at: number, element: object) => void` - Inserts given object at that spot.
-- moveElement: `(from: number, to: number) => void` - Moves from given location to the other location.
-- removeElement: `(toDelete: number | object) => void` - The function to remove an element form your array, it accepts an element or an index.
-- replaceElement: `(at: number, element: object) => void` - Replaces the object at the index with given new element.
+- insert: `(at: number, element: object) => void` - Inserts given object at that spot.
+- move: `(from: number, to: number) => void` - Moves from given location to the other location.
+- remove: `(toDelete: number | object) => void` - The function to remove an element form your array, it accepts an element or an index.
+- replace: `(at: number, element: object) => void` - Replaces the object at the index with given new element.
 - reset: `() => void` - Will reset this one field to its initialValue or an empty array.
-- swapElement: `(from: number, to: number) => void` - will swap the two objects on the indexes from place.
-- values: `[any]` - The current value of the field.
+- swap: `(from: number, to: number) => void` - will swap the two objects on the indexes from place.
+- value: `[any]` - The current value of the field.
 
 ## map
 
@@ -43,20 +43,20 @@ const StringField = ({ myOwnCustomProp = 'label', onChange, onBlur, error, value
   </React.Fragment>
 );
 
-const Friends = ({ removeElement, values, addElement }) => (
+const Friends = ({ removeE, value, add }) => (
   <React.Fragment>
-    {values.map((element, fieldId, i) => (
+    {value.map((element, fieldId, i) => (
       <Field
         component={StringField}
         fieldId={`${fieldId}.name`}
       />
-      <button onClick={removeElement.bind(this, i)}>Remove</button>
+      <button onClick={remove.bind(this, i)}>Remove</button>
     ))}
-    <button onClick={() => addElement()}>Add</button>
+    <button onClick={() => add()}>Add</button>
   </React.Fragment>
 )
 
-const FormContainer = ({ handleSubmit }) => (
+const FormComponent = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <FieldArray
       component={Friends}
@@ -67,6 +67,6 @@ const FormContainer = ({ handleSubmit }) => (
 );
 
 export default Form({
-  onSubmit: (values) => console.log(values),
-})(FormContainer);
+  onSubmit: console.log,
+})(FormComponent);
 ```

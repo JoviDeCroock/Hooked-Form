@@ -1,7 +1,11 @@
 import * as React from 'react';
 
-import { areEqualMemoizedField } from './helpers/areEqual';
 import useField from './useField';
+
+interface Props {
+  watchAbleProps?: Array<string>;
+  [fieldId: string]: any;
+}
 
 export interface FieldProps {
   component: any;
@@ -11,6 +15,8 @@ export interface FieldProps {
   [x: string]: any;
 }
 
+const defWatch = ['disabled', 'className'];
+
 const FieldContainer: React.FC<FieldProps> = React.memo((
   { component, fieldId, innerRef, watchableProps, ...rest },
 ) => {
@@ -18,28 +24,29 @@ const FieldContainer: React.FC<FieldProps> = React.memo((
     throw new Error('The Field needs a "component" property to  function correctly.');
   }
   const {
-    0: { onChange, onBlur, onFocus, resetField: resetFieldValue },
+    0: { onChange, onBlur, onFocus },
     1: { error, touched: isFieldTouched, value },
   } = useField(fieldId);
-  const props = {
-    error,
-    onBlur,
-    onChange,
-    onFocus,
-    ref: innerRef,
-    reset: resetFieldValue,
-    touched: isFieldTouched,
-    value: value || '',
-    ...rest,
-  };
-
   return React.useMemo(
-    () => React.createElement(component, props),
+    () => React.createElement(component, {
+      error,
+      onBlur,
+      onChange,
+      onFocus,
+      ref: innerRef,
+      touched: isFieldTouched,
+      value: value || '',
+      ...rest,
+    }),
     [
       value, error, isFieldTouched,
-      ...((watchableProps || ['disabled', 'className']).map((key: string) => rest[key])),
+      ...((watchableProps || defWatch).map((key: string) => rest[key])),
     ],
   );
-}, areEqualMemoizedField);
+}, (
+  { watchableProps: prevWatchable, ...prev }: Props,
+  { watchAbleProps: nextWatchable, ...next }: Props,
+) => (nextWatchable || defWatch).every(
+  (prop: string) => prev[prop] === next[prop]));
 
 export default FieldContainer;

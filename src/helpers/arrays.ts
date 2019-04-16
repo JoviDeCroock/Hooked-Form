@@ -28,9 +28,9 @@ export function add(input: Array<any>, element: object): Array<any> {
   return [...(input || []), element];
 }
 
-export function remove(input: Array<any>, toDelete: object | number): Array<any> {
-  if (typeof toDelete === 'number') {
-    return (input || []).filter(x => x !== input[toDelete]);
+export function remove(input: Array<any>, element: object | number): Array<any> {
+  if (typeof element === 'number') {
+    return (input || []).filter(x => x !== input[element]);
   }
-  return (input || []).filter(x => x !== toDelete);
+  return (input || []).filter(x => x !== element);
 }

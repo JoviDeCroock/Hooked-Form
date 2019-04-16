@@ -1,9 +1,22 @@
 # Releases
 
-## vNext
+## 2.0.0
 
-- deprecate values, touched and validateForm to be passed to formwrapper (limit rerenders)
 - preact x support with tests (on official release)
+
+### Form
+
+- don't pass validate values and touched to the Component, if needed they can be retrived through useFormConnect.
+
+### FieldArray + useFieldArray
+
+- lose `Element` postfix on operations
+- values -> value
+- resetField got depreacated
+
+### Field + useField
+
+- resetField got deprecated
 
 ## 1.6.0
 

@@ -1,18 +1,23 @@
 import * as React from 'react';
-import { add, insert, move, remove, replace, swap } from './helpers/arrays';
+import {
+  add as aAdd,
+  insert as aInsert,
+  move as aMove,
+  remove as aRemove,
+  replace as aReplace,
+  swap as aSwap,
+} from './helpers/arrays';
 import { formContext } from './helpers/context';
 import { get } from './helpers/operations';
-import reset from './helpers/reset';
 
 export interface FieldOperations {
-  addElement: (item: any) => void;
-  insertElement: (at: number, element: object) => void;
-  moveElement: (from: number, to: number) => void;
+  add: (item: any) => void;
+  insert: (at: number, element: object) => void;
+  move: (from: number, to: number) => void;
   setFieldValue: (fieldId: string, value: any) => void;
-  removeElement: (toDelete: object | number) => void;
-  replaceElement: (at: number, element: object) => void;
-  resetField: () => void;
-  swapElement: (first: number, second: number) => void;
+  remove: (toDelete: object | number) => void;
+  replace: (at: number, element: object) => void;
+  swap: (first: number, second: number) => void;
 }
 
 export interface FieldInformation {
@@ -24,12 +29,11 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
   if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
     throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.');
   }
+
   const { errors, initialValues, values, setFieldValue } = React.useContext(formContext);
-  const error = React.useMemo(() => get(errors, fieldId), [errors]);
-  const initialValue = React.useMemo(() => get(initialValues, fieldId), [initialValues]);
   const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values]);
 
-  value.map = React.useCallback((callback) => {
+  value.map = React.useCallback((callback) => { // TODO: change this to only happen on proto.map
     const array: Array<any> = [];
     value.forEach((element: any, i: number) => {
       const el = callback(element, `${fieldId}[${i}]`, i);
@@ -38,34 +42,25 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
     return array;
   }, [value]);
 
-  const resetFieldValue = React.useCallback(() => {
-    setFieldValue(fieldId, initialValue || reset(value));
-  }, [initialValue]);
-  const addElement = React.useCallback((element: any) => {
-    setFieldValue(fieldId, add(value, element));
-  }, [value]);
-  const swapElement = React.useCallback((first: number, second: number) => {
-    setFieldValue(fieldId, swap(value, first, second));
-  }, [value]);
-  const insertElement = React.useCallback((at: number, element: object) => {
-    setFieldValue(fieldId, insert(value, at, element));
-  }, [value]);
-  const moveElement = React.useCallback((from: number, to: number) => {
-    setFieldValue(fieldId, move(value, from, to));
-  }, [value]);
-  const removeElement = React.useCallback((toDelete: object | number) => {
-    setFieldValue(fieldId, remove(value, toDelete));
-  }, [value]);
-  const replaceElement = React.useCallback((at: number, element: object) => {
-    setFieldValue(fieldId, replace(value, at, element));
-  }, [value]);
-
   return [
     {
-      addElement, insertElement, moveElement,
-      removeElement, replaceElement, resetField: resetFieldValue,
-      setFieldValue, swapElement,
+      add: React.useCallback((element: any) =>
+        setFieldValue(fieldId, aAdd(value, element)), [value]),
+      insert: React.useCallback((at: number, element: object) =>
+        setFieldValue(fieldId, aInsert(value, at, element)), [value]),
+      move: React.useCallback((from: number, to: number) =>
+        setFieldValue(fieldId, aMove(value, from, to)), [value]),
+      remove: React.useCallback((toDelete: object | number) =>
+        setFieldValue(fieldId, aRemove(value, toDelete)), [value]),
+      replace: React.useCallback((at: number, element: object) =>
+        setFieldValue(fieldId, aReplace(value, at, element)), [value]),
+      setFieldValue,
+      swap: React.useCallback((first: number, second: number) =>
+        setFieldValue(fieldId, aSwap(value, first, second)), [value]),
     },
-    { error, value },
+    {
+      error: React.useMemo(() => get(errors, fieldId), [errors]),
+      value,
+    },
   ];
 }

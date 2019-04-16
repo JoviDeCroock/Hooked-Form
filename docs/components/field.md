@@ -29,15 +29,20 @@ The Field component is used to inject the values of a certain field into the pas
 import React from 'react';
 import { Form, Field } from 'hooked-form';
 
-const StringField = ({ myOwnCustomProp, onChange, onBlur, error, value }) => (
-  <React.Fragment>
-    <p>{myOwnCustomProp}</p>
-    <input onchange={(e) => onChange(e.currentTarget.value)} onBlur={onBlur} value={value} />
-    <p>{error}</p>
-  </React.Fragment>
-);
+const StringField = ({ myOwnCustomProp, onChange, onBlur, error, value }) => {
+  const onInput = React.useCallback((e) => { // Wrapping this in a useCallback prevents unneeded rerenders
+    onChange(e.currentTarget.value)
+  }, [onChange]);
+  return (
+    <React.Fragment>
+      <p>{myOwnCustomProp}</p>
+      <input onchange={onInput} onBlur={onBlur} value={value} />
+      <p>{error}</p>
+    </React.Fragment>
+  )
+}
 
-const FormContainer = ({ handleSubmit }) => (
+const FormComponent = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
     <Field
       component={StringField}
@@ -48,13 +53,13 @@ const FormContainer = ({ handleSubmit }) => (
 );
 
 export default Form({
-  onSubmit: (values) => console.log(values),
-  validate: (values, touched) => {
+  onSubmit: console.log,
+  validate: (values) => {
     const errors = {};
-    if (touched.name && values.name.length < 3) {
+    if (values.name && values.name.length < 3) {
       errors.name = 'Too short';
     }
     return errors;
   }
-})(FormContainer);
+})(FormComponent);
 ```

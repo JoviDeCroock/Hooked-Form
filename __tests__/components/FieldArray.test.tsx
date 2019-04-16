@@ -23,27 +23,27 @@ const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error
 
 const Component = ({ fieldId }: { fieldId: string }) => (<Field fieldId={fieldId} component={StringField} id={fieldId} />);
 
-const ArrayContainer = ({ addElement, values, removeElement, swapElement, insertElement, moveElement }:
+const ArrayContainer = ({ add, value, remove, swap, insert, move }:
   {
-    addElement: (input: object) => void,
-    values: any,
-    removeElement: (input: object | number) => void,
-    swapElement: (from: number, to: number) => void,
-    insertElement: (at: number, input: object) => void,
-    moveElement: (from: number, to: number) => void,
+    add: (input: object) => void,
+    value: any,
+    remove: (input: object | number) => void,
+    swap: (from: number, to: number) => void,
+    insert: (at: number, input: object) => void,
+    move: (from: number, to: number) => void,
   }) => {
   return (
     <React.Fragment>
-      {values.map((value: object, fieldId: string, i: number) => (
+      {value.map((val: object, fieldId: string, i: number) => (
         <React.Fragment key={fieldId}>
           <Component key={fieldId} fieldId={`${fieldId}.name`} />
-          <button data-testid={`remove-element-${i}`} onClick={() => removeElement(value)}>Delete</button>
+          <button data-testid={`remove-element-${i}`} onClick={() => remove(val)}>Delete</button>
         </React.Fragment>
       ))}
-      <button data-testid="add-element" onClick={() => addElement({ name: `${values.length}` })}>Add</button>
-      <button data-testid="insert-element" onClick={() => insertElement(1, { name: `${values.length}` })}>Insert</button>
-      <button data-testid="swap-element" onClick={() => swapElement(0, 1)}>Swap</button>
-      <button data-testid="move-element" onClick={() => moveElement(0, 1)}>Move</button>
+      <button data-testid="add-element" onClick={() => add({ name: `${value.length}` })}>Add</button>
+      <button data-testid="insert-element" onClick={() => insert(1, { name: `${value.length}` })}>Insert</button>
+      <button data-testid="swap-element" onClick={() => swap(0, 1)}>Swap</button>
+      <button data-testid="move-element" onClick={() => move(0, 1)}>Move</button>
     </React.Fragment>
   );
 }

@@ -4,7 +4,7 @@ title: UseFieldArray
 sidebar_label: UseFieldArray
 ---
 
-We export an experimental hook that provides you with the building blocks to construct your own custom components.
+We export a hook that provides you with the building blocks to construct your own custom components.
 
 This accepts one parameter and that's a `fieldId`, analogue to the `FieldArray` component.
 
@@ -12,13 +12,13 @@ In return it will offer you an array with the first element being an object of o
 
 First object:
 
-- addElement
-- insertElement
-- moveElement
-- removeElement
-- replaceElement
-- resetField
-- swapElement
+- add
+- insert
+- move
+- remove
+- replace
+- reset
+- swap
 
 Second object:
 
@@ -31,7 +31,7 @@ Example
 const MyArray = ({ fieldId }) => {
   const [
     {
-      addElement
+      add
     },
     { value, error }
   ] = useFieldArray(fieldId);
@@ -45,7 +45,7 @@ const MyArray = ({ fieldId }) => {
           {touched && fieldError && <p>{fieldError}</p>}
         )
       })}
-      <Button onClick={addElement} label="add" />
+      <Button onClick={add} label="add" />
     </React.Fragment>
   );
 }
