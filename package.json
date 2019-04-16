@@ -1,6 +1,6 @@
 {
   "name": "hooked-form",
-  "version": "2.0.0",
+  "version": "2.0.0-alpha.0",
   "description": "Forms done with React-Hooks",
   "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
   "private": false,
@@ -43,6 +43,7 @@
     "@types/react": "16.8.2"
   },
   "devDependencies": {
+    "@ampproject/rollup-plugin-closure-compiler": "^0.8.5",
     "@types/jest": "23.3.13",
     "@types/react": "16.8.8",
     "@types/react-dom": "16.8.2",
@@ -66,7 +67,7 @@
     "ts-jest": "23.10.5",
     "tslib": "1.9.3",
     "tslint": "5.12.1",
-    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-airbnb": "5.11.1",
     "tslint-config-prettier": "1.18.0",
     "tslint-react": "3.6.0",
     "typescript": "3.3.1"

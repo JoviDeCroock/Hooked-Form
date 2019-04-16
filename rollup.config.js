@@ -2,6 +2,7 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 import filesize from 'rollup-plugin-filesize';
 import typescript from 'typescript';
 import typescriptPlugin from 'rollup-plugin-typescript2';
+import compiler from '@ampproject/rollup-plugin-closure-compiler';
 import { terser } from 'rollup-plugin-terser';
 
 const config = [
@@ -32,7 +33,8 @@ const config = [
         module: true,
         only: ['tslib']
       }),
-      typescriptPlugin({ typescript, tsconfig: './tsconfig.json' }),
+      typescriptPlugin({ typescript, tsconfig: './tsconfig.json', objectHashIgnoreUnknownHack: true }),
+      compiler(),
       terser({
         sourcemap: true,
         output: { comments: false },
