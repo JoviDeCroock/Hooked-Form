@@ -30,7 +30,7 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
     throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.');
   }
 
-  const { errors, initialValues, values, setFieldValue } = React.useContext(formContext);
+  const { errors, values, setFieldValue } = React.useContext(formContext);
   const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values]);
 
   value.map = React.useCallback((callback) => { // TODO: change this to only happen on proto.map
@@ -41,6 +41,11 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
     });
     return array;
   }, [value]);
+
+  if (process.env.NODE_ENV !== 'procution') {
+    React.useDebugValue(`Value: ${value}`);
+    React.useDebugValue(`Error: ${get(errors, fieldId)}`);
+  }
 
   return [
     {

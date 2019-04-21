@@ -11,5 +11,8 @@ export default function useError(fieldId: string): string | null {
     throw new Error('The Error needs a valid "fieldId" property to  function correctly.');
   }
   const { errors } = React.useContext(formContext);
+  if (process.env.NODE_ENV !== 'procution') {
+    React.useDebugValue(`Error: ${get(errors, fieldId)}`);
+  }
   return React.useMemo(() => get(errors, fieldId), [errors]);
 }
