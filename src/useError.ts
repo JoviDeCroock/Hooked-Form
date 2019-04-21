@@ -12,7 +12,7 @@ export default function useError(fieldId: string): string | null {
   }
   const { errors } = React.useContext(formContext);
   if (process.env.NODE_ENV !== 'procution') {
-    React.useDebugValue(`Error: ${get(errors, fieldId)}`);
+    React.useDebugValue(`${fieldId} Error: ${get(errors, fieldId)}`);
   }
   return React.useMemo(() => get(errors, fieldId), [errors]);
 }
