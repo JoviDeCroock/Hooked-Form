@@ -79,17 +79,17 @@ const makeForm = (formOptions?: object, props?: object) => {
 describe('FieldArray', () => {
   afterEach(() => cleanup());
 
-  it('should render the stringfields and handle onChange aswell as validation', async () => {
+  it('should render the stringfields and handle onChange aswell as validation', () => {
     const { getByTestId } = makeForm({
       validate: (values: any) => {
-      if (values.friends[0].name === 'A') {
-        return {
-          friends: [
-            { name: 'bad' },
-          ]
+        if (values.friends[0].name === 'A') {
+          return {
+            friends: [
+              { name: 'bad' },
+            ]
+          }
         }
-      }
-      return {}
+        return {}
       },
       validateOnBlur: true,
       validateOnChange: true,
@@ -106,110 +106,91 @@ describe('FieldArray', () => {
 
     expect((firstFriendField as any).value).toEqual('A');
     const firstFriendFieldError = getByTestId('friends[0].name-error');
-    // TODO: why is this needed in preact act.
-    setTimeout(() => {
-      expect(firstFriendFieldError.textContent).toEqual('bad');
-    }, 250);
+    expect(firstFriendFieldError.textContent).toEqual('bad');
   });
 
-  it('Should add fields when asked to', async () => {
+  it('Should add fields when asked to', () => {
     const { getByTestId, getProps } = makeForm();
     const addButton = getByTestId('add-element');
     act(() => {
       fireEvent.click(addButton);
     });
-    await wait(async () => {
-      const { values } = getProps();
-      expect(values.friends).toHaveLength(3);
-      expect(values.friends[2].name).toEqual('2')
-    }, { timeout: 0 });
+    const { values } = getProps();
+    expect(values.friends).toHaveLength(3);
+    expect(values.friends[2].name).toEqual('2');
   });
 
-  it('Should swap fields when asked to', async () => {
+  it('Should swap fields when asked to', () => {
     const { getByTestId, getProps } = makeForm();
     let swapButton = getByTestId('swap-element');
     act(() => {
       fireEvent.click(swapButton);
     });
-    await wait(() => {
-      const { values } = getProps();
-      expect(values.friends).toHaveLength(2);
-      expect(values.friends[0].name).toEqual('J');
-      expect(values.friends[1].name).toEqual('K')
-      swapButton = getByTestId('swap-element');
-      act(() => {
-        fireEvent.click(swapButton);
-      });
-    }, { timeout: 0 });
-    await wait(() => {
-      const { values } = getProps();
-      expect(values.friends).toHaveLength(2);
-      expect(values.friends[1].name).toEqual('J');
-      expect(values.friends[0].name).toEqual('K')
-    }, { timeout: 0 });
+    let { values } = getProps();
+    expect(values.friends).toHaveLength(2);
+    expect(values.friends[0].name).toEqual('J');
+    expect(values.friends[1].name).toEqual('K')
+    swapButton = getByTestId('swap-element');
+    act(() => {
+      fireEvent.click(swapButton);
+    });
+    ({ values } = getProps());
+    expect(values.friends).toHaveLength(2);
+    expect(values.friends[1].name).toEqual('J');
+    expect(values.friends[0].name).toEqual('K');
   });
 
-  it('Should insert fields when asked to', async () => {
+  it('Should insert fields when asked to', () => {
     const { getByTestId, getProps } = makeForm();
     let insertButton = getByTestId('insert-element');
     act(() => {
       fireEvent.click(insertButton);
     });
-    await wait(() => {
-      const { values } = getProps();
-      expect(values.friends).toHaveLength(3);
-      expect(values.friends[0].name).toEqual('K');
-      expect(values.friends[1].name).toEqual('2');
-      expect(values.friends[2].name).toEqual('J');
-      insertButton = getByTestId('insert-element');
-      act(() => {
-        fireEvent.click(insertButton);
-      });
-    }, { timeout: 0 });
-    await wait(() => {
-      const { values } = getProps();
-      expect(values.friends).toHaveLength(4);
-      expect(values.friends[0].name).toEqual('K');
-      expect(values.friends[1].name).toEqual('3');
-      expect(values.friends[2].name).toEqual('2');
-      expect(values.friends[3].name).toEqual('J');
-    }, { timeout: 0 });
+    let { values } = getProps();
+    expect(values.friends).toHaveLength(3);
+    expect(values.friends[0].name).toEqual('K');
+    expect(values.friends[1].name).toEqual('2');
+    expect(values.friends[2].name).toEqual('J');
+    insertButton = getByTestId('insert-element');
+    act(() => {
+      fireEvent.click(insertButton);
+    });
+    ({ values } = getProps());
+    expect(values.friends).toHaveLength(4);
+    expect(values.friends[0].name).toEqual('K');
+    expect(values.friends[1].name).toEqual('3');
+    expect(values.friends[2].name).toEqual('2');
+    expect(values.friends[3].name).toEqual('J');
   });
 
-  it('Should move fields when asked to', async () => {
+  it('Should move fields when asked to', () => {
     const { getByTestId, getProps } = makeForm();
     let moveButton = getByTestId('move-element');
     act(() => {
       fireEvent.click(moveButton);
     });
-    await wait(() => {
-      const { values } = getProps();
-      expect(values.friends).toHaveLength(2);
-      expect(values.friends[0].name).toEqual('J');
-      expect(values.friends[1].name).toEqual('K')
-      moveButton = getByTestId('move-element');
-      act(() => {
-        fireEvent.click(moveButton);
-      });
-    }, { timeout: 0 });
-    await wait(() => {
-      const { values } = getProps();
-      expect(values.friends).toHaveLength(2);
-      expect(values.friends[1].name).toEqual('J');
-      expect(values.friends[0].name).toEqual('K')
-    }, { timeout: 0 });
+    let { values } = getProps();
+    expect(values.friends).toHaveLength(2);
+    expect(values.friends[0].name).toEqual('J');
+    expect(values.friends[1].name).toEqual('K')
+    moveButton = getByTestId('move-element');
+    act(() => {
+      fireEvent.click(moveButton);
+    });
+    ({ values } = getProps());
+    expect(values.friends).toHaveLength(2);
+    expect(values.friends[1].name).toEqual('J');
+    expect(values.friends[0].name).toEqual('K');
   });
 
-  it('Should remove fields when asked to', async () => {
+  it('Should remove fields when asked to', () => {
     const { getByTestId, getProps } = makeForm();
     const removeFirstFieldButton = getByTestId('remove-element-0');
     act(() => {
       fireEvent.click(removeFirstFieldButton);
     });
-    await wait(() => {
-      const { values } = getProps();
-      expect(values.friends).toHaveLength(1);
-      expect(values.friends[0].name).toEqual('J')
-    }, { timeout: 0 });
+    const { values } = getProps();
+    expect(values.friends).toHaveLength(1);
+    expect(values.friends[0].name).toEqual('J')
   });
 });
