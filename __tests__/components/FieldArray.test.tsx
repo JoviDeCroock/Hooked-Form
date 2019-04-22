@@ -23,9 +23,10 @@ const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error
 
 const Component = ({ fieldId }: { fieldId: string }) => (<Field fieldId={fieldId} component={StringField} id={fieldId} />);
 
-const ArrayContainer = ({ add, value, remove, swap, insert, move }:
+const ArrayContainer = ({ fieldId, add, value, remove, swap, insert, move }:
   {
     add: (input: object) => void,
+    fieldId: string,
     value: any,
     remove: (input: object | number) => void,
     swap: (from: number, to: number) => void,
@@ -34,9 +35,9 @@ const ArrayContainer = ({ add, value, remove, swap, insert, move }:
   }) => {
   return (
     <React.Fragment>
-      {value.map((val: object, fieldId: string, i: number) => (
-        <React.Fragment key={fieldId}>
-          <Component key={fieldId} fieldId={`${fieldId}.name`} />
+      {value.map((val: object, i: number) => (
+        <React.Fragment key={fieldId + i}>
+          <Component fieldId={`${fieldId}[${i}].name`} />
           <button data-testid={`remove-element-${i}`} onClick={() => remove(val)}>Delete</button>
         </React.Fragment>
       ))}

@@ -41,9 +41,6 @@
         "title": "Why",
         "sidebar_label": "Why"
       },
-      "TODO": {
-        "title": "TODO"
-      },
       "utils/get": {
         "title": "Get",
         "sidebar_label": "Get"
