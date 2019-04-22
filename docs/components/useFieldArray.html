@@ -32,38 +32,40 @@
 <p>In return it will offer you an array with the first element being an object of operations and the second being an object of information about the field</p>
 <p>First object:</p>
 <ul>
-<li>addElement</li>
-<li>insertElement</li>
-<li>moveElement</li>
-<li>removeElement</li>
-<li>replaceElement</li>
-<li>resetField</li>
-<li>swapElement</li>
+<li>add</li>
+<li>insert</li>
+<li>move</li>
+<li>remove</li>
+<li>replace</li>
+<li>reset</li>
+<li>swap</li>
 </ul>
 <p>Second object:</p>
 <ul>
 <li>error: an error string if there's an error present.</li>
-<li>value: the current value of this field, with enhanced map function <code>(value: object, fieldId: string, index: number)</code></li>
+<li>value: the current value of this field</li>
 </ul>
 <p>Example</p>
 <pre><code class="hljs css language-javascript"><span class="hljs-keyword">const</span> MyArray = <span class="hljs-function">(<span class="hljs-params">{ fieldId }</span>) =&gt;</span> {
   <span class="hljs-keyword">const</span> [
     {
-      addElement
+      add
     },
     { value, error }
   ] = useFieldArray(fieldId);
 
   <span class="hljs-keyword">return</span> (
     &lt;React.Fragment&gt;
-      {value.map((object, fieldId, index) =&gt; {
-        const [{ onChange, onBlur }, { value: fieldValue, touched, error: fieldError }] = useField(fieldId);
+      {value.map((object, i) =&gt; {
+        const [{ onChange, onBlur }, { value: fieldValue, touched, error: fieldError }] = useField(`${fieldId}[${i}]`);
         return (
-          &lt;input onChange={onChange} onBlur={onBlur} value={fieldValue} /&gt;
-          {touched &amp;&amp; fieldError &amp;&amp; &lt;p&gt;{fieldError}&lt;/p&gt;}
+          &lt;div&gt;
+            &lt;input onChange={onChange} onBlur={onBlur} value={fieldValue} /&gt;
+            {touched &amp;&amp; fieldError &amp;&amp; &lt;p&gt;{fieldError}&lt;/p&gt;}
+          &lt;/div&gt;
         )
       })}
-      &lt;Button onClick={addElement} label="add" /&gt;
+      &lt;Button onClick={add} label="add" /&gt;
     &lt;/React.Fragment&gt;
   );
 }
