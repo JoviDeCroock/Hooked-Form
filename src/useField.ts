@@ -45,7 +45,7 @@ export default function useField(fieldId: string): [FieldOperations, FieldInform
     {
       error: React.useMemo(() => get(errors, fieldId), [errors]),
       touched: React.useMemo(() => get(touched, fieldId), [touched]),
-      value: React.useMemo(() => get(values, fieldId), [values]),
+      value: React.useMemo(() => get(values, fieldId) || '', [values]),
     },
   ];
 }
