@@ -25,17 +25,13 @@ The FieldArray component is used to inject the values of a certain field into th
 - swap: `(from: number, to: number) => void` - will swap the two objects on the indexes from place.
 - value: `[any]` - The current value of the field.
 
-## map
-
-The values has an altered .map function, this will be `(element, fieldId, index) => element`. The fieldId will automatically be `${FieldArrayFieldId}[${currentIndex}]`.
-
 ## Example
 
 ```js
 import React from 'react';
 import { Form, Field } from 'hooked-form';
 
-const StringField = ({ myOwnCustomProp = 'label', onChange, onBlur, error, value }) => (
+const StringField = ({ onChange, onBlur, error, value }) => (
   <React.Fragment>
     <p>{myOwnCustomProp}</p>
     <input onchange={(e) => onChange(e.currentTarget.value)} onBlur={onBlur} value={value} />
@@ -43,12 +39,12 @@ const StringField = ({ myOwnCustomProp = 'label', onChange, onBlur, error, value
   </React.Fragment>
 );
 
-const Friends = ({ removeE, value, add }) => (
+const Friends = ({ fieldId, remove, value, add, myOwnCustomProp }) => (
   <React.Fragment>
-    {value.map((element, fieldId, i) => (
+    {value.map((element, i) => (
       <Field
         component={StringField}
-        fieldId={`${fieldId}.name`}
+        fieldId={`${fieldId}[${i}].name`}
       />
       <button onClick={remove.bind(this, i)}>Remove</button>
     ))}
