@@ -23,7 +23,7 @@ First object:
 Second object:
 
 - error: an error string if there's an error present.
-- value: the current value of this field, with enhanced map function `(value: object, fieldId: string, index: number)`
+- value: the current value of this field
 
 Example
 
@@ -38,11 +38,13 @@ const MyArray = ({ fieldId }) => {
 
   return (
     <React.Fragment>
-      {value.map((object, fieldId, index) => {
-        const [{ onChange, onBlur }, { value: fieldValue, touched, error: fieldError }] = useField(fieldId);
+      {value.map((object, i) => {
+        const [{ onChange, onBlur }, { value: fieldValue, touched, error: fieldError }] = useField(`${fieldId}[${i}]`);
         return (
-          <input onChange={onChange} onBlur={onBlur} value={fieldValue} />
-          {touched && fieldError && <p>{fieldError}</p>}
+          <div>
+            <input onChange={onChange} onBlur={onBlur} value={fieldValue} />
+            {touched && fieldError && <p>{fieldError}</p>}
+          </div>
         )
       })}
       <Button onClick={add} label="add" />
