@@ -33,12 +33,6 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
   const { errors, values, setFieldValue } = React.useContext(formContext);
   const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values]);
 
-  // TODO: consider losing this in 2.0
-  value.map = React.useCallback((callback) => {
-    return value.reduce((acc, element: any, i: number) =>
-      [...acc, callback(element, `${fieldId}[${i}]`, i)], []);
-  }, [value]);
-
   if (process.env.NODE_ENV !== 'procution') {
     React.useDebugValue(`${fieldId} Value: ${value}`);
     React.useDebugValue(`${fieldId} Error: ${get(errors, fieldId)}`);
