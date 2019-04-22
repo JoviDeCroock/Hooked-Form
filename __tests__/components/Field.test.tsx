@@ -47,7 +47,7 @@ const makeForm = (formOptions?: object, props?: object) => {
 describe('Field', () => {
   afterEach(() => cleanup());
 
-  it('should render the stringfields', async () => {
+  it('should render the stringfields', () => {
     const { getProps, getByTestId } = makeForm({
       validate: (values: { [fieldId: string]: any }) => {
         return {
@@ -67,18 +67,14 @@ describe('Field', () => {
     act(() => {
       fireEvent.change(nameField, {target: {value: 'u'}})
     });
-    // TODO: why is this needed in preact act.
-    setTimeout(() => {
-      expect((nameField as any).value).toEqual('u');
-      let nameErrorField = getByTestId('name-error');
-      // This value is still empty in preact.
-      expect(nameErrorField.textContent).toEqual('bad');
-      act(() => {
-        fireEvent.change(nameField, {target: {value: 'upper'}})
-      });
-      nameErrorField = getByTestId('name-error');
-      expect(nameErrorField.textContent).toEqual('');
-    }, 0);
+    expect((nameField as any).value).toEqual('u');
+    let nameErrorField = getByTestId('name-error');
+    expect(nameErrorField.textContent).toEqual('bad');
+    act(() => {
+      fireEvent.change(nameField, {target: {value: 'upper'}})
+    });
+    nameErrorField = getByTestId('name-error');
+    expect(nameErrorField.textContent).toEqual('');
   });
 
   it('should validate on blurring the stringfields', () => {

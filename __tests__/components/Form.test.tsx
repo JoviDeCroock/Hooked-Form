@@ -108,7 +108,7 @@ describe('Form', () => {
     expect(validate).toBeCalledTimes(3);
   });
 
-  it('makes error onSubmit', async () => {
+  it('makes error onSubmit', () => {
     const onSubmit = jest.fn();
     const { getProps } = makeForm({ onSubmit, validate: (values: any) => ({ name: !values.name ? 'required' : undefined }) });
     let { handleSubmit } = getProps();
