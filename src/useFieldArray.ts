@@ -46,13 +46,13 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
         setFieldValue(fieldId, aInsert(value, at, element)), [value]),
       move: React.useCallback((from: number, to: number) =>
         setFieldValue(fieldId, aMove(value, from, to)), [value]),
-      remove: React.useCallback((toDelete: object | number) =>
-        setFieldValue(fieldId, aRemove(value, toDelete)), [value]),
+      remove: React.useCallback((element: object | number) =>
+        setFieldValue(fieldId, aRemove(value, element)), [value]),
       replace: React.useCallback((at: number, element: object) =>
         setFieldValue(fieldId, aReplace(value, at, element)), [value]),
       setFieldValue,
-      swap: React.useCallback((first: number, second: number) =>
-        setFieldValue(fieldId, aSwap(value, first, second)), [value]),
+      swap: React.useCallback((from: number, to: number) =>
+        setFieldValue(fieldId, aSwap(value, from, to)), [value]),
     },
     {
       error: React.useMemo(() => get(errors, fieldId), [errors]),
