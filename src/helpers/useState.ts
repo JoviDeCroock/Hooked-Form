@@ -11,5 +11,6 @@ export default (initial: object): Output => {
 
   const setState = React.useCallback((newState: object) =>
     innerSetValue(() => ({ ...newState })), [innerSetValue]);
+
   return [values, setValue, setState];
 };

@@ -6,4 +6,3 @@ export { default as useFieldArray } from './useFieldArray';
 export { default as ErrorMessage } from './Error';
 export { default as useError } from './useError';
 export { default as useFormConnect } from './useFormConnect';
-export { get } from './helpers/operations';
