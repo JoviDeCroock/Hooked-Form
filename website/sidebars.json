@@ -14,9 +14,6 @@
       "components/useField",
       "components/useError",
       "components/useFieldArray"
-    ],
-    "utilities": [
-      "utils/get"
     ]
   }
 }
