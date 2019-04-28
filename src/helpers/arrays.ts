@@ -1,36 +1,34 @@
-export function move(input: Array<any>, from: number, to: number): Array<any> {
-  const copy = [...input];
-  copy.splice(from, 1);
-  copy.splice(to, 0, input[from]);
-  return copy;
+export function move(value: Array<any>, from: number, to: number): Array<any> {
+  const result = [...value];
+  result.splice(from, 1);
+  result.splice(to, 0, value[from]);
+  return result;
 }
 
-export function insert(input: Array<any>, at: number, element: object): Array<any> {
-  const copy = [...input];
-  copy.splice(at, 0, element);
-  return copy;
+export function insert(value: Array<any>, at: number, element: object): Array<any> {
+  const result = [...value];
+  result.splice(at, 0, element);
+  return result;
 }
 
-export function replace(input: Array<any>, at: number, element: object): Array<any> {
-  const copy = [...input];
-  copy[at] = element;
-  return copy;
+export function replace(value: Array<any>, at: number, element: object): Array<any> {
+  const result = [...value];
+  result[at] = element;
+  return result;
 }
 
-export function swap(input: Array<any>, first: number, second: number): Array<any> {
-  const copy = [...input];
-  copy[first] = input[second];
-  copy[second] = input[first];
-  return copy;
+export function swap(value: Array<any>, from: number, to: number): Array<any> {
+  const result = [...value];
+  result[from] = value[to];
+  result[to] = value[from];
+  return result;
 }
 
-export function add(input: Array<any>, element: object): Array<any> {
-  return [...input, element];
+export function add(value: Array<any>, element: object): Array<any> {
+  return [...value, element];
 }
 
-export function remove(input: Array<any>, element: object | number): Array<any> {
-  if (typeof element === 'number') {
-    return input.filter(x => x !== input[element]);
-  }
-  return input.filter(x => x !== element);
+export function remove(value: Array<any>, element: object | number): Array<any> {
+  if (typeof element == 'number') return value.filter(x => x !== value[element]);  // tslint:disable-line
+  return value.filter(x => x !== element);
 }
