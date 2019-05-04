@@ -29,7 +29,7 @@ export default function useField(fieldId: string): [FieldOperations, FieldInform
     touched,
   } = React.useContext(formContext);
 
-  if (process.env.NODE_ENV !== 'procution') {
+  if (process.env.NODE_ENV !== 'production') {
     React.useDebugValue(`${fieldId} Value: ${get(values, fieldId)}`);
     React.useDebugValue(`${fieldId} Touched: ${get(touched, fieldId)}`);
     React.useDebugValue(`${fieldId} Error: ${get(errors, fieldId)}`);

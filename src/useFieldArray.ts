@@ -33,7 +33,7 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
   const { errors, values, setFieldValue } = React.useContext(formContext);
   const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values]);
 
-  if (process.env.NODE_ENV !== 'procution') {
+  if (process.env.NODE_ENV !== 'production') {
     React.useDebugValue(`${fieldId} Value: ${value}`);
     React.useDebugValue(`${fieldId} Error: ${get(errors, fieldId)}`);
   }
