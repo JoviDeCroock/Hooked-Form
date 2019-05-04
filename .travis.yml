@@ -13,6 +13,7 @@ install:
   - yarn
 script:
   - npm install codecov -g
+  - npm install bundlesize -g
   - yarn test
   - yarn build
   - yarn filesize
