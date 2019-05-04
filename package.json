@@ -101,19 +101,19 @@
   "bundlesize": [
     {
       "path": "./dist/prod/hooked-form.module.js",
-      "maxSize": "2.5 kB"
+      "maxSize": "2.2 kB"
     },
     {
       "path": "./dist/prod/hooked-form.umd.js",
-      "maxSize": "2.5 kB"
+      "maxSize": "2.2 kB"
     },
     {
       "path": "./dist/prod/hooked-form.js",
-      "maxSize": "2.5 kB"
+      "maxSize": "2.2 kB"
     },
     {
       "path": "./dist/prod/hooked-form.modern.js",
-      "maxSize": "2.25 kB"
+      "maxSize": "2 kB"
     }
   ]
 }
