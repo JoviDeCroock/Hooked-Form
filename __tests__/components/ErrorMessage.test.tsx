@@ -30,7 +30,7 @@ const makeForm = (formOptions?: object, props?: object) => {
   };
 };
 
-describe.only('ErorrMessage', () => {
+describe('ErorrMessage', () => {
   afterEach(() => {
     renders = 0;
     cleanup();

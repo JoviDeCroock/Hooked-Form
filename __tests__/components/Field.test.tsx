@@ -47,60 +47,84 @@ const makeForm = (formOptions?: object, props?: object) => {
 describe('Field', () => {
   afterEach(() => cleanup());
 
-  it('should render the stringfields', () => {
-    const { getProps, getByTestId } = makeForm({
-      validate: (values: { [fieldId: string]: any }) => {
-        return {
-          age: values.age && values.age > 2 ? undefined : 'bad',
-          name: values.name && values.name.length > 2 ? undefined : 'bad',
-        }
-      },
-      validateOnBlur: true,
-      validateOnChange: true,
+  describe('basic functionality', () => {
+    it('should render the stringfields', () => {
+      const { getByTestId } = makeForm({
+        validate: (values: { [fieldId: string]: any }) => {
+          return {
+            age: values.age && values.age > 2 ? undefined : 'bad',
+            name: values.name && values.name.length > 2 ? undefined : 'bad',
+          }
+        },
+        validateOnBlur: true,
+        validateOnChange: true,
+      });
+
+      const nameField = getByTestId('name');
+      act(() => {
+        fireEvent.change(nameField, {target: {value: 'upper'}})
+      });
+      expect((nameField as any).value).toEqual('upper');
+      act(() => {
+        fireEvent.change(nameField, {target: {value: 'u'}})
+      });
+      expect((nameField as any).value).toEqual('u');
+      let nameErrorField = getByTestId('name-error');
+      expect(nameErrorField.textContent).toEqual('bad');
+      act(() => {
+        fireEvent.change(nameField, {target: {value: 'upper'}})
+      });
+      nameErrorField = getByTestId('name-error');
+      expect(nameErrorField.textContent).toEqual('');
     });
 
-    const nameField = getByTestId('name');
-    act(() => {
-      fireEvent.change(nameField, {target: {value: 'upper'}})
+    it('should validate on blurring the stringfields', () => {
+      const { getByTestId } = makeForm({
+        validate: (values: { [fieldId: string]: any }) => {
+          return {
+            age: values.age && values.age > 2 ? undefined : 'bad',
+            name: values.name && values.name.length > 2 ? undefined : 'bad',
+          }
+        },
+        validateOnBlur: true,
+        validateOnChange: false,
+      });
+      const nameField = getByTestId('name');
+      const nameErrorField = getByTestId('name-error');
+      act(() => {
+        fireEvent.change(nameField, {target: {value: 'upper'}})
+      });
+      expect((nameField as any).value).toEqual('upper');
+      act(() => {
+        fireEvent.change(nameField, {target: {value: 'u'}})
+      });
+      expect((nameField as any).value).toEqual('u');
+      act(() => {
+        fireEvent.blur(nameField)
+      });
+      expect(nameErrorField.textContent).toEqual('bad');
     });
-    expect((nameField as any).value).toEqual('upper');
-    act(() => {
-      fireEvent.change(nameField, {target: {value: 'u'}})
-    });
-    expect((nameField as any).value).toEqual('u');
-    let nameErrorField = getByTestId('name-error');
-    expect(nameErrorField.textContent).toEqual('bad');
-    act(() => {
-      fireEvent.change(nameField, {target: {value: 'upper'}})
-    });
-    nameErrorField = getByTestId('name-error');
-    expect(nameErrorField.textContent).toEqual('');
-  });
 
-  it('should validate on blurring the stringfields', () => {
-    const { getProps, getByTestId } = makeForm({
-      validate: (values: { [fieldId: string]: any }) => {
+    it('should throw without a component/render', () => {
+      // @ts-ignore
+      const Comp = ({ fieldId }: { fieldId: string }) => (<Field fieldId={fieldId} id={fieldId} />);
+
+      const makeErroneousForm = (formOptions?: object, props?: object) => {
+        let injectedProps: any;
+        const TestForm = Form({
+          onSubmit: () => null,
+          ...formOptions,
+        })((formProps: any) => (injectedProps = formProps) && (
+          <React.Fragment>
+            <Comp fieldId="name" />
+          </React.Fragment>
+        ));
         return {
-          age: values.age && values.age > 2 ? undefined : 'bad',
-          name: values.name && values.name.length > 2 ? undefined : 'bad',
+          getProps: () => injectedProps,
+          ...render(<TestForm {...props} />)
         }
-      },
-      validateOnBlur: true,
-      validateOnChange: false,
-    });
-    const nameField = getByTestId('name');
-    const nameErrorField = getByTestId('name-error');
-    act(() => {
-      fireEvent.change(nameField, {target: {value: 'upper'}})
-    });
-    expect((nameField as any).value).toEqual('upper');
-    act(() => {
-      fireEvent.change(nameField, {target: {value: 'u'}})
-    });
-    expect((nameField as any).value).toEqual('u');
-    act(() => {
-      fireEvent.blur(nameField)
-    });
-    expect(nameErrorField.textContent).toEqual('bad');
+      }
+      expect(() => makeErroneousForm()).toThrowError(/The Field needs a "component" property to  function correctly./);
+    })
   });
 });
