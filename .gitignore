@@ -11,3 +11,4 @@ mangle.json
 .rts2_cache_cjs
 .rpt2_cache
 mangle.json
+./preact/dist

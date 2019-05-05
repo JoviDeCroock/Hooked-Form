@@ -15,6 +15,7 @@ script:
   - npm install codecov -g
   - npm install bundlesize -g
   - yarn test
+  - yarn test:preact
   - yarn build
   - yarn filesize
 after_success:
