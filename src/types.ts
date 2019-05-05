@@ -22,5 +22,6 @@ export interface FormHookContext {
   setFieldValue: (fieldId: string, value: any) => void;
   setFieldTouched: (fieldId: string, value: any) => void;
   touched: Touched;
+  validate: () => object;
   values: Values;
 }
