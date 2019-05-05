@@ -11,15 +11,13 @@
     "js",
     "jsx"
   ],
+  "testPathIgnorePatterns": [
+    "/node_modules/",
+    "/performance/"
+  ],
   "moduleNameMapper": {
-    "../../src$": "<rootDir>/preact/src",
     "^react$": "preact/compat",
     "^react-dom$": "preact/compat",
     "^react-testing-library$": "preact-testing-library"
-  },
-  "globals": {
-    "ts-jest": {
-      "tsConfig": "<rootDir>/tsconfig.preact.json"
-    }
   }
 }
