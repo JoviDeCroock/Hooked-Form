@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { act as nativeAct, cleanup, render, wait } from 'react-testing-library';
-const { createElement } = React;
 import { Form, useFormConnect } from '../../src';
 
 let act = nativeAct;

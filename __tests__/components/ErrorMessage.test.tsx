@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { act as nativeAct, cleanup, render } from 'react-testing-library';
-const { createElement } = React;
 
 import { ErrorMessage, Form } from '../../src';
 
