@@ -1,11 +1,10 @@
 import { useEffect, useState as nativeUseState, useCallback } from 'preact/hooks';
-import { h } from 'preact';
+import { createElement } from 'preact';
 import { Provider } from './helpers/context';
 import { deriveInitial } from './helpers/deriveInitial';
 import useState from './helpers/useState';
 import { Errors, InitialValues, Touched } from './types';
 
-/** @jsx h */
 export interface FormOptions {
   enableReinitialize?: boolean;
   initialValues?: InitialValues;

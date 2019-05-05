@@ -1,6 +1,7 @@
 
 import * as React from 'react';
-import { act as nativeAct, cleanup, fireEvent, render, wait } from 'react-testing-library';
+import { act as nativeAct, cleanup, fireEvent, render } from 'react-testing-library';
+const { createElement } = React;
 
 import { Field, Form } from '../../src';
 
