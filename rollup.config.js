@@ -51,7 +51,52 @@ const config = [
       }),
       filesize(),
     ],
-   }
+   },    {
+    input: 'preact/src/index.ts',
+    output: {
+      file: 'preact/dist/hooked-form.modern.js',
+      format: 'esm',
+      sourcemap: true,
+    },
+    plugins: [
+      nodeResolve({
+        module: true,
+        only: ['tslib']
+      }),
+      typescriptPlugin({ typescript, tsconfig: './tsconfig.json' }),
+      filesize(),
+    ],
+   }, {
+    input: 'preact/src/index.ts',
+    output: {
+      file: 'preact/dist/prod/hooked-form.modern.js',
+      format: 'esm',
+      sourcemap: true,
+    },
+    plugins: [
+      nodeResolve({
+        module: true,
+        only: ['tslib']
+      }),
+      typescriptPlugin({ typescript, tsconfig: './tsconfig.json', objectHashIgnoreUnknownHack: true }),
+      compiler(),
+      terser({
+        sourcemap: true,
+        output: { comments: false },
+        compress: {
+          keep_infinity: true,
+          pure_getters: true,
+          passes: 10,
+          global_defs: { 'process.env.NODE_ENV': 'production' }
+        },
+        warnings: true,
+        ecma: 6,
+        toplevel: true,
+        mangle: { properties: '^_' },
+      }),
+      filesize(),
+    ],
+   },
 ];
 
 export default config;

@@ -68,21 +68,22 @@ describe('ErorrMessage', () => {
       expect(() => makeErroneousForm()).toThrowError(/The ErrorMessage needs a "component" property to  function correctly/);
     });
   });
-
-  describe('performance', () => {
-    it('should not rerender when props change or parent rerenders', () => {
-      const { getProps, getByTestId, rerender, ...rest } =
-        makeForm({ validate: (values: any = {}) => values.name === 'jovi' ? ({ name: 'bad' }) : ({}), validateOnChange: true });
-      const { change } = getProps();
-      expect(renders).toBe(1);
-      act(() => {
-        change('name', 'j');
-      });
-      expect(renders).toBe(1);
-      act(() => {
-        change('name', 'jovi');
-      });
-      expect(renders).toBe(2);
-    })
-  });
+  if (process.env.PERFORMANCE) {
+    describe('performance', () => {
+      it('should not rerender when props change or parent rerenders', () => {
+        const { getProps, getByTestId, rerender, ...rest } =
+          makeForm({ validate: (values: any = {}) => values.name === 'jovi' ? ({ name: 'bad' }) : ({}), validateOnChange: true });
+        const { change } = getProps();
+        expect(renders).toBe(1);
+        act(() => {
+          change('name', 'j');
+        });
+        expect(renders).toBe(1);
+        act(() => {
+          change('name', 'jovi');
+        });
+        expect(renders).toBe(2);
+      })
+    });
+  }
 });
