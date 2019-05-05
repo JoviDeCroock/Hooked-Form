@@ -1,0 +1,30 @@
+{
+  "name": "hooked-form-preact",
+  "amdName": "hookedFormPreact",
+  "version": "2.0.0",
+  "description": "Forms done with Preact-Hooks",
+  "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
+  "private": false,
+  "repository": "https://www.github.com/jovidecroock/hooked-form",
+  "sideEffects": false,
+  "main": "dist/hooked-form.js",
+  "browser": "dist/hooked-form.umd.js",
+  "umd:main": "dist/hooked-form.umd.js",
+  "jsnext:main": "dist/hooked-form.modern.js",
+  "module": "dist/hooked-form.module.js",
+  "source": "src/index.ts",
+  "syntax": {
+    "esmodules": "dist/hooked-form.modern.js"
+  },
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {},
+  "peerDependencies": {
+    "preact": ">=10"
+  },
+  "mangle": {
+    "regex": "^_"
+  }
+}
