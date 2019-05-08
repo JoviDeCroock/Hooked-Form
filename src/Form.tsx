@@ -114,20 +114,30 @@ const OptionsContainer = ({
       setFieldValue(fieldId, value);
     }, []);
 
+    const providerValue = React.useMemo(() => ({
+      errors: formErrors as Errors,
+      formError,
+      initialValues,
+      isDirty,
+      setFieldTouched,
+      setFieldValue: onChange,
+      touched: touched as Touched,
+      validate: validateForm,
+      values,
+    }), [
+      formErrors,
+      formError,
+      initialValues,
+      isDirty,
+      setFieldTouched,
+      onChange,
+      touched,
+      validateForm,
+      values,
+    ]);
+
     return (
-      <Provider
-        value={{
-          errors: formErrors as Errors,
-          formError,
-          initialValues,
-          isDirty,
-          setFieldTouched,
-          setFieldValue: onChange,
-          touched: touched as Touched,
-          validate: validateForm,
-          values,
-        }}
-      >
+      <Provider value={providerValue}>
         <Component
           change={onChange}
           formError={formError}
