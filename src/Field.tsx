@@ -15,8 +15,6 @@ export interface FieldProps {
   [x: string]: any;
 }
 
-const defaultWatchables = ['disabled', 'className'];
-
 const FieldContainer: React.FC<FieldProps> = (
   { component, fieldId, innerRef, watchableProps, ...rest },
 ) => {
@@ -42,7 +40,7 @@ const FieldContainer: React.FC<FieldProps> = (
     }),
     [
       value, error, isFieldTouched,
-      ...((watchableProps || defaultWatchables).map((key: string) => rest[key])),
+      ...((watchableProps || ['disabled', 'className']).map((key: string) => rest[key])),
     ],
   );
 };
