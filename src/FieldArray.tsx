@@ -8,7 +8,7 @@ export interface FieldProps {
   [x: string]: any;
 }
 
-const FieldArrayContainer: React.FC<FieldProps> = React.memo((
+const FieldArrayContainer: React.FC<FieldProps> = (
   { component, render, fieldId, ...rest },
 ) => {
   if (process.env.NODE_ENV !== 'production' && !component && !render) {
@@ -39,6 +39,6 @@ const FieldArrayContainer: React.FC<FieldProps> = React.memo((
 
   return React.useMemo(() =>
     component ? React.createElement(component, props) : render!(props), [value, error]);
-}, () => true);
+};
 
 export default FieldArrayContainer;

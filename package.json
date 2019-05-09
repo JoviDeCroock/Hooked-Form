@@ -13,8 +13,8 @@
     "build:modern": "rollup -c && node ./scripts/sliceLicense.js",
     "cleanup": "rimraf .rpt2_cache && rimraf .rts2_cache_cjs && rimraf .rts2_cache_umd && rimraf .rts2_cache_es",
     "filesize": "bundlesize",
-    "test": "cross-env PERFORMANCE=true NODE_ENV=test jest",
-    "test:preact": "cross-env PERFORMANCE=false NODE_ENV=test jest --config ./jest.preact.config.json",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:preact": "cross-env NODE_ENV=test jest --config ./jest.preact.config.json",
     "test:watch": "cross-env npm run test -- --watch",
     "prepublishOnly": "npm run test && npm run build && npm run filesize"
   },
