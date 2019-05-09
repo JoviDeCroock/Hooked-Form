@@ -4,6 +4,7 @@ import typescript from 'typescript';
 import typescriptPlugin from 'rollup-plugin-typescript2';
 import compiler from '@ampproject/rollup-plugin-closure-compiler';
 import { terser } from 'rollup-plugin-terser';
+import replace from 'rollup-plugin-replace';
 
 const config = [
    {
@@ -15,7 +16,7 @@ const config = [
     },
     plugins: [
       nodeResolve({
-        module: true,
+        mainFields: ['module'],
         only: ['tslib']
       }),
       typescriptPlugin({ typescript, tsconfig: './tsconfig.json' }),
@@ -29,12 +30,13 @@ const config = [
       sourcemap: true,
     },
     plugins: [
+      replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
       nodeResolve({
-        module: true,
+        mainFields: ['module'],
         only: ['tslib']
       }),
       typescriptPlugin({ typescript, tsconfig: './tsconfig.json', objectHashIgnoreUnknownHack: true }),
-      compiler(),
+      compiler({ compilation_level: 'ADVANCED_OPTIMIZATIONS' }),
       terser({
         sourcemap: true,
         output: { comments: false },
