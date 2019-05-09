@@ -6,11 +6,13 @@ type Output = [object, (id: string, value: any) => void, (newState: object) => v
 export default (initial: object): Output => {
   const { 0: values, 1: innerSetValue } = React.useState(initial || {});
 
-  const setValue = React.useCallback((id: string, value: any) =>
-    innerSetValue(state => set(state, id, value)), [innerSetValue]);
+  const setValue = React.useCallback((id: string, value: any) => {
+    innerSetValue(state => set(state, id, value));
+  }, []);
 
-  const setState = React.useCallback((newState: object) =>
-    innerSetValue(() => ({ ...newState })), [innerSetValue]);
+  const setState = React.useCallback((newState: object) => {
+    innerSetValue(newState);
+  }, []);
 
   return [values, setValue, setState];
 };
