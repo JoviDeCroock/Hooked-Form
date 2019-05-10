@@ -37,9 +37,9 @@ export default function useField(fieldId: string): [FieldOperations, FieldInform
 
   return [
     {
-      onBlur: React.useCallback(() => setFieldTouched(fieldId, true), []),
-      onChange: React.useCallback((value: any) => setFieldValue(fieldId, value), []),
-      onFocus: React.useCallback(() => setFieldTouched(fieldId, false), []),
+      onBlur: React.useCallback(() => { setFieldTouched(fieldId, true); }, []),
+      onChange: React.useCallback((value: any) => { setFieldValue(fieldId, value); }, []),
+      onFocus: React.useCallback(() => { setFieldTouched(fieldId, false); }, []),
       setFieldValue,
     },
     {
