@@ -2,7 +2,7 @@
 
 ## 2.0.0
 
-- preact x support with tests (on official release)
+- A lot of internal changes with a bundle size goal.
 
 ### Form
 
