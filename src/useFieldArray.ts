@@ -40,19 +40,25 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
 
   return [
     {
-      add: React.useCallback((element: any) =>
-        setFieldValue(fieldId, aAdd(value, element)), [value]),
-      insert: React.useCallback((at: number, element: object) =>
-        setFieldValue(fieldId, aInsert(value, at, element)), [value]),
-      move: React.useCallback((from: number, to: number) =>
-        setFieldValue(fieldId, aMove(value, from, to)), [value]),
-      remove: React.useCallback((element: object | number) =>
-        setFieldValue(fieldId, aRemove(value, element)), [value]),
-      replace: React.useCallback((at: number, element: object) =>
-        setFieldValue(fieldId, aReplace(value, at, element)), [value]),
+      add: React.useCallback((element: any) => {
+        setFieldValue(fieldId, aAdd(value, element));
+      }, [value]),
+      insert: React.useCallback((at: number, element: object) => {
+        setFieldValue(fieldId, aInsert(value, at, element));
+      }, [value]),
+      move: React.useCallback((from: number, to: number) => {
+        setFieldValue(fieldId, aMove(value, from, to));
+      }, [value]),
+      remove: React.useCallback((element: object | number) => {
+        setFieldValue(fieldId, aRemove(value, element));
+      }, [value]),
+      replace: React.useCallback((at: number, element: object) => {
+        setFieldValue(fieldId, aReplace(value, at, element));
+      }, [value]),
       setFieldValue,
-      swap: React.useCallback((from: number, to: number) =>
-        setFieldValue(fieldId, aSwap(value, from, to)), [value]),
+      swap: React.useCallback((from: number, to: number) => {
+        setFieldValue(fieldId, aSwap(value, from, to));
+      }, [value]),
     },
     {
       error: React.useMemo(() => get(errors, fieldId), [errors]),
