@@ -76,15 +76,15 @@ const OptionsContainer = ({
 
       setTouchedState(deriveInitial(errors, true));
       if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) return;
-      setSubmitting(() => true);
+      setSubmitting(true);
 
       new Promise(resolve => resolve(submit(values, props, setFormError)))
         .then((result: any) => {
-          setSubmitting(() => false);
+          setSubmitting(false);
           if (onSuccess) onSuccess(result);
         })
         .catch((e: any) => {
-          setSubmitting(() => false);
+          setSubmitting(false);
           if (onError) onError(e, setFormError);
         });
     }, [values]);
@@ -98,8 +98,9 @@ const OptionsContainer = ({
     }, [validateOnBlur && touched, validateOnChange && values]);
 
     // The submit for our form.
-    const handleSubmitProp = React.useCallback((event?: any) =>
-      handleSubmit(event), [handleSubmit]);
+    const handleSubmitProp = React.useCallback((event?: any) => {
+      handleSubmit(event);
+    }, [handleSubmit]);
 
     // The onBlur we can use for our Fields,
     // should also be renewed context wise when our values are altered.
