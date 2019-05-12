@@ -10,22 +10,23 @@ import {
 import { formContext } from './helpers/context';
 import { get } from './helpers/operations';
 
-export interface FieldOperations {
-  add: (item: any) => void;
-  insert: (at: number, element: object) => void;
+export interface FieldOperations<T> {
+  add: (item: T) => void;
+  insert: (at: number, element: T) => void;
   move: (from: number, to: number) => void;
-  setFieldValue: (fieldId: string, value: any) => void;
-  remove: (toDelete: object | number) => void;
-  replace: (at: number, element: object) => void;
+  setFieldValue: (fieldId: string, value: T) => void;
+  remove: (toDelete: T | number) => void;
+  replace: (at: number, element: T) => void;
   swap: (first: number, second: number) => void;
 }
 
-export interface FieldInformation {
+export interface FieldInformation<T> {
   error: string | null;
-  value: any;
+  value: Array<T>;
 }
 
-export default function useFieldArray(fieldId: string): [FieldOperations, FieldInformation] {
+export default function useFieldArray<T = any>(fieldId: string):
+  [FieldOperations<T>, FieldInformation<T>] {
   if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
     throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.');
   }
@@ -40,19 +41,19 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
 
   return [
     {
-      add: React.useCallback((element: any) => {
+      add: React.useCallback((element: T) => {
         setFieldValue(fieldId, aAdd(value, element));
       }, [value]),
-      insert: React.useCallback((at: number, element: object) => {
+      insert: React.useCallback((at: number, element: T) => {
         setFieldValue(fieldId, aInsert(value, at, element));
       }, [value]),
       move: React.useCallback((from: number, to: number) => {
         setFieldValue(fieldId, aMove(value, from, to));
       }, [value]),
-      remove: React.useCallback((element: object | number) => {
+      remove: React.useCallback((element: T | number) => {
         setFieldValue(fieldId, aRemove(value, element));
       }, [value]),
-      replace: React.useCallback((at: number, element: object) => {
+      replace: React.useCallback((at: number, element: T) => {
         setFieldValue(fieldId, aReplace(value, at, element));
       }, [value]),
       setFieldValue,
