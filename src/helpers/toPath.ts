@@ -10,8 +10,7 @@ function makeToPathArrayConverter() {
       if (part.includes('[')) {
         const { 0: firstPart, 1: temp } = part.split('[');
         result.push(firstPart);
-        const { 0: secondPart } = temp.split(']');
-        result.push(secondPart);
+        result.push(temp.slice(0, -1));
       } else result.push(part);
     });
 
