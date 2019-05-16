@@ -19,7 +19,9 @@
     "importHelpers": true,
     "stripInternal": true,
     "lib": ["es2015", "dom"],
+    "allowJs": true
   },
+  "exclude": ["__tests__/**/*"],
   "include": ["src/**/*"],
   "files": ["src/index.ts"]
 }

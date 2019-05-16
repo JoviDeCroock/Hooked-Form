@@ -1,6 +1,6 @@
 {
   "name": "hooked-form",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Forms done with React-Hooks",
   "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
   "private": false,
@@ -16,7 +16,7 @@
     "test": "cross-env NODE_ENV=test jest",
     "test:preact": "cross-env NODE_ENV=test jest --config ./jest.preact.config.json",
     "test:watch": "cross-env npm run test -- --watch",
-    "prepublishOnly": "npm run test && npm run build && npm run filesize"
+    "prepublishOnly": "npm run test && npm run build"
   },
   "keywords": [
     "react",
