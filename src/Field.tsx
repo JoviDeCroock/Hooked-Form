@@ -15,6 +15,8 @@ export interface FieldProps {
   [x: string]: any;
 }
 
+const defaultWatchables = ['disabled', 'className'];
+
 const FieldContainer: React.FC<FieldProps> = (
   { component, fieldId, innerRef, watchableProps, ...rest },
 ) => {
@@ -40,9 +42,15 @@ const FieldContainer: React.FC<FieldProps> = (
     }),
     [
       value, error, isFieldTouched,
-      ...((watchableProps || ['disabled', 'className']).map((key: string) => rest[key])),
+      ...((watchableProps || defaultWatchables).map((key: string) => rest[key])),
     ],
   );
 };
 
-export default FieldContainer;
+export default React.memo(
+  FieldContainer,
+  (
+    { watchableProps: prevWatchable, ...prev }: Props,
+    { watchAbleProps: nextWatchable, ...next }: Props,
+  ) => (nextWatchable || defaultWatchables).every(
+      (prop: string) => prev[prop] === next[prop]));

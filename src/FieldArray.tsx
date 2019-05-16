@@ -41,4 +41,4 @@ const FieldArrayContainer: React.FC<FieldProps> = (
     component ? React.createElement(component, props) : render!(props), [value, error]);
 };
 
-export default FieldArrayContainer;
+export default React.memo(FieldArrayContainer, () => true);
