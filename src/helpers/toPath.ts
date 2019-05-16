@@ -1,6 +1,5 @@
-function makeToPathArrayConverter() {
-  let resultMapping: { [value: string]: Array<string> } = {};
-  let count = 0;
+export default (() => {
+  const resultMapping: { [value: string]: Array<string> } = {};
 
   return function toPathArray(value: string) {
     if (resultMapping[value]) return resultMapping[value];
@@ -15,11 +14,6 @@ function makeToPathArrayConverter() {
       } else result.push(part);
     });
 
-    if (count >= 600) { resultMapping = {}; }
-    count++; // tslint:disable-line
-
     return resultMapping[value] = result;
   };
-}
-
-export default makeToPathArrayConverter();
+})();
