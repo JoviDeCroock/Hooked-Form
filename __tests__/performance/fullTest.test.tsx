@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Form, Field, FieldArray } from '../../dist/prod/hooked-form';
+import { Form, Field, FieldArray } from '../../src';
 import * as React from 'react';
 import { act as nativeAct, cleanup, render, fireEvent } from 'react-testing-library';
 const { createElement } = React;
@@ -16,9 +16,11 @@ let perfArray: any = []
 const StringField = ({ onChange, value, label, i }) => {
   const onChangeCb = React.useCallback((e) => {
     const start = performance.now();
-    act(() => {
-      onChange(e.target.value);
-    })
+    for (let i = 500; i--;) {
+      act(() => {
+        onChange(e.target.value + i);
+      })
+    }
     perfArray.push(performance.now() - start);
   }, [onChange]);
   return (
@@ -58,7 +60,7 @@ const array10 = new Array(10).fill({ title: '' });
 const array100 = new Array(100).fill({ title: '' });
 const array500 = new Array(500).fill({ title: '' });
 
-describe.only('Stress-Test', () => {
+describe('Stress-Test', () => {
   afterEach(() => {
     perfArray = [];
     cleanup();
@@ -68,25 +70,19 @@ describe.only('Stress-Test', () => {
     const { getByTestId } = render(<AppForm fields={array10} />);
     // @ts-ignore
     let input = getByTestId('0');
-    for(let i = 0; i < 50; i++) {
-      fireEvent.change(input, { target: { value: i } })
-    }
+    fireEvent.change(input, { target: { value: '0' } })
 
     input = getByTestId('9');
-    for(let i = 0; i < 50; i++) {
-      fireEvent.change(input, { target: { value: i } })
-    }
+    fireEvent.change(input, { target: { value: '9' } })
 
     input = getByTestId('4');
-    for(let i = 0; i < 50; i++) {
-      fireEvent.change(input, { target: { value: i } })
-    }
+    fireEvent.change(input, { target: { value: '4' } })
 
 
     const sum = perfArray.reduce((acc: any, num: number) => acc + num);
-    const average = sum / 150;
-    expect(perfArray.length).toBe(150);
-    expect(average).toBeLessThan(1);
+    const average = sum / 3;
+    expect(perfArray.length).toBe(3);
+    expect(average).toBeLessThan(2);
     console.log('avg', average);
   });
 
@@ -94,25 +90,19 @@ describe.only('Stress-Test', () => {
     const { getByTestId } = render(<AppForm2 fields={array100} />);
     // @ts-ignore
     let input = getByTestId('0');
-    for(let i = 0; i < 50; i++) {
-      fireEvent.change(input, { target: { value: i } })
-    }
+    fireEvent.change(input, { target: { value: '0' } })
 
     input = getByTestId('22');
-    for(let i = 0; i < 50; i++) {
-      fireEvent.change(input, { target: { value: i } })
-    }
+    fireEvent.change(input, { target: { value: '22' } })
 
     input = getByTestId('97');
-    for(let i = 0; i < 50; i++) {
-      fireEvent.change(input, { target: { value: i } })
-    }
+    fireEvent.change(input, { target: { value: '97' } })
 
 
     const sum = perfArray.reduce((acc: any, num: number) => acc + num);
     const average = sum / 150;
-    expect(perfArray.length).toBe(150);
-    expect(average).toBeLessThan(1);
+    expect(perfArray.length).toBe(3);
+    expect(average).toBeLessThan(2);
     console.log('avg', average);
   });
 
@@ -120,24 +110,18 @@ describe.only('Stress-Test', () => {
     const { getByTestId } = render(<AppForm3 fields={array500} />);
     // @ts-ignore
     let input = getByTestId('0');
-    for(let i = 0; i < 50; i++) {
-      fireEvent.change(input, { target: { value: i } })
-    }
+    fireEvent.change(input, { target: { value: '0' } })
 
     input = getByTestId('22');
-    for(let i = 0; i < 50; i++) {
-      fireEvent.change(input, { target: { value: i } })
-    }
+    fireEvent.change(input, { target: { value: '22' } })
 
     input = getByTestId('97');
-    for(let i = 0; i < 50; i++) {
-      fireEvent.change(input, { target: { value: i } })
-    }
+    fireEvent.change(input, { target: { value: '97' } })
 
     const sum = perfArray.reduce((acc: any, num: number) => acc + num);
     const average = sum / 150;
-    expect(perfArray.length).toBe(150);
-    expect(average).toBeLessThan(1);
+    expect(perfArray.length).toBe(3);
+    expect(average).toBeLessThan(2);
     console.log('avg', average);
   });
 });
