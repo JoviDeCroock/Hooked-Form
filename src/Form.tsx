@@ -30,8 +30,6 @@ const OptionsContainer = ({
   validateOnChange,
 }: FormOptions) => {
   let initialValues = formInitialValues || {};
-  let initialTouched = deriveInitial(initialValues, false);
-  let initialErrors = deriveInitial(initialValues, null);
   let hasInitialized = false;
   let isDirty = false;
 
@@ -39,14 +37,21 @@ const OptionsContainer = ({
     return function FormWrapper(props: { [property: string]: any }) {
       if (mapPropsToValues && !hasInitialized) {
         initialValues = mapPropsToValues(props);
-        initialTouched = deriveInitial(initialValues, false);
-        initialErrors = deriveInitial(initialValues, null);
         hasInitialized = true;
       }
 
+      const passDownProps = enableReinitialize ? Object.values(props) : [];
+
       const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(initialValues);
-      const { 0: touched, 1:touch, 2: setTouchedState } = useState(initialTouched);
-      const { 0: formErrors, 2: setErrorState } = useState(initialErrors);
+      const {
+        0: touched,
+        1: touch,
+        2: setTouchedState,
+      } = useState(() => deriveInitial(initialValues, false));
+      const {
+        0: formErrors,
+        2: setErrorState,
+      } = useState(() => deriveInitial(initialValues, null));
       const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
       const { 0: formError, 1: setFormError } = React.useState(null);
 
@@ -67,7 +72,7 @@ const OptionsContainer = ({
         setValuesState(initialValues);
         setTouchedState(deriveInitial(initialValues, false));
         setErrorState(deriveInitial(initialValues, null));
-      }, [props, mapPropsToValues, initialValues]);
+      }, [...passDownProps, mapPropsToValues, initialValues]);
 
       const handleSubmit = React.useCallback(async (event?: React.FormEvent<HTMLFormElement>) => {
         if (event && event.preventDefault) event.preventDefault();
@@ -76,8 +81,9 @@ const OptionsContainer = ({
         const errors = validateForm();
 
         setTouchedState(deriveInitial(errors, true));
-        if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) return;
-        setSubmitting(true);
+        if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) {
+          return setSubmitting(false);
+        }
 
         return new Promise(resolve => resolve(submit(values, props, setFormError)))
           .then((result: any) => {
@@ -90,18 +96,21 @@ const OptionsContainer = ({
           });
       }, [values]);
 
+      React.useEffect(() => {
+        if (isSubmitting) handleSubmit();
+      }, [isSubmitting]);
+
       // Make our listener for the reinitialization when need be.
-      if (enableReinitialize) { React.useEffect(() => { resetForm(); }, [initialValues, props]); }
+      if (enableReinitialize) {
+        React.useEffect(() => {
+          resetForm();
+        }, [initialValues, ...passDownProps]);
+      }
 
       // Run validations when needed.
       React.useEffect(() => {
         validateForm();
       }, [validateOnBlur && touched, validateOnChange && values]);
-
-      // The submit for our form.
-      const handleSubmitProp = React.useCallback((event?: any) => {
-        handleSubmit(event);
-      }, [handleSubmit]);
 
       // The onBlur we can use for our Fields,
       // should also be renewed context wise when our values are altered.
@@ -114,6 +123,11 @@ const OptionsContainer = ({
       const onChange = React.useCallback((fieldId: string, value: any) => {
         isDirty = true;
         setFieldValue(fieldId, value);
+      }, []);
+
+      const submitForm = React.useCallback((e?: React.SyntheticEvent) => {
+        if (e && e.preventDefault) e.preventDefault();
+        setSubmitting(() => true);
       }, []);
 
       const providerValue = React.useMemo(() => ({
@@ -138,17 +152,20 @@ const OptionsContainer = ({
         values,
       ]);
 
+      const comp = React.useMemo(() => (
+        <Component
+          change={onChange}
+          formError={formError}
+          handleSubmit={submitForm}
+          isSubmitting={isSubmitting}
+          resetForm={resetForm}
+          isDirty={isDirty}
+          {...props}
+        />), [...passDownProps, formError, isSubmitting]);
+
       return (
         <Provider value={providerValue}>
-          <Component
-            change={onChange}
-            formError={formError}
-            handleSubmit={handleSubmitProp}
-            isSubmitting={isSubmitting}
-            resetForm={resetForm}
-            isDirty={isDirty}
-            {...props}
-          />
+          {comp}
         </Provider>
       );
     };
