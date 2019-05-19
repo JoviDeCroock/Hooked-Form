@@ -111,12 +111,12 @@ describe('Form', () => {
     const onSubmit = jest.fn();
     const { getProps } = makeForm({ onSubmit, validate: (values: any) => ({ name: !values.name ? 'required' : undefined }) });
     let { handleSubmit } = getProps();
-    const { change } = getProps();
     act(() => { handleSubmit() });
-    const { errors, touched } = getProps();
+    const { errors, touched, isSubmitting } = getProps();
     expect(onSubmit).not.toBeCalled();
     expect(errors.name).toBe('required');
     expect(touched.name).toBeTruthy();
+    expect(isSubmitting).toBe(false);
   });
 
   it('calls onSubmit when needed', async () => {
