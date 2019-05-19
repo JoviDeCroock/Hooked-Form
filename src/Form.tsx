@@ -44,6 +44,8 @@ const OptionsContainer = ({
         hasInitialized = true;
       }
 
+      const passDownProps = enableReinitialize ? Object.values(props) : [];
+
       const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(initialValues);
       const { 0: touched, 1:touch, 2: setTouchedState } = useState(initialTouched);
       const { 0: formErrors, 2: setErrorState } = useState(initialErrors);
@@ -67,7 +69,7 @@ const OptionsContainer = ({
         setValuesState(initialValues);
         setTouchedState(deriveInitial(initialValues, false));
         setErrorState(deriveInitial(initialValues, null));
-      }, [props, mapPropsToValues, initialValues]);
+      }, [...passDownProps, mapPropsToValues, initialValues]);
 
       const handleSubmit = React.useCallback(async (event?: React.FormEvent<HTMLFormElement>) => {
         if (event && event.preventDefault) event.preventDefault();
@@ -96,7 +98,11 @@ const OptionsContainer = ({
       }, [isSubmitting]);
 
       // Make our listener for the reinitialization when need be.
-      if (enableReinitialize) { React.useEffect(() => { resetForm(); }, [initialValues, props]); }
+      if (enableReinitialize) {
+        React.useEffect(() => {
+          resetForm();
+        }, [initialValues, ...passDownProps]);
+      }
 
       // Run validations when needed.
       React.useEffect(() => {
@@ -143,17 +149,20 @@ const OptionsContainer = ({
         values,
       ]);
 
+      const comp = React.useMemo(() => (
+        <Component
+          change={onChange}
+          formError={formError}
+          handleSubmit={submitForm}
+          isSubmitting={isSubmitting}
+          resetForm={resetForm}
+          isDirty={isDirty}
+          {...props}
+        />), [...passDownProps, formError, isSubmitting]);
+
       return (
         <Provider value={providerValue}>
-          <Component
-            change={onChange}
-            formError={formError}
-            handleSubmit={submitForm}
-            isSubmitting={isSubmitting}
-            resetForm={resetForm}
-            isDirty={isDirty}
-            {...props}
-          />
+          {comp}
         </Provider>
       );
     };
