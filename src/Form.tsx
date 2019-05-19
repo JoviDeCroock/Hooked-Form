@@ -30,8 +30,6 @@ const OptionsContainer = ({
   validateOnChange,
 }: FormOptions) => {
   let initialValues = formInitialValues || {};
-  let initialTouched = deriveInitial(initialValues, false);
-  let initialErrors = deriveInitial(initialValues, null);
   let hasInitialized = false;
   let isDirty = false;
 
@@ -39,16 +37,21 @@ const OptionsContainer = ({
     return function FormWrapper(props: { [property: string]: any }) {
       if (mapPropsToValues && !hasInitialized) {
         initialValues = mapPropsToValues(props);
-        initialTouched = deriveInitial(initialValues, false);
-        initialErrors = deriveInitial(initialValues, null);
         hasInitialized = true;
       }
 
       const passDownProps = enableReinitialize ? Object.values(props) : [];
 
       const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(initialValues);
-      const { 0: touched, 1:touch, 2: setTouchedState } = useState(initialTouched);
-      const { 0: formErrors, 2: setErrorState } = useState(initialErrors);
+      const {
+        0: touched,
+        1: touch,
+        2: setTouchedState,
+      } = useState(() => deriveInitial(initialValues, false));
+      const {
+        0: formErrors,
+        2: setErrorState,
+      } = useState(() => deriveInitial(initialValues, null));
       const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
       const { 0: formError, 1: setFormError } = React.useState(null);
 
