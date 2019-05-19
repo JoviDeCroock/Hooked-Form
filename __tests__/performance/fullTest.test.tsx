@@ -60,7 +60,7 @@ const array10 = new Array(10).fill({ title: '' });
 const array100 = new Array(100).fill({ title: '' });
 const array500 = new Array(500).fill({ title: '' });
 
-describe('Stress-Test', () => {
+describe.skip('Stress-Test', () => {
   afterEach(() => {
     perfArray = [];
     cleanup();
