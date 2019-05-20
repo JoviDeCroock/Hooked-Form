@@ -10,16 +10,18 @@ export interface FormOptions {
   mapPropsToValues?: (props: object) => InitialValues;
   onError?: (error: object, setFormError: (error: any) => void) => void;
   onSuccess?: (result?: any) => void;
-  onSubmit?: (values: object, props: object) => Promise<any> | any;
+  onSubmit: (values: object, props: object) => Promise<any> | any;
   shouldSubmitWhenInvalid?: boolean;
   validate?: (values: object) => object;
   validateOnBlur?: boolean;
   validateOnChange?: boolean;
 }
 
+const EMPTY_OBJ = {};
+
 const OptionsContainer = ({
   enableReinitialize,
-  initialValues: formInitialValues,
+  initialValues: formInitialValues, // TODO: deprecate
   mapPropsToValues,
   onSubmit,
   validate,
@@ -29,63 +31,62 @@ const OptionsContainer = ({
   validateOnBlur,
   validateOnChange,
 }: FormOptions) => {
-  let initialValues = formInitialValues || {};
-  let hasInitialized = false;
+  const initialValues = formInitialValues || EMPTY_OBJ;
   let isDirty = false;
 
   return function FormOuterWrapper(Component: any) {
     return function FormWrapper(props: { [property: string]: any }) {
-      if (mapPropsToValues && !hasInitialized) {
-        initialValues = mapPropsToValues(props);
-        hasInitialized = true;
-      }
+      const passDownProps = React.useMemo(() =>
+        enableReinitialize ? Object.values(props) : [], [enableReinitialize && props]);
 
-      const passDownProps = enableReinitialize ? Object.values(props) : [];
+      const {
+        0: values,
+        1: setFieldValue,
+        2: setValuesState,
+      } = useState(() => mapPropsToValues ? mapPropsToValues(props) : initialValues);
 
-      const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(initialValues);
       const {
         0: touched,
         1: touch,
         2: setTouchedState,
-      } = useState(() => deriveInitial(initialValues, false));
+      } = useState(EMPTY_OBJ);
+
       const {
         0: formErrors,
         2: setErrorState,
-      } = useState(() => deriveInitial(initialValues, null));
+      } = useState(EMPTY_OBJ);
+
       const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
       const { 0: formError, 1: setFormError } = React.useState(null);
 
       // The validation step in our form, this memoization happens on values and touched.
       const validateForm = React.useCallback(() => {
+        let validationErrors = EMPTY_OBJ;
         if (validate) {
-          const validationErrors = validate(values);
+          validationErrors = validate(values);
           setErrorState(validationErrors);
-          return validationErrors || {};
         }
-        return {};
+        return validationErrors;
       }, [values]);
 
       // Provide a way to reset the full form to the initialValues.
       const resetForm = React.useCallback(() => {
         isDirty = false;
-        initialValues = mapPropsToValues ? mapPropsToValues(props) : initialValues;
-        setValuesState(initialValues);
-        setTouchedState(deriveInitial(initialValues, false));
-        setErrorState(deriveInitial(initialValues, null));
-      }, [...passDownProps, mapPropsToValues, initialValues]);
+        setValuesState(mapPropsToValues ? mapPropsToValues(props) : initialValues);
+        setTouchedState(EMPTY_OBJ);
+        setErrorState(EMPTY_OBJ);
+      }, [...passDownProps]);
 
       const handleSubmit = React.useCallback(async (event?: React.FormEvent<HTMLFormElement>) => {
         if (event && event.preventDefault) event.preventDefault();
 
-        const submit = onSubmit || props.onSubmit;
         const errors = validateForm();
-
         setTouchedState(deriveInitial(errors, true));
         if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) {
           return setSubmitting(false);
         }
 
-        return new Promise(resolve => resolve(submit(values, props, setFormError)))
+        return new Promise(resolve => resolve(onSubmit(values, props)))
           .then((result: any) => {
             setSubmitting(false);
             if (onSuccess) onSuccess(result);
@@ -101,11 +102,9 @@ const OptionsContainer = ({
       }, [isSubmitting]);
 
       // Make our listener for the reinitialization when need be.
-      if (enableReinitialize) {
-        React.useEffect(() => {
-          resetForm();
-        }, [initialValues, ...passDownProps]);
-      }
+      React.useEffect(() => {
+        if (enableReinitialize) resetForm();
+      }, [...passDownProps]);
 
       // Run validations when needed.
       React.useEffect(() => {
@@ -133,7 +132,6 @@ const OptionsContainer = ({
       const providerValue = React.useMemo(() => ({
         errors: formErrors as Errors,
         formError,
-        initialValues,
         isDirty,
         setFieldTouched,
         setFieldValue: onChange,
@@ -143,7 +141,6 @@ const OptionsContainer = ({
       }), [
         formErrors,
         formError,
-        initialValues,
         isDirty,
         setFieldTouched,
         onChange,
