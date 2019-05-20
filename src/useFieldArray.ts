@@ -14,7 +14,6 @@ export interface FieldOperations {
   add: (item: any) => void;
   insert: (at: number, element: object) => void;
   move: (from: number, to: number) => void;
-  setFieldValue: (fieldId: string, value: any) => void;
   remove: (toDelete: object | number) => void;
   replace: (at: number, element: object) => void;
   swap: (first: number, second: number) => void;
@@ -55,7 +54,6 @@ export default function useFieldArray(fieldId: string): [FieldOperations, FieldI
       replace: React.useCallback((at: number, element: object) => {
         setFieldValue(fieldId, aReplace(value, at, element));
       }, [value]),
-      setFieldValue,
       swap: React.useCallback((from: number, to: number) => {
         setFieldValue(fieldId, aSwap(value, from, to));
       }, [value]),
