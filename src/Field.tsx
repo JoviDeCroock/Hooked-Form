@@ -25,19 +25,17 @@ const FieldContainer: React.FC<FieldProps> = (
   }
 
   const {
-    0: { onChange, onBlur, onFocus },
+    0: actions,
     1: { error, touched: isFieldTouched, value },
   } = useField(fieldId);
 
-  return React.useMemo(
-    () => React.createElement(component, {
+  return React.useMemo(() =>
+    React.createElement(component, {
       error,
-      onBlur,
-      onChange,
-      onFocus,
       ref: innerRef,
       touched: isFieldTouched,
       value,
+      ...actions,
       ...rest,
     }),
     [
