@@ -18,8 +18,7 @@
     "noImplicitReturns": true,
     "importHelpers": true,
     "stripInternal": true,
-    "lib": ["es2015", "dom"],
-    "allowJs": true
+    "lib": ["es2015", "dom"]
   },
   "exclude": ["__tests__/**/*"],
   "include": ["src/**/*"],
