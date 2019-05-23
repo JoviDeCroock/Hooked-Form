@@ -31,9 +31,7 @@ function setHelper(
 
   const continuedPath: any = setHelper(currentValue, value, pathArray, currentIndex + 1);
 
-  if (!source) {
-    return { [currentPath]: continuedPath };
-  }
+  if (!source) return { [currentPath]: continuedPath };
 
   // FieldArray copying.
   if (Array.isArray(source)) {
