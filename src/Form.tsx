@@ -57,15 +57,12 @@ const OptionsContainer = ({
       } = useState(EMPTY_OBJ);
 
       const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
-      const { 0: formError, 1: setFormError } = React.useState(null);
+      const { 0: formError, 1: setFormError } = React.useState();
 
       // The validation step in our form, this memoization happens on values and touched.
       const validateForm = React.useCallback(() => {
-        let validationErrors = EMPTY_OBJ;
-        if (validate) {
-          validationErrors = validate(values);
-          setErrorState(validationErrors);
-        }
+        const validationErrors = validate ? validate(values) : EMPTY_OBJ;
+        setErrorState(validationErrors);
         return validationErrors;
       }, [values]);
 
