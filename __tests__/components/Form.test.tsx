@@ -1,12 +1,6 @@
 import * as React from 'react';
-import { act as nativeAct, cleanup, render, wait } from 'react-testing-library';
+import { act, cleanup, render, wait } from 'react-testing-library';
 import { Form, useFormConnect } from '../../src';
-
-let act = nativeAct;
-if (!act) {
-  const { act: preactAct } = require('preact/test-utils');
-  act = preactAct;
-}
 
 const Component = () => (<p>Hi</p>);
 
@@ -107,7 +101,7 @@ describe('Form', () => {
     expect(validate).toBeCalledTimes(3);
   });
 
-  it('makes error onSubmit', () => {
+  it('makes error and touches all fields onSubmit', () => {
     const onSubmit = jest.fn();
     const { getProps } = makeForm({ onSubmit, validate: (values: any) => ({ name: !values.name ? 'required' : undefined }) });
     let { handleSubmit } = getProps();
