@@ -1,21 +1,14 @@
 import * as React from 'react';
-import { act as nativeAct, cleanup, render } from 'react-testing-library';
-const { createElement } = React;
+import { act, cleanup, render } from 'react-testing-library';
 
 import { ErrorMessage, Form } from '../../src';
-
-let act = nativeAct;
-if (!act) {
-  const { act: preactAct } = require('preact/test-utils');
-  act = preactAct
-}
 
 let renders = 0;
 const ErrorDisplay = ({ error }: { error: string }) => {
   renders +=1;
-  return <p data-testid="error">{error}</p>;
+  return <p>{error}</p>;
 }
-// @ts-ignore
+
 const Component = () => <ErrorMessage fieldId="name" component={ErrorDisplay} />;
 
 const makeForm = (formOptions?: object, props?: object) => {
@@ -26,7 +19,6 @@ const makeForm = (formOptions?: object, props?: object) => {
   })((formProps: any) => (injectedProps = formProps) && <Component {...formProps} />);
   return {
     getProps: () => injectedProps,
-    // @ts-ignore
     ...render(<TestForm {...props} />),
   };
 };
