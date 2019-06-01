@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { act, cleanup, render } from 'react-testing-library';
 
-import { ErrorMessage, Form } from '../../src';
+import { Form, Field } from '../../src';
 
 let renders = 0;
-const ErrorDisplay = ({ error }: { error: string }) => {
+const StringField = ({ error }: { error: string }) => {
   renders +=1;
   return <p>{error}</p>;
 }
 
-const Component = () => <ErrorMessage fieldId="name" component={ErrorDisplay} />;
+const Component = () => <Field fieldId="name" component={StringField} />;
 
 const makeForm = (formOptions?: object, props?: object) => {
   let injectedProps: any;
@@ -32,7 +32,7 @@ describe('ErorrMessage', () => {
   describe('performance', () => {
     it('should not rerender when props change or parent rerenders', () => {
       const { getProps, getByTestId, rerender, ...rest } =
-        makeForm({ validate: (values: any = {}) => values.name === 'jovi' ? ({ name: 'bad' }) : ({}), validateOnChange: true });
+        makeForm({ initialValues: { name: 'j' } });
       const { change } = getProps();
       expect(renders).toBe(1);
       act(() => {

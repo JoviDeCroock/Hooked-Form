@@ -8,7 +8,8 @@
     "prefer-array-literal": false,
     "jsx-no-multiline-js": false,
     "variable-name": false,
-    "import-name": false
+    "import-name": false,
+    "no-parameter-reassignment": false
   },
   "linterOptions": {
     "exclude": [

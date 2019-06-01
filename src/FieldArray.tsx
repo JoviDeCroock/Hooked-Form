@@ -9,7 +9,7 @@ export interface FieldProps {
 }
 
 const FieldArrayContainer: React.FC<FieldProps> = (
-  { component, render, fieldId, ...rest },
+  { component, render, fieldId },
 ) => {
   if (process.env.NODE_ENV !== 'production' && !component && !render) {
     throw new Error(
@@ -17,28 +17,20 @@ const FieldArrayContainer: React.FC<FieldProps> = (
     );
   }
   const {
-    0: {
-      add, insert, move, remove,
-      replace, swap,
-    },
+    0: actions,
     1: { value, error },
   } = useFieldArray(fieldId);
 
   const props = {
-    add,
     error,
     fieldId,
-    insert,
-    move,
-    remove,
-    replace,
-    swap,
     value,
-    ...rest,
+    ...actions,
   };
 
-  return React.useMemo(() =>
-    component ? React.createElement(component, props) : render!(props), [value, error]);
+  return React.useMemo(() => component ?
+    React.createElement(component, props) :
+    render!(props), [value, error]);
 };
 
-export default FieldArrayContainer;
+export default React.memo(FieldArrayContainer, () => true);

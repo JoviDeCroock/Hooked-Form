@@ -18,7 +18,6 @@ export interface FormHookContext {
   errors: Errors;
   isDirty?: boolean;
   formError?: string | null;
-  initialValues: InitialValues;
   setFieldValue: (fieldId: string, value: any) => void;
   setFieldTouched: (fieldId: string, value: any) => void;
   touched: Touched;

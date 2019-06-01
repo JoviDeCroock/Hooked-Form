@@ -15,6 +15,8 @@ export interface FieldProps {
   [x: string]: any;
 }
 
+const defaultWatchables = ['disabled', 'className'];
+
 const FieldContainer: React.FC<FieldProps> = (
   { component, fieldId, innerRef, watchableProps, ...rest },
 ) => {
@@ -23,26 +25,30 @@ const FieldContainer: React.FC<FieldProps> = (
   }
 
   const {
-    0: { onChange, onBlur, onFocus },
+    0: actions,
     1: { error, touched: isFieldTouched, value },
   } = useField(fieldId);
 
-  return React.useMemo(
-    () => React.createElement(component, {
+  return React.useMemo(() =>
+    React.createElement(component, {
       error,
-      onBlur,
-      onChange,
-      onFocus,
       ref: innerRef,
       touched: isFieldTouched,
       value,
+      ...actions,
       ...rest,
     }),
     [
       value, error, isFieldTouched,
-      ...((watchableProps || ['disabled', 'className']).map((key: string) => rest[key])),
+      ...((watchableProps || defaultWatchables).map((key: string) => rest[key])),
     ],
   );
 };
 
-export default FieldContainer;
+export default React.memo(
+  FieldContainer,
+  (
+    { watchableProps: prevWatchable, ...prev }: Props,
+    { watchAbleProps: nextWatchable, ...next }: Props,
+  ) => (nextWatchable || defaultWatchables).every(
+      (prop: string) => prev[prop] === next[prop]));

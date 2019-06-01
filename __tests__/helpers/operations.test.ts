@@ -30,6 +30,14 @@ describe('operations', () => {
   });
 
   it('Should set the values', () => {
-    // TODO:
+    let newSource = { ...source };
+    newSource = set(newSource, 'name', 'Liesse');
+    expect(get(newSource, 'name')).toEqual('Liesse');
+    newSource = set(newSource, 'friends[2].name', 'Jovi');
+    expect(get(newSource, 'friends[2].name')).toEqual('Jovi');
+    newSource = set(newSource, 'work.name', 'Codifly');
+    expect(get(newSource, 'work.name')).toEqual('Codifly');
+    newSource = set(newSource, 'friends[3].enemies.name', 'Lo');
+    expect(get(newSource, 'friends[3].enemies.name')).toEqual('Lo');
   });
 });

@@ -1,6 +1,6 @@
 {
   "name": "hooked-form",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Forms done with React-Hooks",
   "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
   "private": false,
@@ -14,9 +14,8 @@
     "cleanup": "rimraf .rpt2_cache && rimraf .rts2_cache_cjs && rimraf .rts2_cache_umd && rimraf .rts2_cache_es",
     "filesize": "bundlesize",
     "test": "cross-env NODE_ENV=test jest",
-    "test:preact": "cross-env NODE_ENV=test jest --config ./jest.preact.config.json",
     "test:watch": "cross-env npm run test -- --watch",
-    "prepublishOnly": "npm run test && npm run build && npm run filesize"
+    "prepublishOnly": "npm run test && npm run build"
   },
   "keywords": [
     "react",
@@ -43,22 +42,20 @@
     "@types/react": "16.8.2"
   },
   "devDependencies": {
-    "@ampproject/rollup-plugin-closure-compiler": "^0.8.5",
+    "@ampproject/rollup-plugin-closure-compiler": "0.9.0",
     "@types/jest": "23.3.13",
     "@types/react": "16.8.8",
     "@types/react-dom": "16.8.2",
-    "codecov": "3.2.0",
+    "codecov": "3.5.0",
     "cross-env": "5.2.0",
     "jest": "23.6.0",
     "jest-cli": "23.6.0",
     "microbundle": "0.11.0",
-    "preact": "10.0.0-beta.1",
-    "preact-testing-library": "0.3.0",
     "react": "16.9.0-alpha.0",
     "react-dom": "16.9.0-alpha.0",
-    "react-testing-library": "7.0.0",
-    "rimraf": "^2.6.3",
-    "rollup": "1.9.0",
+    "react-testing-library": "7.0.1",
+    "rimraf": "2.6.3",
+    "rollup": "1.12.3",
     "rollup-plugin-filesize": "6.0.1",
     "rollup-plugin-node-resolve": "4.2.1",
     "rollup-plugin-replace": "^2.2.0",

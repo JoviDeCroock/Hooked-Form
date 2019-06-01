@@ -1,12 +1,4 @@
 import * as React from 'react';
-import {
-  add as aAdd,
-  insert as aInsert,
-  move as aMove,
-  remove as aRemove,
-  replace as aReplace,
-  swap as aSwap,
-} from './helpers/arrays';
 import { formContext } from './helpers/context';
 import { get } from './helpers/operations';
 
@@ -14,7 +6,6 @@ export interface FieldOperations<T> {
   add: (item: T) => void;
   insert: (at: number, element: T) => void;
   move: (from: number, to: number) => void;
-  setFieldValue: (fieldId: string, value: T) => void;
   remove: (toDelete: T | number) => void;
   replace: (at: number, element: T) => void;
   swap: (first: number, second: number) => void;
@@ -42,23 +33,34 @@ export default function useFieldArray<T = any>(fieldId: string):
   return [
     {
       add: React.useCallback((element: T) => {
-        setFieldValue(fieldId, aAdd(value, element));
+        setFieldValue(fieldId, [...value, element]);
       }, [value]),
       insert: React.useCallback((at: number, element: T) => {
-        setFieldValue(fieldId, aInsert(value, at, element));
+        const result = [...value];
+        result.splice(at, 0, element);
+        setFieldValue(fieldId, result);
       }, [value]),
       move: React.useCallback((from: number, to: number) => {
-        setFieldValue(fieldId, aMove(value, from, to));
+        const result = [...value];
+        result.splice(from, 1);
+        result.splice(to, 0, value[from]);
+        setFieldValue(fieldId, result);
       }, [value]),
       remove: React.useCallback((element: T | number) => {
-        setFieldValue(fieldId, aRemove(value, element));
+        setFieldValue(
+          fieldId,
+          value.filter(x => x !== (typeof element === 'number' ? value[element] : element)),
       }, [value]),
       replace: React.useCallback((at: number, element: T) => {
-        setFieldValue(fieldId, aReplace(value, at, element));
+        const result = [...value];
+        result[at] = element;
+        setFieldValue(fieldId, result);
       }, [value]),
-      setFieldValue,
       swap: React.useCallback((from: number, to: number) => {
-        setFieldValue(fieldId, aSwap(value, from, to));
+        const result = [...value];
+        result[from] = value[to];
+        result[to] = value[from];
+        setFieldValue(fieldId, result);
       }, [value]),
     },
     {

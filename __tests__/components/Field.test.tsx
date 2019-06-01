@@ -1,23 +1,18 @@
 
 import * as React from 'react';
-import { act as nativeAct, cleanup, fireEvent, render } from 'react-testing-library';
+import { act, cleanup, fireEvent, render } from 'react-testing-library';
 
 import { Field, Form } from '../../src';
 
-let act = nativeAct;
-if (!act) {
-  const { act: preactAct } = require('preact/test-utils');
-  act = preactAct;
-}
-
 const StringField = (
-  { touched, error, onChange, onBlur, value, id }:
-  { touched: boolean, id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
+  { touched, error, onChange, onBlur, value, id, onFocus }:
+  { touched: boolean, id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any, onFocus: () => void }) => (
   <React.Fragment>
     <input
       data-testid={id}
       onBlur={onBlur}
       onChange={(e: any) => onChange(e.target.value)}
+      onFocus={onFocus}
       value={value}
     />
     <p data-testid={`${id}-error`}>{error}</p>
@@ -103,6 +98,11 @@ describe('Field', () => {
         fireEvent.blur(nameField)
       });
       expect(nameErrorField.textContent).toEqual('bad');
+      act(() => {
+        fireEvent.focus(nameField)
+      });
+      const touched = getByTestId('name-touched');
+      expect(touched.innerHTML).toBe('untouched');
     });
 
     it('should throw without a component/render', () => {

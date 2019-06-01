@@ -1,13 +1,7 @@
 import * as React from 'react';
-import { act as nativeAct, cleanup, fireEvent, render } from 'react-testing-library';
+import { act, cleanup, fireEvent, render } from 'react-testing-library';
 
 import { Field, FieldArray, Form, useFormConnect } from '../../src';
-
-let act = nativeAct;
-if (!act) {
-  const { act: preactAct } = require('preact/test-utils');
-  act = preactAct;
-}
 
 const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
   <React.Fragment>
@@ -23,7 +17,7 @@ const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error
 
 const Component = ({ fieldId }: { fieldId: string }) => (<Field fieldId={fieldId} component={StringField} id={fieldId} />);
 
-const ArrayContainer = ({ fieldId, add, value, remove, swap, insert, move }:
+const ArrayContainer = ({ fieldId, add, value, remove, swap, insert, move, replace }:
   {
     add: (input: object) => void,
     fieldId: string,
@@ -32,6 +26,7 @@ const ArrayContainer = ({ fieldId, add, value, remove, swap, insert, move }:
     swap: (from: number, to: number) => void,
     insert: (at: number, input: object) => void,
     move: (from: number, to: number) => void,
+    replace: (at: number, item: object) => void,
   }) => {
   return (
     <React.Fragment>
@@ -45,6 +40,7 @@ const ArrayContainer = ({ fieldId, add, value, remove, swap, insert, move }:
       <button data-testid="insert-element" onClick={() => insert(1, { name: `${value.length}` })}>Insert</button>
       <button data-testid="swap-element" onClick={() => swap(0, 1)}>Swap</button>
       <button data-testid="move-element" onClick={() => move(0, 1)}>Move</button>
+      <button data-testid="replace-element" onClick={() => replace(1, { name: `hi` })}>Move</button>
     </React.Fragment>
   );
 }
@@ -193,4 +189,36 @@ describe('FieldArray', () => {
     expect(values.friends).toHaveLength(1);
     expect(values.friends[0].name).toEqual('J')
   });
+
+  it('Should replace fields when asked to', () => {
+    const { getByTestId, getProps } = makeForm();
+    const replace = getByTestId('replace-element');
+    act(() => {
+      fireEvent.click(replace);
+    });
+    const { values } = getProps();
+    expect(values.friends[1].name).toEqual('hi')
+  });
+
+  it('should throw without a component/render', () => {
+    // @ts-ignore
+    const Comp = ({ fieldId }: { fieldId: string }) => (<FieldArray fieldId={fieldId} id={fieldId} />);
+
+    const makeErroneousForm = (formOptions?: object, props?: object) => {
+      let injectedProps: any;
+      const TestForm = Form({
+        onSubmit: () => null,
+        ...formOptions,
+      })((formProps: any) => (injectedProps = formProps) && (
+        <React.Fragment>
+          <Comp fieldId="name" />
+        </React.Fragment>
+      ));
+      return {
+        getProps: () => injectedProps,
+        ...render(<TestForm {...props} />)
+      }
+    }
+    expect(() => makeErroneousForm()).toThrowError(/The FieldArray needs a "component" or a "render" property to function correctly./);
+  })
 });

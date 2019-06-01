@@ -31,20 +31,12 @@ function setHelper(
 
   const continuedPath: any = setHelper(currentValue, value, pathArray, currentIndex + 1);
 
-  if (!source) {
-    if (typeof currentPath == 'number') { // tslint:disable-line
-      const array = [];
-      array[Number(currentPath)] = continuedPath;
-      return array;
-    }
-    return { [currentPath]: continuedPath };
-  }
+  if (!source) return { [currentPath]: continuedPath };
 
   // FieldArray copying.
   if (Array.isArray(source)) {
-    const copiedArray = [...source];
-    copiedArray[Number(currentPath)] = continuedPath;
-    return copiedArray;
+    source[Number(currentPath)] = continuedPath;
+    return source;
   }
 
   return { ...source, [currentPath]: continuedPath };
