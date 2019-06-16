@@ -34,27 +34,19 @@ const OptionsContainer = ({
   const initialValues = formInitialValues || EMPTY_OBJ;
   let isDirty = false;
 
-  return function FormOuterWrapper(Component: any) {
+  return function FormOuterWrapper(Component: React.ComponentType<any> | React.FC<any>) {
     return function FormWrapper(props: { [property: string]: any }) {
-      const passDownProps = React.useMemo(() =>
-        enableReinitialize ? Object.values(props) : [], [enableReinitialize && props]);
+      const passDownProps = React.useMemo(() => (enableReinitialize ? Object.values(props) : []), [
+        enableReinitialize && props,
+      ]);
 
-      const {
-        0: values,
-        1: setFieldValue,
-        2: setValuesState,
-      } = useState(() => mapPropsToValues ? mapPropsToValues(props) : initialValues);
+      const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(() =>
+        mapPropsToValues ? mapPropsToValues(props) : initialValues
+      );
 
-      const {
-        0: touched,
-        1: touch,
-        2: setTouchedState,
-      } = useState(EMPTY_OBJ);
+      const { 0: touched, 1: touch, 2: setTouchedState } = useState(EMPTY_OBJ);
 
-      const {
-        0: formErrors,
-        2: setErrorState,
-      } = useState(EMPTY_OBJ);
+      const { 0: formErrors, 2: setErrorState } = useState(EMPTY_OBJ);
 
       const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
       const { 0: formError, 1: setFormError } = React.useState();
@@ -74,25 +66,28 @@ const OptionsContainer = ({
         setErrorState(EMPTY_OBJ);
       }, [...passDownProps]);
 
-      const handleSubmit = React.useCallback(async (event?: React.FormEvent<HTMLFormElement>) => {
-        if (event && event.preventDefault) event.preventDefault();
+      const handleSubmit = React.useCallback(
+        async (event?: React.FormEvent<HTMLFormElement>) => {
+          if (event && event.preventDefault) event.preventDefault();
 
-        const errors = validateForm();
-        setTouchedState(deriveInitial(errors, true));
-        if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) {
-          return setSubmitting(false);
-        }
+          const errors = validateForm();
+          setTouchedState(deriveInitial(errors, true));
+          if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) {
+            return setSubmitting(false);
+          }
 
-        return new Promise(resolve => resolve(onSubmit(values, props)))
-          .then((result: any) => {
-            setSubmitting(false);
-            if (onSuccess) onSuccess(result);
-          })
-          .catch((e: any) => {
-            setSubmitting(false);
-            if (onError) onError(e, setFormError);
-          });
-      }, [values]);
+          return new Promise(resolve => resolve(onSubmit(values, props)))
+            .then((result: any) => {
+              setSubmitting(false);
+              if (onSuccess) onSuccess(result);
+            })
+            .catch((e: any) => {
+              setSubmitting(false);
+              if (onError) onError(e, setFormError);
+            });
+        },
+        [values]
+      );
 
       React.useEffect(() => {
         if (isSubmitting) handleSubmit();
@@ -126,42 +121,36 @@ const OptionsContainer = ({
         setSubmitting(() => true);
       }, []);
 
-      const providerValue = React.useMemo(() => ({
-        errors: formErrors as Errors,
-        formError,
-        isDirty,
-        setFieldTouched,
-        setFieldValue: onChange,
-        touched: touched as Touched,
-        validate: validateForm,
-        values,
-      }), [
-        formErrors,
-        formError,
-        isDirty,
-        setFieldTouched,
-        onChange,
-        touched,
-        validateForm,
-        values,
-      ]);
-
-      const comp = React.useMemo(() => (
-        <Component
-          change={onChange}
-          formError={formError}
-          handleSubmit={submitForm}
-          isSubmitting={isSubmitting}
-          resetForm={resetForm}
-          isDirty={isDirty}
-          {...props}
-        />), [...passDownProps, formError, isSubmitting]);
-
-      return (
-        <Provider value={providerValue}>
-          {comp}
-        </Provider>
+      const providerValue = React.useMemo(
+        () => ({
+          errors: formErrors as Errors,
+          formError,
+          isDirty,
+          setFieldTouched,
+          setFieldValue: onChange,
+          touched: touched as Touched,
+          validate: validateForm,
+          values,
+        }),
+        [formErrors, formError, isDirty, setFieldTouched, onChange, touched, validateForm, values]
       );
+
+      const comp = React.useMemo(
+        () => (
+          <Component
+            change={onChange}
+            formError={formError}
+            handleSubmit={submitForm}
+            isSubmitting={isSubmitting}
+            resetForm={resetForm}
+            isDirty={isDirty}
+            {...props}
+          />
+        ),
+        [...passDownProps, formError, isSubmitting]
+      );
+
+      return <Provider value={providerValue}>{comp}</Provider>;
     };
   };
 };
