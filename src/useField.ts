@@ -15,20 +15,15 @@ export interface FieldInformation<T> {
   value: T;
 }
 
-export default function useField<T = any>(fieldId: string):
-  [FieldOperations<T>, FieldInformation<T>] {
+export default function useField<T = any>(
+  fieldId: string
+): [FieldOperations<T>, FieldInformation<T>] {
   // Dev-check
   if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
     throw new Error('The Field needs a valid "fieldId" property to  function correctly.');
   }
   // Context
-  const {
-    errors,
-    values,
-    setFieldValue,
-    setFieldTouched,
-    touched,
-  } = React.useContext(formContext);
+  const { errors, values, setFieldValue, setFieldTouched, touched } = React.useContext(formContext);
 
   if (process.env.NODE_ENV !== 'production') {
     React.useDebugValue(`${fieldId} Value: ${get(values, fieldId)}`);
@@ -38,9 +33,15 @@ export default function useField<T = any>(fieldId: string):
 
   return [
     {
-      onBlur: React.useCallback(() => { setFieldTouched(fieldId, true); }, []),
-      onChange: React.useCallback((value: any) => { setFieldValue(fieldId, value); }, []),
-      onFocus: React.useCallback(() => { setFieldTouched(fieldId, false); }, []),
+      onBlur: React.useCallback(() => {
+        setFieldTouched(fieldId, true);
+      }, []),
+      onChange: React.useCallback((value: T) => {
+        setFieldValue(fieldId, value);
+      }, []),
+      onFocus: React.useCallback(() => {
+        setFieldTouched(fieldId, false);
+      }, []),
       setFieldValue,
     },
     {
