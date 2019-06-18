@@ -4,22 +4,22 @@ import { deriveInitial } from './helpers/deriveInitial';
 import useState from './helpers/useState';
 import { Errors, InitialValues, Touched } from './types';
 
-export interface FormOptions {
+export interface FormOptions<T> {
   enableReinitialize?: boolean;
   initialValues?: InitialValues;
   mapPropsToValues?: (props: object) => InitialValues;
   onError?: (error: object, setFormError: (error: any) => void) => void;
-  onSuccess?: (result?: any) => void;
-  onSubmit: (values: object, props: object) => Promise<any> | any;
+  onSuccess?: (result?: Partial<T>) => void;
+  onSubmit: (values: Partial<T>, props: object) => Promise<any> | any;
   shouldSubmitWhenInvalid?: boolean;
-  validate?: (values: object) => object;
+  validate?: (values: Partial<T>) => object;
   validateOnBlur?: boolean;
   validateOnChange?: boolean;
 }
 
 const EMPTY_OBJ = {};
 
-const OptionsContainer = ({
+const OptionsContainer = <T extends object>({
   enableReinitialize,
   initialValues: formInitialValues, // TODO: deprecate
   mapPropsToValues,
@@ -30,7 +30,7 @@ const OptionsContainer = ({
   shouldSubmitWhenInvalid,
   validateOnBlur,
   validateOnChange,
-}: FormOptions) => {
+}: FormOptions<T>) => {
   const initialValues = formInitialValues || EMPTY_OBJ;
   let isDirty = false;
 
