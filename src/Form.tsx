@@ -9,7 +9,7 @@ export interface FormOptions<T> {
   initialValues?: InitialValues;
   mapPropsToValues?: (props: object) => InitialValues;
   onError?: (error: object, setFormError: (error: any) => void) => void;
-  onSuccess?: (result?: Partial<T>) => void;
+  onSuccess?: (result?: any) => void;
   onSubmit: (values: Partial<T>, props: object) => Promise<any> | any;
   shouldSubmitWhenInvalid?: boolean;
   validate?: (values: Partial<T>) => object;
@@ -19,7 +19,7 @@ export interface FormOptions<T> {
 
 const EMPTY_OBJ = {};
 
-const OptionsContainer = <T extends object>({
+const OptionsContainer = <Values extends object>({
   enableReinitialize,
   initialValues: formInitialValues, // TODO: deprecate
   mapPropsToValues,
@@ -30,7 +30,7 @@ const OptionsContainer = <T extends object>({
   shouldSubmitWhenInvalid,
   validateOnBlur,
   validateOnChange,
-}: FormOptions<T>) => {
+}: FormOptions<Values>) => {
   const initialValues = formInitialValues || EMPTY_OBJ;
   let isDirty = false;
 
