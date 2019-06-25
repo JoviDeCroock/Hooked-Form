@@ -17,8 +17,8 @@ export interface FieldProps {
 
 const defaultWatchables = ['disabled', 'className'];
 
-const FieldContainer: React.FC<FieldProps> = (
-  { component, fieldId, innerRef, watchableProps, ...rest },
+const FieldContainer = (
+  { component, fieldId, innerRef, watchableProps, ...rest }: FieldProps,
 ) => {
   if (process.env.NODE_ENV !== 'production' && !component) {
     throw new Error('The Field needs a "component" property to  function correctly.');
