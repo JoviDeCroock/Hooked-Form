@@ -25,3 +25,6 @@ mangle.json
 .github
 /__tests__
 tsconfig.json
+scripts
+rollup.config.js
+CODE_OF_CONDUCT.md
