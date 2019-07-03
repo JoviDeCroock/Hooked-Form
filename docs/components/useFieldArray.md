@@ -10,6 +10,8 @@ This accepts one parameter and that's a `fieldId`, analogue to the `FieldArray` 
 
 In return it will offer you an array with the first element being an object of operations and the second being an object of information about the field
 
+## Properties
+
 First object:
 
 - add
@@ -25,7 +27,9 @@ Second object:
 - error: an error string if there's an error present.
 - value: the current value of this field
 
-Example
+For generics check the staticTyping chapter part.
+
+## Example
 
 ```javascript
 const MyArray = ({ fieldId }) => {

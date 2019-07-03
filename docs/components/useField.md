@@ -10,6 +10,8 @@ This accepts one parameter and that's a `fieldId`, analogue to the `Field` compo
 
 In return it will offer you an array with the first element being an object of operations and the second being an object of information about the field
 
+## Properties
+
 First object:
 
 - onBlur: this indicates that the fieldId will be touched
@@ -24,7 +26,9 @@ Second object:
 - touched: a boolean indicating whether or not this field has been touched
 - value: the current value of this field
 
-Example
+For generics check the staticTyping chapter part.
+
+## Example
 
 ```javascript
 const StringField = ({ fieldId }) => {
