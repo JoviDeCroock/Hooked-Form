@@ -29,20 +29,14 @@ const FieldContainer: React.FC<FieldProps> = (
     1: { error, touched: isFieldTouched, value },
   } = useField(fieldId);
 
-  return React.useMemo(() =>
-    React.createElement(component, {
-      error,
-      ref: innerRef,
-      touched: isFieldTouched,
-      value,
-      ...actions,
-      ...rest,
-    }),
-    [
-      value, error, isFieldTouched,
-      ...((watchableProps || defaultWatchables).map((key: string) => rest[key])),
-    ],
-  );
+  return React.createElement(component, {
+    error,
+    ref: innerRef,
+    touched: isFieldTouched,
+    value,
+    ...actions,
+    ...rest,
+  });
 };
 
 export default React.memo(

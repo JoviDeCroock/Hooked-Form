@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { useContextSelector } from 'use-context-selector';
 import { formContext } from './helpers/context';
 import { get } from './helpers/operations';
+import { FormHookContext } from './types';
 
 export interface FieldOperations<T> {
   onBlur: () => void;
@@ -16,20 +18,14 @@ export interface FieldInformation<T> {
 }
 
 export default function useField<T = any>(
-  fieldId: string
+  fieldId: string,
 ): [FieldOperations<T>, FieldInformation<T>] {
   // Dev-check
   if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
     throw new Error('The Field needs a valid "fieldId" property to  function correctly.');
   }
   // Context
-  const { errors, values, setFieldValue, setFieldTouched, touched } = React.useContext(formContext);
-
-  if (process.env.NODE_ENV !== 'production') {
-    React.useDebugValue(`${fieldId} Value: ${get(values, fieldId)}`);
-    React.useDebugValue(`${fieldId} Touched: ${get(touched, fieldId)}`);
-    React.useDebugValue(`${fieldId} Error: ${get(errors, fieldId)}`);
-  }
+  const { setFieldValue, setFieldTouched } = React.useContext(formContext);
 
   return [
     {
@@ -45,9 +41,12 @@ export default function useField<T = any>(
       setFieldValue,
     },
     {
-      error: React.useMemo(() => get(errors, fieldId), [errors]),
-      touched: React.useMemo(() => get(touched, fieldId), [touched]),
-      value: React.useMemo(() => get(values, fieldId) || '', [values]),
+      error: useContextSelector(
+        formContext, ({ errors }: FormHookContext) => get(errors, fieldId)),
+      touched: useContextSelector(
+        formContext, ({ touched }: FormHookContext) => get(touched, fieldId)),
+      value: useContextSelector(
+        formContext, ({ values }: FormHookContext) => get(values, fieldId) || ''),
     },
   ];
 }

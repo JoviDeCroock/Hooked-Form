@@ -12,7 +12,7 @@ const ErrorContainer: React.FC<FieldProps> = ({ component, fieldId }) => {
     throw new Error('The ErrorMessage needs a "component" property to  function correctly.');
   }
   const error = useError(fieldId);
-  return React.useMemo(() => React.createElement(component, { error }), [error]);
+  return React.createElement(component, { error });
 };
 
 export default React.memo(ErrorContainer, () => true);

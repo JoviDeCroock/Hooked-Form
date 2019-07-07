@@ -69,7 +69,9 @@
     "tslint-react": "3.6.0",
     "typescript": "3.5.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "use-context-selector": "^0.2.0"
+  },
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"

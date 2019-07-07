@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { useContextSelector } from 'use-context-selector';
 import { formContext } from './helpers/context';
 import { get } from './helpers/operations';
+import { FormHookContext } from './types';
 
 export interface FieldOperations<T> {
   add: (item: T) => void;
@@ -17,19 +19,15 @@ export interface FieldInformation<T> {
 }
 
 export default function useFieldArray<T = any>(
-  fieldId: string
+  fieldId: string,
 ): [FieldOperations<T>, FieldInformation<T>] {
   if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
     throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.');
   }
 
-  const { errors, values, setFieldValue } = React.useContext(formContext);
-  const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values]);
-
-  if (process.env.NODE_ENV !== 'production') {
-    React.useDebugValue(`${fieldId} Value: ${value}`);
-    React.useDebugValue(`${fieldId} Error: ${get(errors, fieldId)}`);
-  }
+  const { setFieldValue } = React.useContext(formContext);
+  const value: Array<any> = useContextSelector(
+    formContext, ({ values }: FormHookContext) => get(values, fieldId) || []);
 
   return [
     {
@@ -37,7 +35,7 @@ export default function useFieldArray<T = any>(
         (element: T) => {
           setFieldValue(fieldId, [...value, element]);
         },
-        [value]
+        [value],
       ),
       insert: React.useCallback(
         (at: number, element: T) => {
@@ -45,7 +43,7 @@ export default function useFieldArray<T = any>(
           result.splice(at, 0, element);
           setFieldValue(fieldId, result);
         },
-        [value]
+        [value],
       ),
       move: React.useCallback(
         (from: number, to: number) => {
@@ -54,16 +52,16 @@ export default function useFieldArray<T = any>(
           result.splice(to, 0, value[from]);
           setFieldValue(fieldId, result);
         },
-        [value]
+        [value],
       ),
       remove: React.useCallback(
         (element: T | number) => {
           setFieldValue(
             fieldId,
-            value.filter(x => x !== (typeof element === 'number' ? value[element] : element))
+            value.filter(x => x !== (typeof element === 'number' ? value[element] : element)),
           );
         },
-        [value]
+        [value],
       ),
       replace: React.useCallback(
         (at: number, element: T) => {
@@ -71,7 +69,7 @@ export default function useFieldArray<T = any>(
           result[at] = element;
           setFieldValue(fieldId, result);
         },
-        [value]
+        [value],
       ),
       swap: React.useCallback(
         (from: number, to: number) => {
@@ -80,11 +78,11 @@ export default function useFieldArray<T = any>(
           result[to] = value[from];
           setFieldValue(fieldId, result);
         },
-        [value]
+        [value],
       ),
     },
     {
-      error: React.useMemo(() => get(errors, fieldId), [errors]),
+      error: useContextSelector(formContext, ({ errors }: FormHookContext) => get(errors, fieldId)),
       value,
     },
   ];

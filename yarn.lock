@@ -6581,6 +6581,11 @@ urlgrey@^0.4.4:
   resolved "https://registry.npmjs.org/urlgrey/-/urlgrey-0.4.4.tgz#892fe95960805e85519f1cd4389f2cb4cbb7652f"
   integrity sha1-iS/pWWCAXoVRnxzUOJ8stMu3ZS8=
 
+use-context-selector@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/use-context-selector/-/use-context-selector-0.2.0.tgz#d7423366fdaf7cd346b9c2a97df6ca8e10973a11"
+  integrity sha512-BTjtE+IF0Smfx98rhNZx5Y1whqWuR/oZZmKUEf14+0aTsQoZYDwBfaV4HE6nlfX3rtrjTRNOzY9WLqCh3hlMRw==
+
 use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.npmjs.org/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
