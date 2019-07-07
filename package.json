@@ -1,6 +1,6 @@
 {
   "name": "hooked-form",
-  "version": "2.1.0",
+  "version": "2.2.1",
   "description": "Forms done with React-Hooks",
   "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
   "private": false,
@@ -97,15 +97,15 @@
   "bundlesize": [
     {
       "path": "./dist/prod/hooked-form.module.js",
-      "maxSize": "2.2 kB"
+      "maxSize": "2.25 kB"
     },
     {
       "path": "./dist/prod/hooked-form.umd.js",
-      "maxSize": "2.2 kB"
+      "maxSize": "2.25 kB"
     },
     {
       "path": "./dist/prod/hooked-form.js",
-      "maxSize": "2.2 kB"
+      "maxSize": "2.25 kB"
     },
     {
       "path": "./dist/prod/hooked-form.modern.js",

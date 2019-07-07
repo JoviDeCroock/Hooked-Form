@@ -1,5 +1,13 @@
 # Releases
 
+## 2.2.0
+
+- Added generics for `useField`, `useFieldArray` and `Form` by [Pruxis](https://github.com/Pruxis) in [PR #41](https://github.com/JoviDeCroock/hooked-form/pull/41)
+
+## 2.1.0
+
+- Performance improvements
+
 ## 2.0.0
 
 - A lot of internal changes with a bundle size goal.
@@ -20,7 +28,7 @@
 
 ## 1.6.0
 
-- update redundant if-statements by [Pruxis](https://github.com/Pruxis) in [PR #22](https://github.com/JoviDeCroock/hooked-form/pull/2)
+- update redundant if-statements by [Pruxis](https://github.com/Pruxis) in [PR #22](https://github.com/JoviDeCroock/hooked-form/pull/22)
 - provide useFormConnect to replace deprecated feature
 - rewrite to a more performant deriveInitial
 - add isDirty param injected in context and formWrapper
