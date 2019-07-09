@@ -10,7 +10,7 @@ This accepts one parameter and that's a `fieldId`, analogue to the `Field` compo
 
 In return it will offer you the error string or null.
 
-Example
+## Example
 
 ```javascript
 const MyErrorComponent = ({ fieldId }) => {

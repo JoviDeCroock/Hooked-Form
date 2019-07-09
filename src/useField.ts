@@ -6,7 +6,9 @@ export interface FieldOperations<T> {
   onBlur: () => void;
   onChange: (value: T) => void;
   onFocus: () => void;
-  setFieldValue: (fieldId: string, value: T) => void;
+  // TODO: this can maybe removed, I saw this as an escape hatch,
+  // to deal with cross-dependent fields.
+  setFieldValue: (fieldId: string, value: any) => void;
 }
 
 export interface FieldInformation<T> {
@@ -16,7 +18,7 @@ export interface FieldInformation<T> {
 }
 
 export default function useField<T = any>(
-  fieldId: string
+  fieldId: string,
 ): [FieldOperations<T>, FieldInformation<T>] {
   // Dev-check
   if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
