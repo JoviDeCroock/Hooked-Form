@@ -28,24 +28,26 @@ Second object:
 Example
 
 ```javascript
+const MyArrayElement = ({ fieldId, index }) => {
+  const [{ onChange, onBlur }, { value: fieldValue, touched, error: fieldError }] = useField(`${fieldId}[${index}]`);
+  return (
+    <div>
+      <input onChange={onChange} onBlur={onBlur} value={fieldValue} />
+      {touched && fieldError && <p>{fieldError}</p>}
+    </div>
+  )
+}
+
 const MyArray = ({ fieldId }) => {
   const [
-    {
-      add
-    },
+    { add },
     { value, error }
   ] = useFieldArray(fieldId);
 
   return (
     <React.Fragment>
       {value.map((object, i) => {
-        const [{ onChange, onBlur }, { value: fieldValue, touched, error: fieldError }] = useField(`${fieldId}[${i}]`);
-        return (
-          <div>
-            <input onChange={onChange} onBlur={onBlur} value={fieldValue} />
-            {touched && fieldError && <p>{fieldError}</p>}
-          </div>
-        )
+        <MyArrayElement key={i} index={i} fieldId={fieldId} />
       })}
       <Button onClick={add} label="add" />
     </React.Fragment>
