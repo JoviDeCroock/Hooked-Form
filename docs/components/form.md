@@ -28,6 +28,8 @@ Form is used to wrap your component, you can pass options in and that will resul
 - change: `(fieldId: string, value: any) => void` - A function used to manually change a fields value.
 - isDirty: `boolean` - Whether the field is dirty or not.
 
+For generics check the staticTyping chapter part.
+
 ## Example
 
 ```js

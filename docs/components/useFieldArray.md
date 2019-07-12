@@ -10,6 +10,8 @@ This accepts one parameter and that's a `fieldId`, analogue to the `FieldArray` 
 
 In return it will offer you an array with the first element being an object of operations and the second being an object of information about the field
 
+## Properties
+
 First object:
 
 - add
@@ -25,27 +27,31 @@ Second object:
 - error: an error string if there's an error present.
 - value: the current value of this field
 
-Example
+For generics check the staticTyping chapter part.
+
+## Example
 
 ```javascript
+const MyArrayElement = ({ fieldId, index }) => {
+  const [{ onChange, onBlur }, { value: fieldValue, touched, error: fieldError }] = useField(`${fieldId}[${index}]`);
+  return (
+    <div>
+      <input onChange={onChange} onBlur={onBlur} value={fieldValue} />
+      {touched && fieldError && <p>{fieldError}</p>}
+    </div>
+  )
+}
+
 const MyArray = ({ fieldId }) => {
   const [
-    {
-      add
-    },
+    { add },
     { value, error }
   ] = useFieldArray(fieldId);
 
   return (
     <React.Fragment>
       {value.map((object, i) => {
-        const [{ onChange, onBlur }, { value: fieldValue, touched, error: fieldError }] = useField(`${fieldId}[${i}]`);
-        return (
-          <div>
-            <input onChange={onChange} onBlur={onBlur} value={fieldValue} />
-            {touched && fieldError && <p>{fieldError}</p>}
-          </div>
-        )
+        <MyArrayElement key={i} index={i} fieldId={fieldId} />
       })}
       <Button onClick={add} label="add" />
     </React.Fragment>
