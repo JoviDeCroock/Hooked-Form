@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { act, cleanup, render, wait } from 'react-testing-library';
+import { act, cleanup, render, wait } from '@testing-library/react';
 import { Form, useFormConnect } from '../../src';
 
 const Component = () => (<p>Hi</p>);

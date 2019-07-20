@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import { act, cleanup, fireEvent, render } from 'react-testing-library';
+import { act, cleanup, fireEvent, render } from '@testing-library/react';
 
 import { Field, Form } from '../../src';
 
