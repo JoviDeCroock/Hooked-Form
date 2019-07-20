@@ -8,6 +8,7 @@ import replace from 'rollup-plugin-replace';
 
 const config = [
    {
+    external: ['react', 'react-dom'],
     input: 'src/index.ts',
     output: {
       file: 'dist/hooked-form.modern.js',
@@ -16,8 +17,8 @@ const config = [
     },
     plugins: [
       nodeResolve({
-        mainFields: ['module'],
-        only: ['tslib']
+        mainFields: ['module', 'jsnext', 'main'],
+        only: ['tslib', 'use-context-selector']
       }),
       typescriptPlugin({ typescript, tsconfig: './tsconfig.json' }),
       filesize(),
@@ -33,8 +34,8 @@ const config = [
   //   plugins: [
   //     replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
   //     nodeResolve({
-  //       mainFields: ['module'],
-  //       only: ['tslib']
+  //       mainFields: ['module', 'jsnext', 'main'],
+  //       only: ['tslib', 'use-context-selector']
   //     }),
   //     typescriptPlugin({ typescript, tsconfig: './tsconfig.json', objectHashIgnoreUnknownHack: true }),
   //     compiler({ compilation_level: 'ADVANCED_OPTIMIZATIONS' }),
