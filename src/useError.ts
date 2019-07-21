@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useContextSelector } from 'use-context-selector';
 import { formContext } from './helpers/context';
 import { get } from './helpers/operations';
@@ -13,5 +12,7 @@ export default function useError(fieldId: string): string | null {
     throw new Error('The Error needs a valid "fieldId" property to  function correctly.');
   }
   return useContextSelector(
-    formContext, ({ errors }: FormHookContext) => get(errors, fieldId));
+    formContext,
+    ({ errors }: FormHookContext) => get(errors, fieldId),
+  );
 }
