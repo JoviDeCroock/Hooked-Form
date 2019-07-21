@@ -8,8 +8,8 @@
   "sideEffects": false,
   "scripts": {
     "build": "rimraf dist && yarn build:es5 && yarn build:modern && yarn build:minified && yarn cleanup",
-    "build:minified": "microbundle --include use-context-selector --define process.env.NODE_ENV=production --name hookedForm --output dist/prod",
-    "build:es5": "microbundle --include use-context-selector --no-compress --name hookedForm --output dist/",
+    "build:minified": "microbundle --external react --define process.env.NODE_ENV=production --name hookedForm --output dist/prod",
+    "build:es5": "microbundle --external react --no-compress --name hookedForm --output dist/",
     "build:modern": "rollup -c && node ./scripts/sliceLicense.js",
     "cleanup": "rimraf .rpt2_cache && rimraf .rts2_cache_cjs && rimraf .rts2_cache_umd && rimraf .rts2_cache_es",
     "filesize": "bundlesize",
@@ -51,7 +51,7 @@
     "cross-env": "5.2.0",
     "jest": "24.8.0",
     "jest-cli": "24.8.0",
-    "microbundle": "0.11.0",
+    "microbundle": "^0.11.0",
     "react": "16.9.0-alpha.0",
     "react-dom": "16.9.0-alpha.0",
     "rimraf": "2.6.3",
@@ -108,10 +108,6 @@
     {
       "path": "./dist/prod/hooked-form.js",
       "maxSize": "2.25 kB"
-    },
-    {
-      "path": "./dist/prod/hooked-form.modern.js",
-      "maxSize": "2 kB"
     }
   ]
 }

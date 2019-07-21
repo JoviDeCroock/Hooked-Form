@@ -114,6 +114,16 @@ So if you don't plan to target older browsers feel free to use this.
   onSubmit your values get traversed however if the application doesn't know what your values are
   it can't set anything as touched. This can be solved with passing `mapPropsToValues` or `initialValues`.
 
+
+- I can't build
+
+  change the following in microbundle/dist/microbundle.js on line 731
+
+  ```
+    mainFields: ['module', 'jsnext', 'main'],
+    only: ['tslib', 'use-context-selector']
+  ```
+
 ## Credits
 
 - [Microbundle](https://github.com/developit/microbundle)
