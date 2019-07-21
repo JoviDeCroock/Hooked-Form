@@ -42,7 +42,6 @@
     "@types/react": "16.8.2"
   },
   "devDependencies": {
-    "@ampproject/rollup-plugin-closure-compiler": "0.10.0",
     "@testing-library/react": "8.0.5",
     "@types/jest": "24.0.15",
     "@types/react": "16.8.23",
@@ -51,7 +50,7 @@
     "cross-env": "5.2.0",
     "jest": "24.8.0",
     "jest-cli": "24.8.0",
-    "microbundle": "0.12.0-next.3",
+    "microbundle": "^0.12.0-next.3",
     "react": "16.9.0-alpha.0",
     "react-dom": "16.9.0-alpha.0",
     "rimraf": "2.6.3",
@@ -99,14 +98,17 @@
   "bundlesize": [
     {
       "path": "./dist/prod/hooked-form.module.js",
-      "maxSize": "2.25 kB"
+      "maxSize": "2.5 kB"
     },
     {
       "path": "./dist/prod/hooked-form.umd.js",
-      "maxSize": "2.25 kB"
+      "maxSize": "2.5 kB"
     },
     {
       "path": "./dist/prod/hooked-form.js",
+      "maxSize": "2.5 kB"
+    }, {
+      "path": "./dist/prod/hooked-form.modern.js",
       "maxSize": "2.25 kB"
     }
   ]

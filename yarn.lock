@@ -4034,7 +4034,7 @@ merge-stream@^1.0.1:
   dependencies:
     readable-stream "^2.0.1"
 
-microbundle@0.12.0-next.3:
+microbundle@^0.12.0-next.3:
   version "0.12.0-next.3"
   resolved "https://registry.yarnpkg.com/microbundle/-/microbundle-0.12.0-next.3.tgz#e47e049579e19101c0c035f062e71eac19db61f1"
   integrity sha512-AmsTZkkfdfgM8iRswsuHSWRbxy5FI8Zb7CwFOwjI8vjqi0YhwVPbvCZqGMlBSW+ekPuEiYRPGzW1mpTeTiq1xQ==
