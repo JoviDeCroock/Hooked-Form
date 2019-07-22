@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import useField from './useField';
 
 interface Props {
@@ -26,23 +25,15 @@ const FieldContainer: React.FC<FieldProps> = (
 
   const {
     0: actions,
-    1: { error, touched: isFieldTouched, value },
+    1: res,
   } = useField(fieldId);
 
-  return React.useMemo(() =>
-    React.createElement(component, {
-      error,
-      ref: innerRef,
-      touched: isFieldTouched,
-      value,
-      ...actions,
-      ...rest,
-    }),
-    [
-      value, error, isFieldTouched,
-      ...((watchableProps || defaultWatchables).map((key: string) => rest[key])),
-    ],
-  );
+  return React.createElement(component, {
+    ref: innerRef,
+    ...res,
+    ...actions,
+    ...rest,
+  });
 };
 
 export default React.memo(

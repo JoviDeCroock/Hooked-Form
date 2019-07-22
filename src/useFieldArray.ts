@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { useContextSelector } from 'use-context-selector';
 import { formContext } from './helpers/context';
 import { get } from './helpers/operations';
+import { FormHookContext } from './types';
 
 export interface FieldOperations<T> {
   add: (item: T) => void;
@@ -23,13 +25,9 @@ export default function useFieldArray<T = any>(
     throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.');
   }
 
-  const { errors, values, setFieldValue } = React.useContext(formContext);
-  const value: Array<any> = React.useMemo(() => get(values, fieldId) || [], [values]);
-
-  if (process.env.NODE_ENV !== 'production') {
-    React.useDebugValue(`${fieldId} Value: ${value}`);
-    React.useDebugValue(`${fieldId} Error: ${get(errors, fieldId)}`);
-  }
+  const { setFieldValue } = React.useContext(formContext);
+  const value: Array<any> = useContextSelector(
+    formContext, ({ values }: FormHookContext) => get(values, fieldId) || []);
 
   return [
     {
@@ -84,7 +82,7 @@ export default function useFieldArray<T = any>(
       ),
     },
     {
-      error: React.useMemo(() => get(errors, fieldId), [errors]),
+      error: useContextSelector(formContext, ({ errors }: FormHookContext) => get(errors, fieldId)),
       value,
     },
   ];

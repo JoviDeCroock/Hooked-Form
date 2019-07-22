@@ -41,9 +41,9 @@
         "title": "Why",
         "sidebar_label": "Why"
       },
-      "utils/get": {
-        "title": "Get",
-        "sidebar_label": "Get"
+      "staticTyping": {
+        "title": "Static Typing",
+        "sidebar_label": "Static Typing"
       }
     },
     "links": {
@@ -53,7 +53,7 @@
       "philosophy": "philosophy",
       "components": "components",
       "hooks": "hooks",
-      "utilities": "utilities"
+      "types": "types"
     }
   },
   "pages-strings": {
