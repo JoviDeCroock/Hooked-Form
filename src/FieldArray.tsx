@@ -18,13 +18,12 @@ const FieldArrayContainer: React.FC<FieldProps> = (
   }
   const {
     0: actions,
-    1: { value, error },
+    1: res,
   } = useFieldArray(fieldId);
 
   const props = {
-    error,
     fieldId,
-    value,
+    ...res,
     ...actions,
   };
 

@@ -25,14 +25,12 @@ const FieldContainer: React.FC<FieldProps> = (
 
   const {
     0: actions,
-    1: { error, touched: isFieldTouched, value },
+    1: res,
   } = useField(fieldId);
 
   return React.createElement(component, {
-    error,
     ref: innerRef,
-    touched: isFieldTouched,
-    value,
+    ...res,
     ...actions,
     ...rest,
   });

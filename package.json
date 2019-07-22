@@ -107,7 +107,8 @@
     {
       "path": "./dist/prod/hooked-form.js",
       "maxSize": "2.5 kB"
-    }, {
+    },
+    {
       "path": "./dist/prod/hooked-form.modern.js",
       "maxSize": "2.25 kB"
     }
