@@ -10,6 +10,6 @@
   },
   "devDependencies": {
     "cross-env": "5.2.0",
-    "docusaurus": "^1.5.1"
+    "docusaurus": "1.12.0"
   }
 }
