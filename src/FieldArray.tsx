@@ -8,6 +8,7 @@ export interface FieldProps {
   [x: string]: any;
 }
 
+// TODO: convert render to children
 const FieldArrayContainer: React.FC<FieldProps> = (
   { component, render, fieldId },
 ) => {

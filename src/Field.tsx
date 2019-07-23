@@ -16,6 +16,7 @@ export interface FieldProps {
 
 const defaultWatchables = ['disabled', 'className'];
 
+// TODO: Consider supporting children()
 const FieldContainer: React.FC<FieldProps> = (
   { component, fieldId, innerRef, watchableProps, ...rest },
 ) => {
