@@ -1,5 +1,9 @@
 # Releases
 
+## 2.3.0
+
+- Use `use-context-selector` to drastically improve performance
+
 ## 2.2.0
 
 - Added generics for `useField`, `useFieldArray` and `Form` by [Pruxis](https://github.com/Pruxis) in [PR #41](https://github.com/JoviDeCroock/hooked-form/pull/41)
