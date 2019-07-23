@@ -127,6 +127,7 @@ So if you don't plan to target older browsers feel free to use this.
 ## Credits
 
 - [Microbundle](https://github.com/developit/microbundle)
+- [use-context-selector](https://github.com/dai-shi/use-context-selector)
 
 ## Contributors
 
