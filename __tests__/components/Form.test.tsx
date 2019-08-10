@@ -170,8 +170,10 @@ describe('Form', () => {
     act(() => {
       handleSubmit()
     });
-    const { formError, errors } = getProps();
-    expect(formError).toEqual('hi');
-    expect(errors).toEqual({ name: 'hi' });
+    await wait(() => {
+      const { formError, errors } = getProps();
+      expect(formError).toEqual('hi');
+      expect(errors.name).toEqual('hi');
+    }, { timeout: 0 })
   });
 });
