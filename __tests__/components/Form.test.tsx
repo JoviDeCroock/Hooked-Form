@@ -161,6 +161,7 @@ describe('Form', () => {
   });
 
   it('uses the ErrorBag methods correctly', async () => {
+    // @ts-ignore
     const onSubmit = (_, __, { setErrors, setFormError }) => {
       setErrors({ name: 'hi' });
       setFormError('hi');
@@ -172,8 +173,8 @@ describe('Form', () => {
     });
     await wait(() => {
       const { formError, errors } = getProps();
-      expect(formError).toEqual('hi');
-      expect(errors.name).toEqual('hi');
+      expect(formError).toBe('hi');
+      expect(errors.name).toBe('hi');
     }, { timeout: 0 })
   });
 });
