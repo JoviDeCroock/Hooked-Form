@@ -4,17 +4,16 @@ import useFieldArray from './useFieldArray';
 export interface FieldProps {
   component?: any;
   fieldId: string;
-  render?: (props: object) => any;
+  children?: (props: object) => any;
   [x: string]: any;
 }
 
-// TODO: convert render to children
 const FieldArrayContainer: React.FC<FieldProps> = (
-  { component, render, fieldId },
+  { component, children, fieldId },
 ) => {
-  if (process.env.NODE_ENV !== 'production' && !component && !render) {
+  if (process.env.NODE_ENV !== 'production' && !component && !children) {
     throw new Error(
-      'The FieldArray needs a "component" or a "render" property to function correctly.',
+      'The FieldArray needs a "component" or a "children" property to function correctly.',
     );
   }
   const {
@@ -28,7 +27,7 @@ const FieldArrayContainer: React.FC<FieldProps> = (
     ...actions,
   };
 
-  return component ? React.createElement(component, props) : render!(props);
+  return component ? React.createElement(component, props) : children!(props);
 };
 
 export default React.memo(FieldArrayContainer, () => true);
