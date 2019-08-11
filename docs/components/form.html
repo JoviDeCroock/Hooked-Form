@@ -62,7 +62,9 @@
 <li>onSuccess?: <code>(result?: any) =&gt; void</code> - When the submit is successfull this function will be executed with your result.</li>
 <li>mapPropsToValues: <code>(props: object) =&gt; object</code> - This function allows you to
 take your props and set the initialValues with them.</li>
-<li>onSubmit: <code>(values: object, props:any) =&gt; any</code> - This function will be used to submit the properties inside the form.</li>
+<li>onSubmit: <code>(values: object, { props, setFormError, setErrors }) =&gt; any</code> - This function will be used to submit the properties inside the
+form. The ErrorBag includes <code>setErrors</code> to set field-level errors and <code>setFormError</code> to set a <code>formError</code>. This <code>formError</code>
+is injected into the main component.</li>
 <li>shouldSubmitWhenInvalid? : <code>boolean</code> = false - Indicates whether or not submit should be executed when your form is invalid.</li>
 <li>validate?: <code>(values: object, touched: object) =&gt; object</code> - The function used to validate your form.</li>
 <li>validateOnBlur?: <code>boolean</code> - Indicates that validation should be executed onBlur.</li>
