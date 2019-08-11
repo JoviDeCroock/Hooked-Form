@@ -162,7 +162,7 @@ describe('Form', () => {
 
   it('uses the ErrorBag methods correctly', async () => {
     // @ts-ignore
-    const onSubmit = (_, __, { setErrors, setFormError }) => {
+    const onSubmit = (_, { setErrors, setFormError }) => {
       setErrors({ name: 'hi' });
       setFormError('hi');
     };
