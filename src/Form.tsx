@@ -4,13 +4,19 @@ import { deriveInitial } from './helpers/deriveInitial';
 import useState from './helpers/useState';
 import { Errors, InitialValues, Touched } from './types';
 
+interface CallBag {
+  props: object;
+  setErrors: (errors: Errors) => void;
+  setFormError: (error: string) => void;
+}
+
 export interface FormOptions<T> {
   enableReinitialize?: boolean;
   initialValues?: InitialValues;
   mapPropsToValues?: (props: object) => InitialValues;
   onError?: (error: object, setFormError: (error: any) => void) => void;
   onSuccess?: (result?: any) => void;
-  onSubmit: (values: Partial<T>, props: object) => Promise<any> | any;
+  onSubmit: (values: Partial<T>, callbag: CallBag) => Promise<any> | any;
   shouldSubmitWhenInvalid?: boolean;
   validate?: (values: Partial<T>) => object;
   validateOnBlur?: boolean;
@@ -76,15 +82,16 @@ const OptionsContainer = <Values extends object>({
             return setSubmitting(false);
           }
 
-          return new Promise(resolve => resolve(onSubmit(values, props)))
-            .then((result: any) => {
-              setSubmitting(false);
-              if (onSuccess) onSuccess(result);
-            })
-            .catch((e: any) => {
-              setSubmitting(false);
-              if (onError) onError(e, setFormError);
-            });
+          return new Promise(resolve => resolve(
+            onSubmit(values, { props, setErrors: setErrorState, setFormError })))
+              .then((result: any) => {
+                setSubmitting(false);
+                if (onSuccess) onSuccess(result);
+              })
+              .catch((e: any) => {
+                setSubmitting(false);
+                if (onError) onError(e, setFormError);
+              });
         },
         [values],
       );

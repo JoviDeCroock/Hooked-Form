@@ -219,6 +219,6 @@ describe('FieldArray', () => {
         ...render(<TestForm {...props} />)
       }
     }
-    expect(() => makeErroneousForm()).toThrowError(/The FieldArray needs a "component" or a "render" property to function correctly./);
+    expect(() => makeErroneousForm()).toThrowError(/The FieldArray needs a "component" or a "children" property to function correctly./);
   })
 });

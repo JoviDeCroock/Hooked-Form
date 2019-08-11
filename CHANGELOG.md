@@ -1,5 +1,10 @@
 # Releases
 
+## 3.0.0
+
+- Update onSubmit to contain an object of props and errorSetters
+- Rename FieldArray.render to FieldArray.children
+
 ## 2.3.0
 
 - Use `use-context-selector` to drastically improve performance

@@ -159,4 +159,22 @@ describe('Form', () => {
       expect(onError).toBeCalledTimes(1);
     }, { timeout: 0 })
   });
+
+  it('uses the ErrorBag methods correctly', async () => {
+    // @ts-ignore
+    const onSubmit = (_, { setErrors, setFormError }) => {
+      setErrors({ name: 'hi' });
+      setFormError('hi');
+    };
+    const { getProps } = makeForm({ onSubmit });
+    const { handleSubmit } = getProps();
+    act(() => {
+      handleSubmit()
+    });
+    await wait(() => {
+      const { formError, errors } = getProps();
+      expect(formError).toBe('hi');
+      expect(errors.name).toBe('hi');
+    }, { timeout: 0 })
+  });
 });
