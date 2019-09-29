@@ -15,4 +15,4 @@ const ErrorContainer: React.FC<FieldProps> = ({ component, fieldId }) => {
   return React.createElement(component, { error: useError(fieldId) });
 };
 
-export default ErrorContainer;
+export default React.memo(ErrorContainer);
