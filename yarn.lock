@@ -6331,10 +6331,10 @@ urlgrey@^0.4.4:
   resolved "https://registry.npmjs.org/urlgrey/-/urlgrey-0.4.4.tgz#892fe95960805e85519f1cd4389f2cb4cbb7652f"
   integrity sha1-iS/pWWCAXoVRnxzUOJ8stMu3ZS8=
 
-use-context-selector@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/use-context-selector/-/use-context-selector-0.4.0.tgz#b18025e8943d2ea2d56d693d7114bd710d8ef6b5"
-  integrity sha512-Lisd8PFzMMRCfL3bOkYrKn4XN6WxnlhJoXIDDJGQ150yidtlVX9rZlDoWhVm4u9FYrQGyCl9Np9CGgmQoUB+Qw==
+use-context-selector@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/use-context-selector/-/use-context-selector-1.0.0.tgz#dca5e2df484592ec68a7a3004a39618375ad8fc9"
+  integrity sha512-NG1rpUkSnw03Hj8wp1AunxNmWbzvvFbZG/Xzus4lSIRF2cDO3NJL3AA2esAOSnpPL0+aeYCBOhqLDxJhAudCWQ==
 
 use@^3.1.0:
   version "3.1.1"

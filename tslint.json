@@ -9,7 +9,8 @@
     "jsx-no-multiline-js": false,
     "variable-name": false,
     "import-name": false,
-    "no-parameter-reassignment": false
+    "no-parameter-reassignment": false,
+    "jsx-no-lambda": false
   },
   "linterOptions": {
     "exclude": [

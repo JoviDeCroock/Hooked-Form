@@ -69,7 +69,7 @@
     "typescript": "3.5.3"
   },
   "dependencies": {
-    "use-context-selector": "0.4.0"
+    "use-context-selector": "1.0.0"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
