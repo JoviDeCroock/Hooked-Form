@@ -1,23 +1,25 @@
 import * as React from 'react';
 import { act, cleanup, render } from '@testing-library/react';
 
-import { ErrorMessage, Form } from '../../src';
+import { ErrorMessage, Form, useFormConnect } from '../../src';
 
 const ErrorDisplay = ({ error }: { error: string }) => {
   return <p data-testid="error">{error}</p>;
 }
 
-const Component = () => <ErrorMessage fieldId="name" component={ErrorDisplay} />;
+const Component = () => (
+  <ErrorMessage fieldId="name" component={ErrorDisplay} />
+);
 
 const makeForm = (formOptions?: object, props?: object) => {
   let injectedProps: any;
-  const TestForm = Form({
-    onSubmit: () => null,
-    ...formOptions,
-  })((formProps: any) => (injectedProps = formProps) && <Component {...formProps} />);
+  const TestForm = () => {
+    injectedProps = useFormConnect();
+    return <Component />
+  }
   return {
     getProps: () => injectedProps,
-    ...render(<TestForm {...props} />),
+    ...render(<Form onSubmit={() => null} {...formOptions}><TestForm {...props} /></Form>),
   };
 };
 
@@ -30,9 +32,9 @@ describe('ErorrMessage', () => {
     it('should render the correct error', () => {
       const { getProps, getByTestId } =
         makeForm({ validate: () => ({ name: 'bad' }), validateOnChange: true });
-      const { change } = getProps();
+      const { setFieldValue } = getProps();
       act(() => {
-        change('name', 'jovi');
+        setFieldValue('name', 'jovi');
       });
       const errorPTag = getByTestId('error');
       expect(errorPTag.textContent).toEqual('bad');
@@ -44,14 +46,13 @@ describe('ErorrMessage', () => {
 
       const makeErroneousForm = (formOptions?: object, props?: object) => {
         let injectedProps: any;
-        const TestForm = Form({
-          onSubmit: () => null,
-          ...formOptions,
-        })((formProps: any) => (injectedProps = formProps) && <Error {...formProps} />);
+        const TestForm = () => {
+          injectedProps = useFormConnect();
+          return <Error />
+        }
         return {
           getProps: () => injectedProps,
-          // @ts-ignore
-          ...render(<TestForm {...props} />),
+          ...render(<Form onSubmit={() => null} {...formOptions}><TestForm {...props} /></Form>),
         };
       };
 

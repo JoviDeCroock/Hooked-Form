@@ -3,16 +3,11 @@ import { act, cleanup, render } from '@testing-library/react';
 
 import { useError, useField, useFieldArray, Form } from '../../src';
 
-const AppComponent = ({ children }: { children: any }) => {
-  return children;
-}
-
-const App = Form({
-  enableReinitialize: true,
-  mapPropsToValues: (props: any) => ({ ...props.initialvalues }),
-  validate: (values: any) => ({ name: values.name === 'Jovi' ? 'error' : undefined }),
-  onSubmit: () => {}
-})(AppComponent)
+const App = ({ children }: any) => (
+  <Form onSubmit={() => {}}>
+    {children}
+  </Form>
+);
 
 const Component = () => {
   // @ts-ignore

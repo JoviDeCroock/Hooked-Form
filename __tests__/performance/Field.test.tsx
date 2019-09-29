@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { act, cleanup, render } from '@testing-library/react';
 
-import { Form, Field } from '../../src';
+import { Form, Field, useFormConnect } from '../../src';
 
 let renders = 0;
 const StringField = ({ error }: { error: string }) => {
@@ -13,13 +13,13 @@ const Component = () => <Field fieldId="name" component={StringField} />;
 
 const makeForm = (formOptions?: object, props?: object) => {
   let injectedProps: any;
-  const TestForm = Form({
-    onSubmit: () => null,
-    ...formOptions,
-  })((formProps: any) => (injectedProps = formProps) && <Component {...formProps} />);
+  const TestForm = () => {
+    injectedProps = useFormConnect();
+    return <Component />
+  }
   return {
     getProps: () => injectedProps,
-    ...render(<TestForm {...props} />),
+    ...render(<Form onSubmit={() => null} {...formOptions}><TestForm {...props} /></Form>),
   };
 };
 
@@ -33,14 +33,14 @@ describe('ErorrMessage', () => {
     it('should not rerender when props change or parent rerenders', () => {
       const { getProps, getByTestId, rerender, ...rest } =
         makeForm({ initialValues: { name: 'j' } });
-      const { change } = getProps();
+      const { setFieldValue } = getProps();
       expect(renders).toBe(1);
       act(() => {
-        change('name', 'j');
+        setFieldValue('name', 'j');
       });
       expect(renders).toBe(1);
       act(() => {
-        change('name', 'jovi');
+        setFieldValue('name', 'jovi');
       });
       expect(renders).toBe(2);
     })

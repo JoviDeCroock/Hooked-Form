@@ -6,48 +6,30 @@ const Component = () => (<p>Hi</p>);
 
 const makeForm = (formOptions?: object, props?: object) => {
   let injectedProps: any;
-  const TestForm = Form({
-    onSubmit: () => null,
-    ...formOptions,
-  })((formProps: any) => {
-    const formContext = useFormConnect();
-    injectedProps = { ...formProps, ...formContext };
-    return (
-      <Component {...formProps} />
-    );
-  });
+  const TestForm = () => {
+    injectedProps = useFormConnect();
+    return <Component />
+  }
   return {
     getProps: () => injectedProps,
-    ...render(<TestForm {...props} />)
-  }
+    ...render(<Form onSubmit={() => null} {...formOptions}><TestForm {...props} /></Form>),
+  };
 }
 
 describe('Form', () => {
   afterEach(() => cleanup());
 
-  it('Renders with correct properties.', () => {
+  it('useFormConnect passes correct properties.', () => {
     const { getProps } = makeForm({ initialValues: { name: 'jovi', friends: [] } });
-    const { change, handleSubmit, validate, isSubmitting, resetForm, values } = getProps();
-    expect(typeof change).toEqual('function');
-    expect(typeof handleSubmit).toEqual('function');
+    const { setFieldValue, submit, validate, isSubmitting, resetForm, values } = getProps();
+    expect(typeof setFieldValue).toEqual('function');
+    expect(typeof submit).toEqual('function');
     expect(typeof validate).toEqual('function');
     expect(typeof isSubmitting).toEqual('boolean');
     expect(typeof resetForm).toEqual('function');
     expect(typeof values).toEqual('object');
     expect(isSubmitting).toEqual(false);
     expect(values.name).toEqual('jovi');
-  });
-
-  it('Passes props through to child.', () => {
-    const { getProps } = makeForm({}, { passThroughProp: 'x' });
-    const { change, handleSubmit, validate, isSubmitting, resetForm, passThroughProp } = getProps();
-    expect(typeof change).toEqual('function');
-    expect(typeof handleSubmit).toEqual('function');
-    expect(typeof validate).toEqual('function');
-    expect(typeof isSubmitting).toEqual('boolean');
-    expect(typeof resetForm).toEqual('function');
-    expect(isSubmitting).toEqual(false);
-    expect(passThroughProp).toEqual('x');
   });
 
   it('should render child element', () => {
@@ -57,24 +39,24 @@ describe('Form', () => {
 
   it('Changes when calling change', () => {
     const { getProps } = makeForm();
-    const { change } = getProps();
-    act(() => { change('name', 'joviMutated') });
+    const { setFieldValue } = getProps();
+    act(() => { setFieldValue('name', 'joviMutated') });
     const { values } = getProps();
     expect(values.name).toEqual('joviMutated');
   });
 
-  it('should use mapPropsToValues correctly', () => {
-    const { getProps } = makeForm({ mapPropsToValues: ({ name }: any) => ({ name, friends: [] }) }, { name: 'jovi' });
-    const { values } = getProps();
-    expect(values.name).toEqual('jovi');
-    expect(values.friends.length).toEqual(0);
-  });
+  // it('should use mapPropsToValues correctly', () => {
+  //   const { getProps } = makeForm({ mapPropsToValues: ({ name }: any) => ({ name, friends: [] }) }, { name: 'jovi' });
+  //   const { values } = getProps();
+  //   expect(values.name).toEqual('jovi');
+  //   expect(values.friends.length).toEqual(0);
+  // });
 
   it('Resets correctly', () => {
     const { getProps } = makeForm({ initialValues: { name: 'jovi' }});
-    const { change } = getProps();
+    const { setFieldValue } = getProps();
     act(() => {
-      change('name', 'joviMutated')
+      setFieldValue('name', 'joviMutated')
     });
     let { values, resetForm } = getProps();
     expect(values.name).toEqual('joviMutated');
@@ -87,16 +69,16 @@ describe('Form', () => {
     const validate = jest.fn();
     const { getProps } = makeForm({ validate, validateOnChange: true });
     expect(getProps().isDirty).toBe(false);
-    let { change } = getProps();
+    let { setFieldValue } = getProps();
     act(() => {
-      change('name', 'joviMutated')
+      setFieldValue('name', 'joviMutated')
     })
     expect(getProps().isDirty).toBe(true);
     expect(validate).toBeCalledTimes(2);
 
-    ({ change } = getProps());
+    ({ setFieldValue } = getProps());
     act(() => {
-      change('name', 'joviMutated')
+      setFieldValue('name', 'joviMutated')
     });
     expect(validate).toBeCalledTimes(3);
   });
@@ -104,8 +86,8 @@ describe('Form', () => {
   it('makes error and touches all fields onSubmit', () => {
     const onSubmit = jest.fn();
     const { getProps } = makeForm({ onSubmit, validate: (values: any) => ({ name: !values.name ? 'required' : undefined }) });
-    let { handleSubmit } = getProps();
-    act(() => { handleSubmit() });
+    let { submit } = getProps();
+    act(() => { submit() });
     const { errors, touched, isSubmitting } = getProps();
     expect(onSubmit).not.toBeCalled();
     expect(errors.name).toBe('required');
@@ -117,10 +99,10 @@ describe('Form', () => {
     const onSubmit = jest.fn();
     const onSuccess = jest.fn();
     const { getProps } = makeForm({ initialValues: { name: 'Jovi', age: 23 }, onSubmit, onSuccess });
-    let { handleSubmit } = getProps();
-    const { change } = getProps();
+    let { submit } = getProps();
+    const { setFieldValue } = getProps();
     act(() => {
-      handleSubmit()
+      submit()
     });
     expect(onSubmit).toBeCalled();
     const { isSubmitting } = getProps();
@@ -131,12 +113,12 @@ describe('Form', () => {
       expect(onSubmit.mock.calls[0][0].name).toBe('Jovi');
       expect(onSubmit.mock.calls[0][0].age).toBe(23);
     }, { timeout: 0 });
-    act(() => { change('age', 22) });
-    act(() => { change('name', 'Liesse') });
+    act(() => { setFieldValue('age', 22) });
+    act(() => { setFieldValue('name', 'Liesse') });
     await wait(async () => {
-      ({ handleSubmit } = getProps());
+      ({ submit } = getProps());
       act(() => {
-        handleSubmit()
+        submit()
       });
       await wait(() => {
         expect(onSubmit).toBeCalledTimes(2);
@@ -151,9 +133,9 @@ describe('Form', () => {
     const onSubmit = () => { throw new Error('hi') };
     const onError = jest.fn();
     const { getProps } = makeForm({ onSubmit, onError });
-    const { handleSubmit } = getProps();
+    const { submit } = getProps();
     act(() => {
-      handleSubmit()
+      submit()
     });
     await wait(() => {
       expect(onError).toBeCalledTimes(1);
@@ -167,9 +149,9 @@ describe('Form', () => {
       setFormError('hi');
     };
     const { getProps } = makeForm({ onSubmit });
-    const { handleSubmit } = getProps();
+    const { submit } = getProps();
     act(() => {
-      handleSubmit()
+      submit()
     });
     await wait(() => {
       const { formError, errors } = getProps();
