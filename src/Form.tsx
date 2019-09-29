@@ -110,12 +110,6 @@ const OptionsContainer = <Values extends object>({
         validateForm();
       }, [validateOnBlur && touched, validateOnChange && values]);
 
-      // The onBlur we can use for our Fields,
-      // should also be renewed context wise when our values are altered.
-      const setFieldTouched = React.useCallback((fieldId: string, value?: boolean) => {
-        touch(fieldId, value == null ? true : value); // tslint:disable-line
-      }, []);
-
       // The onChange we can use for our Fields,
       // should also be renewed context wise when our touched are altered.
       const onChange = React.useCallback((fieldId: string, value: any) => {
@@ -123,23 +117,20 @@ const OptionsContainer = <Values extends object>({
         setFieldValue(fieldId, value);
       }, []);
 
-      const submitForm = React.useCallback((e?: React.SyntheticEvent) => {
-        if (e && e.preventDefault) e.preventDefault();
-        setSubmitting(() => true);
-      }, []);
-
       const providerValue = React.useMemo(
         () => ({
           errors: formErrors as Errors,
           formError,
           isDirty,
-          setFieldTouched,
+          setFieldTouched: (fieldId: string, value?: boolean) => {
+            touch(fieldId, value == null ? true : value);
+          },
           setFieldValue: onChange,
           touched: touched as Touched,
           validate: validateForm,
           values,
         }),
-        [formErrors, formError, isDirty, setFieldTouched, onChange, touched, validateForm, values],
+        [formErrors, formError, isDirty, onChange, touched, validateForm, values],
       );
 
       const comp = React.useMemo(
@@ -147,7 +138,10 @@ const OptionsContainer = <Values extends object>({
           <Component
             change={onChange}
             formError={formError}
-            handleSubmit={submitForm}
+            handleSubmit={(e?: React.SyntheticEvent) => {
+              if (e && e.preventDefault) e.preventDefault();
+              setSubmitting(() => true);
+            }}
             isSubmitting={isSubmitting}
             resetForm={resetForm}
             isDirty={isDirty}
