@@ -67,13 +67,13 @@ describe('Form', () => {
       setFieldValue('name', 'joviMutated')
     })
     expect(getProps().isDirty).toBe(true);
-    expect(validate).toBeCalledTimes(1);
+    expect(validate).toBeCalledTimes(2);
 
     ({ setFieldValue } = getProps());
     act(() => {
       setFieldValue('name', 'joviMutated')
     });
-    expect(validate).toBeCalledTimes(2);
+    expect(validate).toBeCalledTimes(3);
   });
 
   it('makes error and touches all fields onSubmit', () => {
@@ -100,7 +100,6 @@ describe('Form', () => {
     expect(onSubmit).toBeCalled();
     const { isSubmitting } = getProps();
     expect(isSubmitting).toBeTruthy();
-
     await wait(() => {
       expect(onSubmit).toBeCalledTimes(1);
       expect(onSuccess).toBeCalledTimes(1);
