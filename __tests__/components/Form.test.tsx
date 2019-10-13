@@ -45,13 +45,6 @@ describe('Form', () => {
     expect(values.name).toEqual('joviMutated');
   });
 
-  // it('should use mapPropsToValues correctly', () => {
-  //   const { getProps } = makeForm({ mapPropsToValues: ({ name }: any) => ({ name, friends: [] }) }, { name: 'jovi' });
-  //   const { values } = getProps();
-  //   expect(values.name).toEqual('jovi');
-  //   expect(values.friends.length).toEqual(0);
-  // });
-
   it('Resets correctly', () => {
     const { getProps } = makeForm({ initialValues: { name: 'jovi' }});
     const { setFieldValue } = getProps();
@@ -74,13 +67,13 @@ describe('Form', () => {
       setFieldValue('name', 'joviMutated')
     })
     expect(getProps().isDirty).toBe(true);
-    expect(validate).toBeCalledTimes(2);
+    expect(validate).toBeCalledTimes(1);
 
     ({ setFieldValue } = getProps());
     act(() => {
       setFieldValue('name', 'joviMutated')
     });
-    expect(validate).toBeCalledTimes(3);
+    expect(validate).toBeCalledTimes(2);
   });
 
   it('makes error and touches all fields onSubmit', () => {
@@ -107,6 +100,7 @@ describe('Form', () => {
     expect(onSubmit).toBeCalled();
     const { isSubmitting } = getProps();
     expect(isSubmitting).toBeTruthy();
+
     await wait(() => {
       expect(onSubmit).toBeCalledTimes(1);
       expect(onSuccess).toBeCalledTimes(1);
