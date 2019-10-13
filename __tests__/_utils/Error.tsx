@@ -1,5 +1,5 @@
 import * as React from 'react';
-import useError from './useError';
+import useError from '../../src/useError';
 
 export interface FieldProps {
   component: any;

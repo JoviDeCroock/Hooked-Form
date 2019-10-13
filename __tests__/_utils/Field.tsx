@@ -1,5 +1,5 @@
 import * as React from 'react';
-import useField from './useField';
+import useField from '../../src/useField';
 
 interface Props {
   watchAbleProps?: Array<string>;

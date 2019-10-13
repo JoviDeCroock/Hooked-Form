@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { act, cleanup, render } from '@testing-library/react';
 
-import { Form, FieldArray, useFormConnect } from '../../src';
+import { Form, useFormConnect } from '../../src';
+import { FieldArray } from '../_utils';
 
 let renders = 0;
 const Array = ({ error }: { error: string }) => {

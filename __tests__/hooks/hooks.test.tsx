@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { act, cleanup, render } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 
 import { useError, useField, useFieldArray, Form } from '../../src';
 

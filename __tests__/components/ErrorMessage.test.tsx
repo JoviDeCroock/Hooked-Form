@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { act, cleanup, render } from '@testing-library/react';
 
-import { ErrorMessage, Form, useFormConnect } from '../../src';
+import { Form, useFormConnect } from '../../src';
+import { ErrorMessage } from '../_utils';
 
 const ErrorDisplay = ({ error }: { error: string }) => {
   return <p data-testid="error">{error}</p>;
