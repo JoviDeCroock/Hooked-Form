@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
 
-import { Field, Form } from '../../src';
+import { Field, Form, useFormConnect } from '../../src';
 
 const StringField = (
   { touched, error, onChange, onBlur, value, id, onFocus }:
@@ -24,20 +24,24 @@ const Component = ({ fieldId }: { fieldId: string }) => (<Field fieldId={fieldId
 
 const makeForm = (formOptions?: object, props?: object) => {
   let injectedProps: any;
-  const TestForm = Form({
-    onSubmit: () => null,
-    ...formOptions,
-  })((formProps: any) => (injectedProps = formProps) && (
-    <React.Fragment>
-      <Component fieldId="name" />
-      <Component fieldId="age" />
-    </React.Fragment>
-  ));
+  const TestForm = () => {
+    injectedProps = useFormConnect();
+    return (
+      <React.Fragment>
+        <Component fieldId="name" />
+        <Component fieldId="age" />
+      </React.Fragment>
+    )
+  }
   return {
     getProps: () => injectedProps,
-    ...render(<TestForm {...props} />)
-  }
-}
+    ...render(
+      <Form onSubmit={() => null} {...formOptions}>
+        <TestForm {...props} />
+      </Form>
+    ),
+  };
+};
 
 describe('Field', () => {
   afterEach(() => cleanup());
@@ -111,19 +115,24 @@ describe('Field', () => {
 
       const makeErroneousForm = (formOptions?: object, props?: object) => {
         let injectedProps: any;
-        const TestForm = Form({
-          onSubmit: () => null,
-          ...formOptions,
-        })((formProps: any) => (injectedProps = formProps) && (
-          <React.Fragment>
-            <Comp fieldId="name" />
-          </React.Fragment>
-        ));
+        const TestForm = () => {
+          injectedProps = useFormConnect();
+          return (
+            <React.Fragment>
+              <Comp fieldId="name" />
+            </React.Fragment>
+          )
+        }
         return {
           getProps: () => injectedProps,
-          ...render(<TestForm {...props} />)
-        }
-      }
+          ...render(
+            <Form onSubmit={() => null} {...formOptions}>
+              <TestForm {...props} />
+            </Form>
+          ),
+        };
+      };
+
       expect(() => makeErroneousForm()).toThrowError(/The Field needs a "component" property to  function correctly./);
     })
   });

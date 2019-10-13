@@ -47,30 +47,30 @@ const ArrayContainer = ({ fieldId, add, value, remove, swap, insert, move, repla
 
 const makeForm = (formOptions?: object, props?: object) => {
   let injectedProps: any;
-  const TestForm = Form({
-    initialValues: {
-      friends: [
-        { name: 'K' },
-        { name: 'J' },
-      ],
-      hobby: { id: 1, name: 'badass' },
-    },
-    onSubmit: () => null,
-    ...formOptions,
-  })((formProps: any) => {
-    const formContext = useFormConnect();
-    injectedProps = { ...formProps, ...formContext };
+  const TestForm = () => {
+    injectedProps = useFormConnect();
     return (
       <React.Fragment>
-      <FieldArray fieldId="friends" component={ArrayContainer} />
-    </React.Fragment>
+        <FieldArray fieldId="friends" component={ArrayContainer} />
+      </React.Fragment>
     )
-  });
+  }
+  const initialValues = {
+    friends: [
+      { name: 'K' },
+      { name: 'J' },
+    ],
+    hobby: { id: 1, name: 'badass' },
+  }
   return {
     getProps: () => injectedProps,
-    ...render(<TestForm {...props} />)
-  }
-}
+    ...render(
+      <Form initialValues={initialValues} onSubmit={() => null} {...formOptions}>
+        <TestForm {...props} />
+      </Form>
+    ),
+  };
+};
 
 describe('FieldArray', () => {
   afterEach(() => cleanup());
@@ -204,20 +204,28 @@ describe('FieldArray', () => {
     // @ts-ignore
     const Comp = ({ fieldId }: { fieldId: string }) => (<FieldArray fieldId={fieldId} id={fieldId} />);
 
+
     const makeErroneousForm = (formOptions?: object, props?: object) => {
       let injectedProps: any;
-      const TestForm = Form({
-        onSubmit: () => null,
-        ...formOptions,
-      })((formProps: any) => (injectedProps = formProps) && (
-        <React.Fragment>
-          <Comp fieldId="name" />
-        </React.Fragment>
-      ));
+      const TestForm = () => {
+        injectedProps = useFormConnect();
+        return <Comp fieldId="name" />
+      }
+      const initialValues = {
+        friends: [
+          { name: 'K' },
+          { name: 'J' },
+        ],
+        hobby: { id: 1, name: 'badass' },
+      }
       return {
         getProps: () => injectedProps,
-        ...render(<TestForm {...props} />)
-      }
+        ...render(
+          <Form initialValues={initialValues} onSubmit={() => null} {...formOptions}>
+            <TestForm {...props} />
+          </Form>
+        ),
+      };
     }
     expect(() => makeErroneousForm()).toThrowError(/The FieldArray needs a "component" or a "children" property to function correctly./);
   })
