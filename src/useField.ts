@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContextSelector } from 'use-context-selector';
+import { useSelector } from './context/useSelector';
 import { formContext } from './helpers/context';
 import { get } from './helpers/operations';
 import { FormHookContext } from './types';
@@ -8,8 +8,6 @@ export interface FieldOperations<T> {
   onBlur: () => void;
   onChange: (value: T) => void;
   onFocus: () => void;
-  // TODO: this can maybe removed, I saw this as an escape hatch,
-  // to deal with cross-dependent fields.
   setFieldValue: (fieldId: string, value: any) => void;
 }
 
@@ -43,11 +41,11 @@ export default function useField<T = any>(
       setFieldValue,
     },
     {
-      error: useContextSelector(
+      error: useSelector(
         formContext, ({ errors }: FormHookContext) => get(errors, fieldId)),
-      touched: useContextSelector(
+      touched: useSelector(
         formContext, ({ touched }: FormHookContext) => get(touched, fieldId)),
-      value: useContextSelector(
+      value: useSelector(
         formContext, ({ values }: FormHookContext) => get(values, fieldId) || ''),
     },
   ];
