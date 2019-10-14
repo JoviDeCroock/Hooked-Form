@@ -120,11 +120,13 @@ describe('Form', () => {
       act(() => {
         submit()
       });
-      await wait(() => {
+      await wait(async () => {
         expect(onSubmit).toBeCalledTimes(2);
-        expect(onSuccess).toBeCalledTimes(2);
-        expect(onSubmit.mock.calls[1][0].name).toBe('Liesse');
-        expect(onSubmit.mock.calls[1][0].age).toBe(22);
+        await wait(() => {
+          expect(onSuccess).toBeCalledTimes(2);
+          expect(onSubmit.mock.calls[1][0].name).toBe('Liesse');
+          expect(onSubmit.mock.calls[1][0].age).toBe(22);
+        }, { timeout: 0 });
       }, { timeout: 0 })
     }, { timeout: 0 })
   });
