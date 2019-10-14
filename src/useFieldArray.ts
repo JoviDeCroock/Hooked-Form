@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContextSelector } from 'use-context-selector';
+import { useSelector } from './context/useSelector';
 import { formContext } from './helpers/context';
 import { get } from './helpers/operations';
 import { FormHookContext } from './types';
@@ -26,7 +26,7 @@ export default function useFieldArray<T = any>(
   }
 
   const { setFieldValue } = React.useContext(formContext);
-  const value: Array<any> = useContextSelector(
+  const value: Array<any> = useSelector(
     formContext, ({ values }: FormHookContext) => get(values, fieldId) || []);
 
   return [
@@ -82,7 +82,7 @@ export default function useFieldArray<T = any>(
       ),
     },
     {
-      error: useContextSelector(formContext, ({ errors }: FormHookContext) => get(errors, fieldId)),
+      error: useSelector(formContext, ({ errors }: FormHookContext) => get(errors, fieldId)),
       value,
     },
   ];

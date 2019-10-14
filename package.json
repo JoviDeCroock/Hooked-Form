@@ -7,7 +7,7 @@
   "repository": "https://www.github.com/jovidecroock/hooked-form",
   "sideEffects": false,
   "scripts": {
-    "build": "rimraf dist && node ./scripts/removeLine.js && yarn build:es5 && yarn build:modern && yarn build:minified && yarn cleanup",
+    "build": "rimraf dist && yarn build:es5 && yarn build:modern && yarn build:minified && yarn cleanup",
     "build:minified": "microbundle --jsx React.createElement --external react --define process.env.NODE_ENV=production --name hookedForm --output dist/prod",
     "build:es5": "microbundle --jsx React.createElement --external react --no-compress --name hookedForm --output dist/",
     "build:modern": "rollup -c && node ./scripts/sliceLicense.js",
@@ -42,7 +42,7 @@
     "@types/react": "16.9.5"
   },
   "devDependencies": {
-    "@testing-library/react": "8.0.5",
+    "@testing-library/react": "9.3.0",
     "@types/jest": "24.0.18",
     "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
@@ -51,8 +51,8 @@
     "jest": "24.9.0",
     "jest-cli": "24.9.0",
     "microbundle": "^0.12.0-next.3",
-    "react": "16.9.0-alpha.0",
-    "react-dom": "16.9.0-alpha.0",
+    "react": "16.10.2",
+    "react-dom": "16.10.2",
     "rimraf": "2.6.3",
     "rollup": "1.23.1",
     "rollup-plugin-filesize": "6.2.0",
@@ -68,9 +68,7 @@
     "tslint-react": "4.0.0",
     "typescript": "3.6.4"
   },
-  "dependencies": {
-    "use-context-selector": "1.0.0"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"

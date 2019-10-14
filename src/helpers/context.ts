@@ -1,6 +1,6 @@
-import { createContext } from 'use-context-selector';
+import { createContext } from '../context/createContext';
 import { FormHookContext } from '../types';
 
-export const formContext = createContext<FormHookContext>({} as any);
+export const formContext = createContext<FormHookContext>();
 const { Provider } = formContext;
 export { Provider };
