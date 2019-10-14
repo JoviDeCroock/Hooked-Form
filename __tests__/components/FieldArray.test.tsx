@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
 
-import { Field, FieldArray, Form, useFormConnect } from '../../src';
+import { Form, useFormConnect } from '../../src';
+import { Field, FieldArray } from '../_utils';
 
 const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
   <React.Fragment>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import useFieldArray from './useFieldArray';
+import useFieldArray from '../../src/useFieldArray';
 
 export interface FieldProps {
   component?: any;

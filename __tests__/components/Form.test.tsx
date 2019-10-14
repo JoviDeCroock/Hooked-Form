@@ -45,13 +45,6 @@ describe('Form', () => {
     expect(values.name).toEqual('joviMutated');
   });
 
-  // it('should use mapPropsToValues correctly', () => {
-  //   const { getProps } = makeForm({ mapPropsToValues: ({ name }: any) => ({ name, friends: [] }) }, { name: 'jovi' });
-  //   const { values } = getProps();
-  //   expect(values.name).toEqual('jovi');
-  //   expect(values.friends.length).toEqual(0);
-  // });
-
   it('Resets correctly', () => {
     const { getProps } = makeForm({ initialValues: { name: 'jovi' }});
     const { setFieldValue } = getProps();

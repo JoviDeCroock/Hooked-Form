@@ -2,7 +2,8 @@
 import * as React from 'react';
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
 
-import { Field, Form, useFormConnect } from '../../src';
+import { Form, useFormConnect } from '../../src';
+import { Field } from '../_utils';
 
 const StringField = (
   { touched, error, onChange, onBlur, value, id, onFocus }:
