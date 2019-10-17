@@ -10,12 +10,16 @@ interface CallBag {
   setFormError: (error: string) => void;
 }
 
+interface SuccessCallBag {
+  resetForm: () => void;
+}
+
 export interface FormOptions<T> {
   enableReinitialize?: boolean;
   initialValues?: InitialValues;
   mapPropsToValues?: (props: object) => InitialValues;
   onError?: (error: object, setFormError: (error: any) => void) => void;
-  onSuccess?: (result?: any) => void;
+  onSuccess?: (result: any | undefined, callbag: SuccessCallBag) => void;
   onSubmit: (values: Partial<T>, callbag: CallBag) => Promise<any> | any;
   shouldSubmitWhenInvalid?: boolean;
   validate?: (values: Partial<T>) => object;
@@ -47,7 +51,7 @@ const OptionsContainer = <Values extends object>({
       ]);
 
       const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(() =>
-        mapPropsToValues ? mapPropsToValues(props) : initialValues,
+        mapPropsToValues ? mapPropsToValues(props) : initialValues
       );
 
       const { 0: touched, 1: touch, 2: setTouchedState } = useState(EMPTY_OBJ);
@@ -82,18 +86,19 @@ const OptionsContainer = <Values extends object>({
             return setSubmitting(false);
           }
 
-          return new Promise(resolve => resolve(
-            onSubmit(values, { props, setErrors: setErrorState, setFormError })))
-              .then((result: any) => {
-                setSubmitting(false);
-                if (onSuccess) onSuccess(result);
-              })
-              .catch((e: any) => {
-                setSubmitting(false);
-                if (onError) onError(e, setFormError);
-              });
+          return new Promise(resolve =>
+            resolve(onSubmit(values, { props, setErrors: setErrorState, setFormError }))
+          )
+            .then((result: any) => {
+              setSubmitting(false);
+              if (onSuccess) onSuccess(result, { resetForm });
+            })
+            .catch((e: any) => {
+              setSubmitting(false);
+              if (onError) onError(e, setFormError);
+            });
         },
-        [values],
+        [values]
       );
 
       React.useEffect(() => {
@@ -130,7 +135,7 @@ const OptionsContainer = <Values extends object>({
           validate: validateForm,
           values,
         }),
-        [formErrors, formError, isDirty, onChange, touched, validateForm, values],
+        [formErrors, formError, isDirty, onChange, touched, validateForm, values]
       );
 
       const comp = React.useMemo(
@@ -148,7 +153,7 @@ const OptionsContainer = <Values extends object>({
             {...props}
           />
         ),
-        [...passDownProps, formError, isSubmitting],
+        [...passDownProps, formError, isSubmitting]
       );
 
       return <Provider value={providerValue}>{comp}</Provider>;
