@@ -22,12 +22,12 @@ export default function useFieldArray<T = any>(
   fieldId: string,
 ): [FieldOperations<T>, FieldInformation<T>] {
   if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
-    throw new Error('The FieldArray needs a valid "fieldId" property to  function correctly.');
+    throw new Error('The FieldArray needs a valid "fieldId" property to function correctly.');
   }
 
   const { setFieldValue } = React.useContext(formContext);
   const value: Array<any> = useSelector(
-    formContext, ({ values }: FormHookContext) => get(values, fieldId) || []);
+    (ctx: FormHookContext) => get(ctx.values, fieldId) || []);
 
   return [
     {
@@ -82,7 +82,7 @@ export default function useFieldArray<T = any>(
       ),
     },
     {
-      error: useSelector(formContext, ({ errors }: FormHookContext) => get(errors, fieldId)),
+      error: useSelector((ctx: FormHookContext) => get(ctx.errors, fieldId)),
       value,
     },
   ];

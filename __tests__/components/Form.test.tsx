@@ -1,26 +1,26 @@
 import * as React from 'react';
 import { act, cleanup, render, wait } from '@testing-library/react';
-import { Form, useFormConnect } from '../../src';
+import { HookedForm, useFormConnect } from '../../src';
 
 const Component = () => (<p>Hi</p>);
 
-const makeForm = (formOptions?: object, props?: object) => {
+const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
-  const TestForm = () => {
+  const TestHookedForm = () => {
     injectedProps = useFormConnect();
     return <Component />
   }
   return {
     getProps: () => injectedProps,
-    ...render(<Form onSubmit={() => null} {...formOptions}><TestForm {...props} /></Form>),
+    ...render(<HookedForm onSubmit={() => null} {...HookedFormOptions}><TestHookedForm {...props} /></HookedForm>),
   };
 }
 
-describe('Form', () => {
+describe('HookedForm', () => {
   afterEach(() => cleanup());
 
   it('useFormConnect passes correct properties.', () => {
-    const { getProps } = makeForm({ initialValues: { name: 'jovi', friends: [] } });
+    const { getProps } = makeHookedForm({ initialValues: { name: 'jovi', friends: [] } });
     const { setFieldValue, submit, validate, isSubmitting, resetForm, values } = getProps();
     expect(typeof setFieldValue).toEqual('function');
     expect(typeof submit).toEqual('function');
@@ -33,12 +33,12 @@ describe('Form', () => {
   });
 
   it('should render child element', () => {
-    const { container } = makeForm();
+    const { container } = makeHookedForm();
     expect(container.firstChild).toBeDefined();
   });
 
   it('Changes when calling change', () => {
-    const { getProps } = makeForm();
+    const { getProps } = makeHookedForm();
     const { setFieldValue } = getProps();
     act(() => { setFieldValue('name', 'joviMutated') });
     const { values } = getProps();
@@ -46,7 +46,7 @@ describe('Form', () => {
   });
 
   it('Resets correctly', () => {
-    const { getProps } = makeForm({ initialValues: { name: 'jovi' }});
+    const { getProps } = makeHookedForm({ initialValues: { name: 'jovi' }});
     const { setFieldValue } = getProps();
     act(() => {
       setFieldValue('name', 'joviMutated')
@@ -60,7 +60,7 @@ describe('Form', () => {
 
   it('calls validate onChange', () => {
     const validate = jest.fn();
-    const { getProps } = makeForm({ validate, validateOnChange: true });
+    const { getProps } = makeHookedForm({ validate, validateOnChange: true });
     expect(getProps().isDirty).toBe(false);
     let { setFieldValue } = getProps();
     act(() => {
@@ -78,7 +78,7 @@ describe('Form', () => {
 
   it('makes error and touches all fields onSubmit', () => {
     const onSubmit = jest.fn();
-    const { getProps } = makeForm({ onSubmit, validate: (values: any) => ({ name: !values.name ? 'required' : undefined }) });
+    const { getProps } = makeHookedForm({ onSubmit, validate: (values: any) => ({ name: !values.name ? 'required' : undefined }) });
     let { submit } = getProps();
     act(() => { submit() });
     const { errors, touched, isSubmitting } = getProps();
@@ -91,7 +91,7 @@ describe('Form', () => {
   it('calls onSubmit when needed', async () => {
     const onSubmit = jest.fn();
     const onSuccess = jest.fn();
-    const { getProps } = makeForm({ initialValues: { name: 'Jovi', age: 23 }, onSubmit, onSuccess });
+    const { getProps } = makeHookedForm({ initialValues: { name: 'Jovi', age: 23 }, onSubmit, onSuccess });
     let { submit } = getProps();
     const { setFieldValue } = getProps();
     act(() => {
@@ -111,7 +111,7 @@ describe('Form', () => {
     await wait(async () => {
       ({ submit } = getProps());
       act(() => {
-        submit()
+        submit();
       });
       await wait(async () => {
         expect(onSubmit).toBeCalledTimes(2);
@@ -127,14 +127,14 @@ describe('Form', () => {
   it('calls onError when needed', async () => {
     const onSubmit = () => { throw new Error('hi') };
     const onError = jest.fn();
-    const { getProps } = makeForm({ onSubmit, onError });
+    const { getProps } = makeHookedForm({ onSubmit, onError });
     const { submit } = getProps();
-    act(() => {
-      submit()
+
+    await act(async () => {
+      await submit();
     });
-    await wait(() => {
-      expect(onError).toBeCalledTimes(1);
-    }, { timeout: 0 })
+
+    expect(onError).toBeCalledTimes(1);
   });
 
   it('uses the ErrorBag methods correctly', async () => {
@@ -143,15 +143,13 @@ describe('Form', () => {
       setErrors({ name: 'hi' });
       setFormError('hi');
     };
-    const { getProps } = makeForm({ onSubmit });
+    const { getProps } = makeHookedForm({ onSubmit });
     const { submit } = getProps();
-    act(() => {
-      submit()
+    await act(async () => {
+      await submit();
     });
-    await wait(() => {
-      const { formError, errors } = getProps();
-      expect(formError).toBe('hi');
-      expect(errors.name).toBe('hi');
-    }, { timeout: 0 })
+
+    expect(getProps().formError).toBe('hi');
+    expect(getProps().errors.name).toBe('hi');
   });
 });

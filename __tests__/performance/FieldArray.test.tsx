@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { act, cleanup, render } from '@testing-library/react';
 
-import { Form, useFormConnect } from '../../src';
+import { HookedForm, useFormConnect } from '../../src';
 import { FieldArray } from '../_utils';
 
 let renders = 0;
@@ -12,15 +12,15 @@ const Array = ({ error }: { error: string }) => {
 
 const Component = () => <FieldArray fieldId="friends" component={Array} />;
 
-const makeForm = (formOptions?: object, props?: object) => {
+const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
-  const TestForm = () => {
+  const TestHookedForm = () => {
     injectedProps = useFormConnect();
     return <Component />
   }
   return {
     getProps: () => injectedProps,
-    ...render(<Form onSubmit={() => null} {...formOptions}><TestForm {...props} /></Form>),
+    ...render(<HookedForm onSubmit={() => null} {...HookedFormOptions}><TestHookedForm {...props} /></HookedForm>),
   };
 };
 
@@ -30,10 +30,10 @@ describe('ErorrMessage', () => {
     cleanup();
   });
 
-  describe('performance', () => {
+  describe('perHookedFormance', () => {
     it('should not rerender when props change or parent rerenders', () => {
       const { getProps, getByTestId, rerender, ...rest } =
-        makeForm({ initialValues: { friends: [] } });
+        makeHookedForm({ initialValues: { friends: [] } });
 
       const { setFieldValue } = getProps();
       expect(renders).toBe(1);

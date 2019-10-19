@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
 
-import { Form, useFormConnect } from '../../src';
+import { HookedForm, useFormConnect } from '../../src';
 import { Field, FieldArray } from '../_utils';
 
 const StringField = ({ error, onChange, onBlur, value, id }: { id: string, error?: string, onChange: (value: any) => void, onBlur: () => void, value: any }) => (
@@ -46,9 +46,9 @@ const ArrayContainer = ({ fieldId, add, value, remove, swap, insert, move, repla
   );
 }
 
-const makeForm = (formOptions?: object, props?: object) => {
+const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
-  const TestForm = () => {
+  const TestHookedForm = () => {
     injectedProps = useFormConnect();
     return (
       <React.Fragment>
@@ -66,9 +66,9 @@ const makeForm = (formOptions?: object, props?: object) => {
   return {
     getProps: () => injectedProps,
     ...render(
-      <Form initialValues={initialValues} onSubmit={() => null} {...formOptions}>
-        <TestForm {...props} />
-      </Form>
+      <HookedForm initialValues={initialValues} onSubmit={() => null} {...HookedFormOptions}>
+        <TestHookedForm {...props} />
+      </HookedForm>
     ),
   };
 };
@@ -77,7 +77,7 @@ describe('FieldArray', () => {
   afterEach(() => cleanup());
 
   it('should render the stringfields and handle onChange aswell as validation', () => {
-    const { getByTestId } = makeForm({
+    const { getByTestId } = makeHookedForm({
       validate: (values: any) => {
         if (values.friends[0].name === 'A') {
           return {
@@ -107,7 +107,7 @@ describe('FieldArray', () => {
   });
 
   it('Should add fields when asked to', () => {
-    const { getByTestId, getProps } = makeForm();
+    const { getByTestId, getProps } = makeHookedForm();
     const addButton = getByTestId('add-element');
     act(() => {
       fireEvent.click(addButton);
@@ -118,7 +118,7 @@ describe('FieldArray', () => {
   });
 
   it('Should swap fields when asked to', () => {
-    const { getByTestId, getProps } = makeForm();
+    const { getByTestId, getProps } = makeHookedForm();
     let swapButton = getByTestId('swap-element');
     act(() => {
       fireEvent.click(swapButton);
@@ -138,7 +138,7 @@ describe('FieldArray', () => {
   });
 
   it('Should insert fields when asked to', () => {
-    const { getByTestId, getProps } = makeForm();
+    const { getByTestId, getProps } = makeHookedForm();
     let insertButton = getByTestId('insert-element');
     act(() => {
       fireEvent.click(insertButton);
@@ -161,7 +161,7 @@ describe('FieldArray', () => {
   });
 
   it('Should move fields when asked to', () => {
-    const { getByTestId, getProps } = makeForm();
+    const { getByTestId, getProps } = makeHookedForm();
     let moveButton = getByTestId('move-element');
     act(() => {
       fireEvent.click(moveButton);
@@ -181,7 +181,7 @@ describe('FieldArray', () => {
   });
 
   it('Should remove fields when asked to', () => {
-    const { getByTestId, getProps } = makeForm();
+    const { getByTestId, getProps } = makeHookedForm();
     const removeFirstFieldButton = getByTestId('remove-element-0');
     act(() => {
       fireEvent.click(removeFirstFieldButton);
@@ -192,7 +192,7 @@ describe('FieldArray', () => {
   });
 
   it('Should replace fields when asked to', () => {
-    const { getByTestId, getProps } = makeForm();
+    const { getByTestId, getProps } = makeHookedForm();
     const replace = getByTestId('replace-element');
     act(() => {
       fireEvent.click(replace);
@@ -206,9 +206,9 @@ describe('FieldArray', () => {
     const Comp = ({ fieldId }: { fieldId: string }) => (<FieldArray fieldId={fieldId} id={fieldId} />);
 
 
-    const makeErroneousForm = (formOptions?: object, props?: object) => {
+    const makeErroneousHookedForm = (HookedFormOptions?: object, props?: object) => {
       let injectedProps: any;
-      const TestForm = () => {
+      const TestHookedForm = () => {
         injectedProps = useFormConnect();
         return <Comp fieldId="name" />
       }
@@ -222,12 +222,12 @@ describe('FieldArray', () => {
       return {
         getProps: () => injectedProps,
         ...render(
-          <Form initialValues={initialValues} onSubmit={() => null} {...formOptions}>
-            <TestForm {...props} />
-          </Form>
+          <HookedForm initialValues={initialValues} onSubmit={() => null} {...HookedFormOptions}>
+            <TestHookedForm {...props} />
+          </HookedForm>
         ),
       };
     }
-    expect(() => makeErroneousForm()).toThrowError(/The FieldArray needs a "component" or a "children" property to function correctly./);
+    expect(() => makeErroneousHookedForm()).toThrowError(/The FieldArray needs a "component" or a "children" property to function correctly./);
   })
 });

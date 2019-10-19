@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
 
-import { Form, useFormConnect } from '../../src';
+import { HookedForm, useFormConnect } from '../../src';
 import { Field } from '../_utils';
 
 const StringField = (
@@ -23,9 +23,9 @@ const StringField = (
 
 const Component = ({ fieldId }: { fieldId: string }) => (<Field fieldId={fieldId} component={StringField} id={fieldId} />);
 
-const makeForm = (formOptions?: object, props?: object) => {
+const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
-  const TestForm = () => {
+  const TestHookedForm = () => {
     injectedProps = useFormConnect();
     return (
       <React.Fragment>
@@ -37,9 +37,9 @@ const makeForm = (formOptions?: object, props?: object) => {
   return {
     getProps: () => injectedProps,
     ...render(
-      <Form onSubmit={() => null} {...formOptions}>
-        <TestForm {...props} />
-      </Form>
+      <HookedForm onSubmit={() => null} {...HookedFormOptions}>
+        <TestHookedForm {...props} />
+      </HookedForm>
     ),
   };
 };
@@ -49,7 +49,7 @@ describe('Field', () => {
 
   describe('basic functionality', () => {
     it('should render the stringfields', () => {
-      const { getByTestId } = makeForm({
+      const { getByTestId } = makeHookedForm({
         validate: (values: { [fieldId: string]: any }) => {
           return {
             age: values.age && values.age > 2 ? undefined : 'bad',
@@ -79,7 +79,7 @@ describe('Field', () => {
     });
 
     it('should validate on blurring the stringfields', () => {
-      const { getByTestId } = makeForm({
+      const { getByTestId } = makeHookedForm({
         validate: (values: { [fieldId: string]: any }) => {
           return {
             age: values.age && values.age > 2 ? undefined : 'bad',
@@ -114,9 +114,9 @@ describe('Field', () => {
       // @ts-ignore
       const Comp = ({ fieldId }: { fieldId: string }) => (<Field fieldId={fieldId} id={fieldId} />);
 
-      const makeErroneousForm = (formOptions?: object, props?: object) => {
+      const makeErroneousHookedForm = (HookedFormOptions?: object, props?: object) => {
         let injectedProps: any;
-        const TestForm = () => {
+        const TestHookedForm = () => {
           injectedProps = useFormConnect();
           return (
             <React.Fragment>
@@ -127,14 +127,14 @@ describe('Field', () => {
         return {
           getProps: () => injectedProps,
           ...render(
-            <Form onSubmit={() => null} {...formOptions}>
-              <TestForm {...props} />
-            </Form>
+            <HookedForm onSubmit={() => null} {...HookedFormOptions}>
+              <TestHookedForm {...props} />
+            </HookedForm>
           ),
         };
       };
 
-      expect(() => makeErroneousForm()).toThrowError(/The Field needs a "component" property to  function correctly./);
+      expect(() => makeErroneousHookedForm()).toThrowError(/The Field needs a "component" property to  function correctly./);
     })
   });
 });

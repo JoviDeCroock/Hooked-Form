@@ -1,5 +1,11 @@
 # Releases
 
+## 4.0.0
+
+### Breaking
+
+### Features
+
 ## 3.0.0
 
 - Update onSubmit to contain an object of props and errorSetters

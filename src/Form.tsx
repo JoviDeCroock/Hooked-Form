@@ -1,10 +1,20 @@
 import * as React from 'react';
-import { Provider } from './helpers/context';
+import { formContext } from './helpers/context';
 import { deriveInitial } from './helpers/deriveInitial';
 import useState from './helpers/useState';
 import { Errors, InitialValues, Touched } from './types';
 
-interface CallBag {
+export interface SuccessBag {
+  resetForm: () => void;
+}
+
+export interface ErrorBag {
+  setErrors: (errors: Errors) => void;
+  setFormError: (error: string) => void;
+}
+
+export interface CallBag {
+  props?: object;
   setErrors: (errors: Errors) => void;
   setFormError: (error: string) => void;
 }
@@ -14,8 +24,9 @@ export interface FormOptions<T> {
   enableReinitialize?: boolean;
   initialValues?: InitialValues;
   mapPropsToValues?: (props: object) => InitialValues;
-  onError?: (error: object, setFormError: (error: any) => void) => void;
-  onSuccess?: (result?: any) => void;
+  noForm?: boolean;
+  onError?: (error: object, callbag: ErrorBag) => void;
+  onSuccess?: (result: any, callbag: SuccessBag) => void;
   onSubmit: (values: Partial<T>, callbag: CallBag) => Promise<any> | any;
   shouldSubmitWhenInvalid?: boolean;
   validate?: (values: Partial<T>) => object;
@@ -23,13 +34,14 @@ export interface FormOptions<T> {
   validateOnChange?: boolean;
 }
 
-const EMPTY_OBJ = {};
+export const EMPTY_OBJ = {};
 
 const Form = <Values extends object>({
   children,
   enableReinitialize,
   initialValues,
   onSubmit,
+  noForm,
   validate,
   onError,
   onSuccess,
@@ -75,11 +87,14 @@ const Form = <Values extends object>({
         onSubmit(values, { setErrors: setErrorState, setFormError })))
           .then((result: any) => {
             setSubmitting(false);
-            if (onSuccess) onSuccess(result);
+            if (onSuccess) onSuccess(result, { resetForm });
+          }, (e: any) => {
+            setSubmitting(false);
+            if (onError) onError(e, { setErrors: setErrorState, setFormError });
           })
           .catch((e: any) => {
             setSubmitting(false);
-            if (onError) onError(e, setFormError);
+            if (onError) onError(e, { setErrors: setErrorState, setFormError });
           });
     },
     [values],
@@ -134,11 +149,14 @@ const Form = <Values extends object>({
   );
 
   return (
-    <Provider value={providerValue}>
-      <form onSubmit={submit} {...formProps}>
-        {children}
-      </form>
-    </Provider>
+    <formContext.Provider value={providerValue}>
+      {noForm ?
+        children :
+        <form onSubmit={submit} {...formProps}>
+          {children}
+        </form>
+      }
+    </formContext.Provider>
   );
 };
 
