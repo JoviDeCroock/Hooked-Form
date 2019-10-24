@@ -1,22 +1,20 @@
 import * as React from 'react';
 import { act, cleanup, render } from '@testing-library/react';
 
-import { HookedForm, useFormConnect } from '../../src';
-import { FieldArray } from '../_utils';
+import { HookedForm, useFormConnect, useFieldArray } from '../../src';
 
 let renders = 0;
-const Array = ({ error }: { error: string }) => {
+const Array = React.memo(() => {
+  useFieldArray('friends');
   renders +=1;
   return <p>hi</p>;
-}
-
-const Component = () => <FieldArray fieldId="friends" component={Array} />;
+});
 
 const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
   const TestHookedForm = () => {
     injectedProps = useFormConnect();
-    return <Component />
+    return <Array />
   }
   return {
     getProps: () => injectedProps,

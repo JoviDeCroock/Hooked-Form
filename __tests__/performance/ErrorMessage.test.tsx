@@ -1,22 +1,20 @@
 import * as React from 'react';
 import { act, cleanup, render } from '@testing-library/react';
 
-import { HookedForm, useFormConnect } from '../../src';
-import { ErrorMessage } from '../_utils';
+import { HookedForm, useFormConnect, useError } from '../../src';
 
 let renders = 0;
-const ErrorDisplay = ({ error }: { error: string }) => {
+const ErrorDisplay = React.memo(() => {
+  const error = useError('name');
   renders +=1;
   return <p>{error}</p>;
-}
-
-const Component = () => <ErrorMessage fieldId="name" component={ErrorDisplay} />;
+})
 
 const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
   const TestHookedForm = () => {
     injectedProps = useFormConnect();
-    return <Component />
+    return <ErrorDisplay />
   }
   return {
     getProps: () => injectedProps,
