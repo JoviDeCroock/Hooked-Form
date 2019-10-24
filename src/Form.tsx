@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { emit } from './context/emitter';
 import { formContext } from './helpers/context';
 import { deriveInitial } from './helpers/deriveInitial';
 import useState from './helpers/useState';
@@ -116,6 +117,7 @@ const Form = <Values extends object>({
   const onChange = React.useCallback((fieldId: string, value: any) => {
     isDirty.current = true;
     setFieldValue(fieldId, value);
+    emit(fieldId, 'value');
   }, []);
 
   const submit = React.useCallback((e?: React.SyntheticEvent) => {
@@ -131,6 +133,7 @@ const Form = <Values extends object>({
       isSubmitting,
       resetForm,
       setFieldTouched: (fieldId: string, value?: boolean) => {
+        emit(fieldId, 'touched');
         touch(fieldId, value == null ? true : value);
       },
       setFieldValue: onChange,

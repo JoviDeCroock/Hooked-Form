@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { useSelector } from './context/useSelector';
-import { formContext } from './helpers/context';
+import { on } from './context/emitter';
 import { get } from './helpers/operations';
-import { FormHookContext } from './types';
+import useFormConnect from './useFormConnect';
 
 export interface FieldOperations<T> {
   onBlur: () => void;
@@ -25,28 +24,32 @@ export default function useField<T = any>(
     throw new Error('The Field needs a valid "fieldId" property to function correctly.');
   }
   // Context
-  const _ctx = React.useContext<FormHookContext>(formContext);
+  const ctx = useFormConnect();
+
+  on(
+    fieldId,
+    // @ts-ignore
+    React.useReducer(c => !c, false)[1],
+    ['value', 'touched', 'error'],
+  );
 
   return [
     {
       onBlur: React.useCallback(() => {
-        _ctx.setFieldTouched(fieldId, true);
+        ctx.setFieldTouched(fieldId, true);
       }, []),
       onChange: React.useCallback((value: T) => {
-        _ctx.setFieldValue(fieldId, value);
+        ctx.setFieldValue(fieldId, value);
       }, []),
       onFocus: React.useCallback(() => {
-        _ctx.setFieldTouched(fieldId, false);
+        ctx.setFieldTouched(fieldId, false);
       }, []),
-      setFieldValue: _ctx.setFieldValue,
+      setFieldValue: ctx.setFieldValue,
     },
     {
-      error: useSelector(
-        (ctx: FormHookContext) => get(ctx.errors, fieldId)),
-      touched: useSelector(
-        (ctx: FormHookContext) => get(ctx.touched, fieldId)),
-      value: useSelector(
-        (ctx: FormHookContext) => get(ctx.values, fieldId) || ''),
+      error: get(ctx.errors, fieldId),
+      touched: get(ctx.touched, fieldId),
+      value: get(ctx.values, fieldId) || '',
     },
   ];
 }

@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { useSelector } from './context/useSelector';
-import { formContext } from './helpers/context';
+import { on } from './context/emitter';
 import { get } from './helpers/operations';
-import { FormHookContext } from './types';
+import useFormConnect from './useFormConnect';
 
 export interface FieldOperations<T> {
   add: (item: T) => void;
@@ -25,9 +24,15 @@ export default function useFieldArray<T = any>(
     throw new Error('The FieldArray needs a valid "fieldId" property to function correctly.');
   }
 
-  const { setFieldValue } = React.useContext(formContext);
-  const value: Array<any> = useSelector(
-    (ctx: FormHookContext) => get(ctx.values, fieldId) || []);
+  on(
+    fieldId,
+    // @ts-ignore
+    React.useReducer(c => !c, false)[1],
+    ['touched', 'error'],
+  );
+
+  const { setFieldValue, values, errors } = useFormConnect();
+  const value: Array<any> = get(values, fieldId);
 
   return [
     {
@@ -82,7 +87,7 @@ export default function useFieldArray<T = any>(
       ),
     },
     {
-      error: useSelector((ctx: FormHookContext) => get(ctx.errors, fieldId)),
+      error: get(errors, fieldId),
       value,
     },
   ];
