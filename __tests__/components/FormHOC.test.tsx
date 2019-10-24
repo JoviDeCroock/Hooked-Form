@@ -1,18 +1,27 @@
 import * as React from 'react';
 import { act, cleanup, render } from '@testing-library/react';
-import { HookedForm, useFormConnect } from '../../src';
+import { Form, useFormConnect } from '../../src';
 
-const Component = () => (<p>Hi</p>);
+const Component = ({ onSubmit }: { onSubmit: any }) => (
+  <form onSubmit={onSubmit}>
+    <p>Hi</p>
+  </form>
+);
 
-const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
+const makeHookedForm = (hookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
-  const TestHookedForm = () => {
+  const TestHookedForm = (props: any) => {
     injectedProps = useFormConnect();
-    return <Component />
+    return <Component {...props} />
   }
+
+  const HookedForm = Form({
+    onSubmit: () => null,
+    ...hookedFormOptions,
+  })(TestHookedForm)
   return {
     getProps: () => injectedProps,
-    ...render(<HookedForm onSubmit={() => null} {...HookedFormOptions}><TestHookedForm {...props} /></HookedForm>),
+    ...render(<HookedForm {...props} />),
   };
 }
 
@@ -37,6 +46,8 @@ describe('HookedForm', () => {
     const { container } = makeHookedForm();
     expect(container.firstChild).toBeDefined();
   });
+
+  // TODO: mapPropsToValues
 
   it('Changes when calling change', () => {
     const { getProps } = makeHookedForm();
