@@ -20,7 +20,7 @@ export interface CallBag {
 }
 
 export interface FormOptions<T> {
-  children: any;
+  children?: any;
   enableReinitialize?: boolean;
   initialValues?: InitialValues;
   mapPropsToValues?: (props: object) => InitialValues;
@@ -88,9 +88,6 @@ const Form = <Values extends object>({
           .then((result: any) => {
             setSubmitting(false);
             if (onSuccess) onSuccess(result, { resetForm });
-          }, (e: any) => {
-            setSubmitting(false);
-            if (onError) onError(e, { setErrors: setErrorState, setFormError });
           })
           .catch((e: any) => {
             setSubmitting(false);

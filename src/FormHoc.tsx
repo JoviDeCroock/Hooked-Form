@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useSelector } from './context/useSelector';
 import Form, { FormOptions } from './Form';
 import useFormConnect from './useFormConnect';
 
@@ -21,11 +22,11 @@ const OptionsContainer = <Values extends object>({
       return (
         <Component
           change={form.setFieldValue}
-          formError={form.formError}
+          formError={useSelector(ctx => ctx.formError)}
           handleSubmit={form.submit}
-          isSubmitting={form.isSubmitting}
-          resetForm={form.resetForm}
-          isDirty={form.isDirty}
+          isSubmitting={useSelector(ctx => ctx.isSubmitting)}
+          resetForm={useSelector(ctx => ctx.resetForm)}
+          isDirty={useSelector(ctx => ctx.isDirty)}
           {...props}
         />
       );
