@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useSelector } from './context/useSelector';
-import { formContext } from './helpers/context';
+import { on } from './context/emitter';
+import { formContext } from './Form';
 import { get } from './helpers/operations';
 import { FormHookContext } from './types';
 
@@ -25,15 +25,25 @@ export default function useFieldArray<T = any>(
     throw new Error('The FieldArray needs a valid "fieldId" property to function correctly.');
   }
 
-  const { setFieldValue } = React.useContext(formContext);
-  const value: Array<any> = useSelector(
-    (ctx: FormHookContext) => get(ctx.values, fieldId) || []);
+  const state = React.useReducer(c => !c, false);
+  React.useEffect(() => {
+    return on(
+      fieldId,
+      () => {
+        // @ts-ignore
+        state[1]();
+      },
+    );
+  }, []);
+
+  const ctx = React.useContext<FormHookContext>(formContext);
+  const value: Array<any> = get(ctx.values, fieldId);
 
   return [
     {
       add: React.useCallback(
         (element: T) => {
-          setFieldValue(fieldId, [...value, element]);
+          ctx.setFieldValue(fieldId, [...value, element]);
         },
         [value],
       ),
@@ -41,7 +51,7 @@ export default function useFieldArray<T = any>(
         (at: number, element: T) => {
           const result = [...value];
           result.splice(at, 0, element);
-          setFieldValue(fieldId, result);
+          ctx.setFieldValue(fieldId, result);
         },
         [value],
       ),
@@ -50,13 +60,13 @@ export default function useFieldArray<T = any>(
           const result = [...value];
           result.splice(from, 1);
           result.splice(to, 0, value[from]);
-          setFieldValue(fieldId, result);
+          ctx.setFieldValue(fieldId, result);
         },
         [value],
       ),
       remove: React.useCallback(
         (element: T | number) => {
-          setFieldValue(
+          ctx.setFieldValue(
             fieldId,
             value.filter(x => x !== (typeof element === 'number' ? value[element] : element)),
           );
@@ -67,7 +77,7 @@ export default function useFieldArray<T = any>(
         (at: number, element: T) => {
           const result = [...value];
           result[at] = element;
-          setFieldValue(fieldId, result);
+          ctx.setFieldValue(fieldId, result);
         },
         [value],
       ),
@@ -76,13 +86,13 @@ export default function useFieldArray<T = any>(
           const result = [...value];
           result[from] = value[to];
           result[to] = value[from];
-          setFieldValue(fieldId, result);
+          ctx.setFieldValue(fieldId, result);
         },
         [value],
       ),
     },
     {
-      error: useSelector((ctx: FormHookContext) => get(ctx.errors, fieldId)),
+      error: get(ctx.errors, fieldId),
       value,
     },
   ];
