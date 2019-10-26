@@ -1,6 +1,8 @@
+import * as React from 'react';
 import { on } from './context/emitter';
 import { get } from './helpers/operations';
-import useFormConnect from './useFormConnect';
+import { FormHookContext } from './types';
+import { formContext } from './context/context';
 
 export interface FieldInformation {
   error: string;
@@ -11,12 +13,16 @@ export default function useError(fieldId: string): string | null {
     throw new Error('The Error needs a valid "fieldId" property to function correctly.');
   }
 
-  on(
-    fieldId,
-    // @ts-ignore
-    React.useReducer(c => !c, false)[1],
-    'error',
-  );
+  const state = React.useReducer(c => !c, false);
+  React.useEffect(() => {
+    on(
+      fieldId,
+      () => {
+        // @ts-ignore
+        state[1]();
+      },
+    );
+  }, []);
 
-  return get(useFormConnect().errors, fieldId);
+  return get(React.useContext<FormHookContext>(formContext).errors, fieldId);
 }

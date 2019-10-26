@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { on } from './context/emitter';
 import { get } from './helpers/operations';
-import useFormConnect from './useFormConnect';
+import { formContext } from './context/context';
+import { FormHookContext } from './types';
 
 export interface FieldOperations<T> {
   onBlur: () => void;
@@ -23,15 +24,19 @@ export default function useField<T = any>(
   if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
     throw new Error('The Field needs a valid "fieldId" property to function correctly.');
   }
+  const state = React.useReducer(c => !c, false);
   // Context
-  const ctx = useFormConnect();
+  const ctx = React.useContext<FormHookContext>(formContext);
 
-  on(
-    fieldId,
-    // @ts-ignore
-    React.useReducer(c => !c, false)[1],
-    ['value', 'touched', 'error'],
-  );
+  React.useEffect(() => {
+    return on(
+      fieldId,
+      () => {
+        // @ts-ignore
+        state[1]();
+      },
+    );
+  }, []);
 
   return [
     {

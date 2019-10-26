@@ -18,32 +18,25 @@ const StringField = ({ fieldId }: { fieldId: string }) => {
   )
 }
 
-const ArrayContainer = ({ fieldId }: { fieldId: string }) => {
-  const [{ add, remove, swap, insert, move, replace }, { value }] = useFieldArray(fieldId);
-  return (
-    <React.Fragment>
-      {value.map((val: object, i: number) => (
-        <React.Fragment key={fieldId + i}>
-          <StringField fieldId={`${fieldId}[${i}].name`} />
-          <button data-testid={`remove-element-${i}`} onClick={() => remove(val)}>Delete</button>
-        </React.Fragment>
-      ))}
-      <button data-testid="add-element" onClick={() => add({ name: `${value.length}` })}>Add</button>
-      <button data-testid="insert-element" onClick={() => insert(1, { name: `${value.length}` })}>Insert</button>
-      <button data-testid="swap-element" onClick={() => swap(0, 1)}>Swap</button>
-      <button data-testid="move-element" onClick={() => move(0, 1)}>Move</button>
-      <button data-testid="replace-element" onClick={() => replace(1, { name: `hi` })}>Move</button>
-    </React.Fragment>
-  );
-}
-
 const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
   const TestHookedForm = () => {
-    injectedProps = useFormConnect();
+    const fieldId = 'friends';
+    const [{ add, remove, swap, insert, move, replace }, { value }] = useFieldArray(fieldId);
+    injectedProps = { ...useFormConnect(), value }
     return (
       <React.Fragment>
-        <ArrayContainer fieldId="friends" />
+        {value.map((val: object, i: number) => (
+          <React.Fragment key={fieldId + i}>
+            <StringField fieldId={`${fieldId}[${i}].name`} />
+            <button data-testid={`remove-element-${i}`} onClick={() => remove(val)}>Delete</button>
+          </React.Fragment>
+        ))}
+        <button data-testid="add-element" onClick={() => add({ name: `${value.length}` })}>Add</button>
+        <button data-testid="insert-element" onClick={() => insert(1, { name: `${value.length}` })}>Insert</button>
+        <button data-testid="swap-element" onClick={() => swap(0, 1)}>Swap</button>
+        <button data-testid="move-element" onClick={() => move(0, 1)}>Move</button>
+        <button data-testid="replace-element" onClick={() => replace(1, { name: `hi` })}>Move</button>
       </React.Fragment>
     )
   }

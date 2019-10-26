@@ -1,67 +1,50 @@
 type Force = () => void;
 
-type SubField = 'error' | 'default' | 'value' | 'touched';
-
 interface EmitMap {
-  [fieldId: string]: {
-    default?: Array<Force>;
-    error?: Array<Force>;
-    value?: Array<Force>;
-    touched?: Array<Force>;
-  };
+  [fieldId: string]: Array<Force>;
 }
 
 const mapping: EmitMap = {};
-
-export function on(fieldId: string, cb: Force, subField?: SubField | Array<SubField>) {
-  subField = subField || 'default';
-  if (!mapping[fieldId]) {
-    mapping[fieldId] = {};
-  }
-  if (Array.isArray(subField)) {
+export function on(fieldId: string | Array<string>, cb: Force) {
+  if (Array.isArray(fieldId)) {
     const disposers: Array<Force> = [];
-    subField.forEach((sf) => {
-      if (mapping[fieldId][sf]) {
-        // @ts-ignore
-        mapping[fieldId][sf].push(cb);
-      } else {
-        mapping[fieldId][sf] = [cb];
-      }
+    fieldId.forEach((f) => {
+      if (!mapping[f]) { mapping[f] = []; }
+
+      mapping[f].push(cb);
       disposers.push(() => {
-        // @ts-ignore
-        if (mapping[fieldId][subField].indexOf(cb) !== -1) {
-          // @ts-ignore
-          mapping[fieldId][subField].splice(mapping[fieldId][subField].indexOf(cb), 1);
+        if (mapping[f].indexOf(cb) !== -1) {
+          mapping[f].splice(mapping[f].indexOf(cb), 1);
         }
       });
+
     });
 
-    return () => {
-      disposers.forEach(c => c());
-    };
+    return () => { disposers.forEach((c) => { c(); }); };
   }
-  if (mapping[fieldId][subField]) {
-    // @ts-ignore
-    mapping[fieldId][subField].push(cb);
-  } else {
-    mapping[fieldId][subField] = [cb];
+  if (!mapping[fieldId]) {
+    mapping[fieldId] = [];
   }
+  mapping[fieldId].push(cb);
 
   return () => {
-    // @ts-ignore
-    if (mapping[fieldId][subField].indexOf(cb) !== -1) {
-      // @ts-ignore
-      mapping[fieldId][subField].splice(mapping[fieldId][subField].indexOf(cb), 1);
+    if (mapping[fieldId].indexOf(cb) !== -1) {
+      mapping[fieldId].splice(mapping[fieldId].indexOf(cb), 1);
     }
   };
 }
 
-export function emit(fieldId: string, subField?: SubField) {
-  subField = subField || 'default';
-  if (fieldId === 'ALL') {
-    // TODO: call all of them.
-  } else if (mapping[fieldId][subField]) {
-    // @ts-ignore
-    mapping[fieldId][subField].forEach(cb => cb());
+export function emit(fieldId: string | Array<string>) {
+  if (Array.isArray(fieldId)) {
+    fieldId.forEach((f) => { notify(`${f}`); });
+  } else {
+    notify(`${fieldId}`);
+  }
+  notify('all');
+}
+
+function notify(fieldId: string) {
+  if (mapping[fieldId]) {
+    mapping[fieldId].forEach((cb) => { cb(); });
   }
 }
