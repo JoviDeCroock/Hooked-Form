@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { on } from './context/emitter';
-import Form, { FormOptions } from './Form';
-import useFormConnect from './useFormConnect';
+import Form, { formContext, FormOptions } from './Form';
 
 const OptionsContainer = <Values extends object>({
   enableReinitialize,
@@ -18,7 +17,7 @@ const OptionsContainer = <Values extends object>({
 
   return function FormOuterWrapper(Component: React.ComponentType<any> | React.FC<any>) {
     const NewComponent = (props: any) => {
-      const ctx = useFormConnect(true);
+      const ctx = React.useContext(formContext);
       const state = React.useReducer(c => !c, false);
       on(['formError', 'isSubmitting', 'isDirty'], () => {
         // @ts-ignore

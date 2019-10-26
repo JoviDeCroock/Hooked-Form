@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { formContext } from './context/context';
 import { emit } from './context/emitter';
 import { deriveInitial } from './helpers/deriveInitial';
 import { deriveKeys } from './helpers/deriveKeys';
 import useState from './helpers/useState';
-import { Errors, InitialValues, Touched } from './types';
+import { Errors, FormHookContext, InitialValues, Touched } from './types';
+
+export const formContext = React.createContext<FormHookContext>(null as any, () => 0);
 
 export interface SuccessBag {
   resetForm: () => void;

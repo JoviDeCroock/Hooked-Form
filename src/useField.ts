@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { on } from './context/emitter';
+import { formContext } from './Form';
 import { get } from './helpers/operations';
-import { formContext } from './context/context';
 import { FormHookContext } from './types';
 
 export interface FieldOperations<T> {

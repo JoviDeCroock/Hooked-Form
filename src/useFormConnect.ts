@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { formContext } from './context/context';
 import { on } from './context/emitter';
+import { formContext } from './Form';
 import { FormHookContext } from './types';
 
 export default (optOut?: boolean): FormHookContext => {
