@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { useSelector } from './context/useSelector';
-import { formContext } from './helpers/context';
+import { on } from './context/emitter';
+import { formContext } from './Form';
 import { get } from './helpers/operations';
 import { FormHookContext } from './types';
+import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldOperations<T> {
   onBlur: () => void;
@@ -22,31 +23,28 @@ export default function useField<T = any>(
 ): [FieldOperations<T>, FieldInformation<T>] {
   // Dev-check
   if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
-    throw new Error('The Field needs a valid "fieldId" property to  function correctly.');
+    throw new Error('The Field needs a valid "fieldId" property to function correctly.');
   }
-  // Context
-  const { setFieldValue, setFieldTouched } = React.useContext(formContext);
+
+  const ctx = useContextEmitter(fieldId);
 
   return [
     {
       onBlur: React.useCallback(() => {
-        setFieldTouched(fieldId, true);
+        ctx.setFieldTouched(fieldId, true);
       }, []),
       onChange: React.useCallback((value: T) => {
-        setFieldValue(fieldId, value);
+        ctx.setFieldValue(fieldId, value);
       }, []),
       onFocus: React.useCallback(() => {
-        setFieldTouched(fieldId, false);
+        ctx.setFieldTouched(fieldId, false);
       }, []),
-      setFieldValue,
+      setFieldValue: ctx.setFieldValue,
     },
     {
-      error: useSelector(
-        formContext, ({ errors }: FormHookContext) => get(errors, fieldId)),
-      touched: useSelector(
-        formContext, ({ touched }: FormHookContext) => get(touched, fieldId)),
-      value: useSelector(
-        formContext, ({ values }: FormHookContext) => get(values, fieldId) || ''),
+      error: get(ctx.errors, fieldId),
+      touched: get(ctx.touched, fieldId),
+      value: get(ctx.values, fieldId) || '',
     },
   ];
 }

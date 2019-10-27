@@ -1,26 +1,25 @@
 import * as React from 'react';
 import { act, cleanup, render } from '@testing-library/react';
 
-import { Form, useFormConnect } from '../../src';
-import { Field } from '../_utils';
+import { HookedForm, useFormConnect, useField } from '../../src';
 
 let renders = 0;
-const StringField = ({ error }: { error: string }) => {
+const StringField = React.memo(() => {
+  const [, { error }] = useField('name')
   renders +=1;
   return <p>{error}</p>;
-}
+})
 
-const Component = () => <Field fieldId="name" component={StringField} />;
-
-const makeForm = (formOptions?: object, props?: object) => {
+const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
-  const TestForm = () => {
+  const TestHookedForm = () => {
     injectedProps = useFormConnect();
-    return <Component />
+    return <StringField />
   }
+
   return {
     getProps: () => injectedProps,
-    ...render(<Form onSubmit={() => null} {...formOptions}><TestForm {...props} /></Form>),
+    ...render(<HookedForm onSubmit={() => null} {...HookedFormOptions}><TestHookedForm {...props} /></HookedForm>),
   };
 };
 
@@ -30,14 +29,14 @@ describe('ErorrMessage', () => {
     cleanup();
   });
 
-  describe('performance', () => {
+  describe('perHookedFormance', () => {
     it('should not rerender when props change or parent rerenders', () => {
-      const { getProps, getByTestId, rerender, ...rest } =
-        makeForm({ initialValues: { name: 'j' } });
+      const { getProps } = makeHookedForm({ initialValues: { name: 'j' } });
       const { setFieldValue } = getProps();
+
       expect(renders).toBe(1);
       act(() => {
-        setFieldValue('name', 'j');
+        setFieldValue('age', '2');
       });
       expect(renders).toBe(1);
       act(() => {

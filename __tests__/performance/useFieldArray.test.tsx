@@ -1,26 +1,24 @@
 import * as React from 'react';
 import { act, cleanup, render } from '@testing-library/react';
 
-import { Form, useFormConnect } from '../../src';
-import { ErrorMessage } from '../_utils';
+import { HookedForm, useFormConnect, useFieldArray } from '../../src';
 
 let renders = 0;
-const ErrorDisplay = ({ error }: { error: string }) => {
+const Array = React.memo(() => {
+  useFieldArray('friends');
   renders +=1;
-  return <p>{error}</p>;
-}
+  return <p>hi</p>;
+});
 
-const Component = () => <ErrorMessage fieldId="name" component={ErrorDisplay} />;
-
-const makeForm = (formOptions?: object, props?: object) => {
+const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
-  const TestForm = () => {
+  const TestHookedForm = () => {
     injectedProps = useFormConnect();
-    return <Component />
+    return <Array />
   }
   return {
     getProps: () => injectedProps,
-    ...render(<Form onSubmit={() => null} {...formOptions}><TestForm {...props} /></Form>),
+    ...render(<HookedForm onSubmit={() => null} {...HookedFormOptions}><TestHookedForm {...props} /></HookedForm>),
   };
 };
 
@@ -30,10 +28,11 @@ describe('ErorrMessage', () => {
     cleanup();
   });
 
-  describe('performance', () => {
+  describe('perHookedFormance', () => {
     it('should not rerender when props change or parent rerenders', () => {
       const { getProps, getByTestId, rerender, ...rest } =
-        makeForm({ validate: (values: any = {}) => values.name === 'jovi' ? ({ name: 'bad' }) : ({}), validateOnChange: true });
+        makeHookedForm({ initialValues: { friends: [] } });
+
       const { setFieldValue } = getProps();
       expect(renders).toBe(1);
       act(() => {
@@ -41,7 +40,7 @@ describe('ErorrMessage', () => {
       });
       expect(renders).toBe(1);
       act(() => {
-        setFieldValue('name', 'jovi');
+        setFieldValue('friends', ['x']);
       });
       expect(renders).toBe(2);
     })

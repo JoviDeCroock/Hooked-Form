@@ -1,7 +1,9 @@
-import { useSelector } from './context/useSelector';
-import { formContext } from './helpers/context';
+import * as React from 'react';
+import { on } from './context/emitter';
+import { formContext } from './Form';
 import { get } from './helpers/operations';
 import { FormHookContext } from './types';
+import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldInformation {
   error: string;
@@ -9,10 +11,8 @@ export interface FieldInformation {
 
 export default function useError(fieldId: string): string | null {
   if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
-    throw new Error('The Error needs a valid "fieldId" property to  function correctly.');
+    throw new Error('The Error needs a valid "fieldId" property to function correctly.');
   }
-  return useSelector(
-    formContext,
-    ({ errors }: FormHookContext) => get(errors, fieldId),
-  );
+
+  return get(useContextEmitter(fieldId).errors, fieldId);
 }

@@ -1,5 +1,9 @@
-import { useSelector } from './context/useSelector';
-import { formContext } from './helpers/context';
+import * as React from 'react';
+import { formContext } from './Form';
 import { FormHookContext } from './types';
+import { useContextEmitter } from './useContextEmitter';
 
-export default (): FormHookContext => useSelector(formContext, (form: any) => form);
+export default (optOut?: boolean): FormHookContext => {
+  if (optOut) return React.useContext(formContext);
+  return useContextEmitter('all');
+};
