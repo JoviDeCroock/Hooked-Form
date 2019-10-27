@@ -1,15 +1,9 @@
 import * as React from 'react';
-import { on } from './context/emitter';
 import { formContext } from './Form';
 import { FormHookContext } from './types';
+import { useContextEmitter } from './useContextEmitter';
 
 export default (optOut?: boolean): FormHookContext => {
-  if (!optOut) {
-    const state = React.useReducer(c => !c, false);
-    on('all', () => {
-      // @ts-ignore
-      state[1]();
-    });
-  }
-  return React.useContext(formContext);
+  if (optOut) return React.useContext(formContext);
+  return useContextEmitter('all');
 };

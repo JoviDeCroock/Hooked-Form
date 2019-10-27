@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { on } from './context/emitter';
 import Form, { formContext, FormOptions } from './Form';
+import { useContextEmitter } from './useContextEmitter';
 
 const OptionsContainer = <Values extends object>({
   enableReinitialize,
@@ -17,12 +18,7 @@ const OptionsContainer = <Values extends object>({
 
   return function FormOuterWrapper(Component: React.ComponentType<any> | React.FC<any>) {
     const NewComponent = (props: any) => {
-      const ctx = React.useContext(formContext);
-      const state = React.useReducer(c => !c, false);
-      on(['formError', 'isSubmitting', 'isDirty'], () => {
-        // @ts-ignore
-        state[1]();
-      });
+      const ctx = useContextEmitter(['formError', 'isSubmitting', 'isDirty']);
       return (
         <Component
           change={ctx.setFieldValue}

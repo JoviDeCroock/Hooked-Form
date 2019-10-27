@@ -3,6 +3,7 @@ import { on } from './context/emitter';
 import { formContext } from './Form';
 import { get } from './helpers/operations';
 import { FormHookContext } from './types';
+import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldOperations<T> {
   add: (item: T) => void;
@@ -25,18 +26,7 @@ export default function useFieldArray<T = any>(
     throw new Error('The FieldArray needs a valid "fieldId" property to function correctly.');
   }
 
-  const state = React.useReducer(c => !c, false);
-  React.useEffect(() => {
-    return on(
-      fieldId,
-      () => {
-        // @ts-ignore
-        state[1]();
-      },
-    );
-  }, []);
-
-  const ctx = React.useContext<FormHookContext>(formContext);
+  const ctx = useContextEmitter(fieldId);
   const value: Array<any> = get(ctx.values, fieldId);
 
   return [

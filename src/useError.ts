@@ -3,6 +3,7 @@ import { on } from './context/emitter';
 import { formContext } from './Form';
 import { get } from './helpers/operations';
 import { FormHookContext } from './types';
+import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldInformation {
   error: string;
@@ -13,16 +14,5 @@ export default function useError(fieldId: string): string | null {
     throw new Error('The Error needs a valid "fieldId" property to function correctly.');
   }
 
-  const state = React.useReducer(c => !c, false);
-  React.useEffect(() => {
-    on(
-      fieldId,
-      () => {
-        // @ts-ignore
-        state[1]();
-      },
-    );
-  }, []);
-
-  return get(React.useContext<FormHookContext>(formContext).errors, fieldId);
+  return get(useContextEmitter(fieldId).errors, fieldId);
 }

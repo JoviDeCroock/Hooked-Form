@@ -3,6 +3,7 @@ import { on } from './context/emitter';
 import { formContext } from './Form';
 import { get } from './helpers/operations';
 import { FormHookContext } from './types';
+import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldOperations<T> {
   onBlur: () => void;
@@ -24,19 +25,8 @@ export default function useField<T = any>(
   if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
     throw new Error('The Field needs a valid "fieldId" property to function correctly.');
   }
-  const state = React.useReducer(c => !c, false);
-  // Context
-  const ctx = React.useContext<FormHookContext>(formContext);
 
-  React.useEffect(() => {
-    return on(
-      fieldId,
-      () => {
-        // @ts-ignore
-        state[1]();
-      },
-    );
-  }, []);
+  const ctx = useContextEmitter(fieldId);
 
   return [
     {
