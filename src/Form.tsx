@@ -65,14 +65,20 @@ const Form = <Values extends object>({
   const validateForm = React.useCallback(() => {
     const validationErrors = validate ? validate(values) : EMPTY_OBJ;
     setErrorState(validationErrors);
-    emit(deriveKeys(Object.assign({}, validationErrors, formErrors)));
+    emit(([] as Array<string>).concat(
+      deriveKeys(validationErrors || EMPTY_OBJ),
+      deriveKeys(formErrors || EMPTY_OBJ),
+    ));
     return validationErrors;
   }, [values]);
 
   // Provide a way to reset the full form to the initialValues.
   const resetForm = React.useCallback(() => {
     isDirty.current = false;
-    emit(deriveKeys(Object.assign({}, initialValues, values)));
+    emit(([] as Array<string>).concat(
+      deriveKeys(initialValues || EMPTY_OBJ),
+      deriveKeys(values),
+    ));
     setValuesState(initialValues || EMPTY_OBJ);
     setTouchedState(EMPTY_OBJ);
     setErrorState(EMPTY_OBJ);

@@ -2,6 +2,7 @@ export const deriveKeys = (obj: { [key: string]: any }, parentKey?: string): Arr
   parentKey = parentKey || '';
   return Object.keys(obj).reduce<Array<string>>((acc, key) => {
     const value = obj[key];
+
     if (Array.isArray(value)) {
       value.forEach((v, i) => {
         typeof v === 'object' ?
@@ -13,6 +14,7 @@ export const deriveKeys = (obj: { [key: string]: any }, parentKey?: string): Arr
     } else {
       acc.push(`${parentKey}${key}`);
     }
+
     return acc;
   }, []);
 };

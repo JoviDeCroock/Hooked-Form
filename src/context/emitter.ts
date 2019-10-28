@@ -6,40 +6,37 @@ interface EmitMap {
 
 const mapping: EmitMap = {};
 export function on(fieldId: string | Array<string>, cb: Force) {
-  if (Array.isArray(fieldId)) {
-    const disposers: Array<Force> = [];
-    fieldId.forEach((f) => {
-      if (!mapping[f]) { mapping[f] = []; }
+  const disposers: Array<Force> = [];
+  if (!Array.isArray(fieldId)) {
+    fieldId = [fieldId];
+  }
 
-      mapping[f].push(cb);
-      disposers.push(() => {
-        if (mapping[f].indexOf(cb) !== -1) {
-          mapping[f].splice(mapping[f].indexOf(cb), 1);
-        }
-      });
+  fieldId.forEach((f) => {
+    if (!mapping[f]) { mapping[f] = []; }
 
+    mapping[f].push(cb);
+    disposers.push(() => {
+      if (mapping[f].indexOf(cb) !== -1) {
+        mapping[f].splice(mapping[f].indexOf(cb), 1);
+      }
     });
+  });
 
-    return () => { disposers.forEach((c) => { c(); }); };
-  }
-  if (!mapping[fieldId]) {
-    mapping[fieldId] = [];
-  }
-  mapping[fieldId].push(cb);
-
-  return () => {
-    if (mapping[fieldId].indexOf(cb) !== -1) {
-      mapping[fieldId].splice(mapping[fieldId].indexOf(cb), 1);
-    }
-  };
+  return () => { disposers.forEach((c) => { c(); }); };
 }
 
 export function emit(fieldId: string | Array<string>) {
-  if (Array.isArray(fieldId)) {
-    fieldId.forEach((f) => { notify(`${f}`); });
-  } else {
-    notify(`${fieldId}`);
+  const visited: Array<string> = [];
+  if (!Array.isArray(fieldId)) {
+    fieldId = [fieldId];
   }
+
+  fieldId.forEach((f) => {
+    if (visited.indexOf(f) === -1) {
+      notify(`${f}`);
+      visited.push(f);
+    }
+  });
   notify('all');
 }
 
