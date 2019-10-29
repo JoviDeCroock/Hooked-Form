@@ -2,7 +2,7 @@ import * as React from 'react';
 import { emit } from './context/emitter';
 import { deriveInitial } from './helpers/deriveInitial';
 import { deriveKeys } from './helpers/deriveKeys';
-import useState from './helpers/useState';
+import useState, { EMPTY_ARRAY } from './helpers/useState';
 import { Errors, FormHookContext, InitialValues, Touched } from './types';
 
 export const formContext = React.createContext<FormHookContext>(null as any, () => 0);
@@ -75,17 +75,17 @@ const Form = <Values extends object>({
   // Provide a way to reset the full form to the initialValues.
   const resetForm = React.useCallback(() => {
     isDirty.current = false;
+    setValuesState(initialValues || EMPTY_OBJ);
+    setTouchedState(EMPTY_OBJ);
+    setErrorState(EMPTY_OBJ);
     emit(([] as Array<string>).concat(
       deriveKeys(initialValues || EMPTY_OBJ),
       deriveKeys(values),
     ));
-    setValuesState(initialValues || EMPTY_OBJ);
-    setTouchedState(EMPTY_OBJ);
-    setErrorState(EMPTY_OBJ);
   }, [initialValues]);
 
   const handleSubmit = React.useCallback(
-    async (event?: React.FormEvent<HTMLFormElement>) => {
+    (event?: React.FormEvent<HTMLFormElement>) => {
       if (event && event.preventDefault) event.preventDefault();
 
       const errors = validateForm();
@@ -136,13 +136,13 @@ const Form = <Values extends object>({
     isDirty.current = true;
     setFieldValue(fieldId, value);
     emit(fieldId);
-  }, []);
+  }, EMPTY_ARRAY);
 
   const submit = React.useCallback((e?: React.SyntheticEvent) => {
     if (e && e.preventDefault) e.preventDefault();
     setSubmitting(() => true);
     emit('submitting');
-  }, []);
+  }, EMPTY_ARRAY);
 
   const providerValue = React.useMemo(
     () => ({

@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { on } from './context/emitter';
-import { formContext } from './Form';
 import { get } from './helpers/operations';
-import { FormHookContext } from './types';
+import { EMPTY_ARRAY } from './helpers/useState';
 import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldOperations<T> {
@@ -32,13 +30,13 @@ export default function useField<T = any>(
     {
       onBlur: React.useCallback(() => {
         ctx.setFieldTouched(fieldId, true);
-      }, []),
+      }, EMPTY_ARRAY),
       onChange: React.useCallback((value: T) => {
         ctx.setFieldValue(fieldId, value);
-      }, []),
+      }, EMPTY_ARRAY),
       onFocus: React.useCallback(() => {
         ctx.setFieldTouched(fieldId, false);
-      }, []),
+      }, EMPTY_ARRAY),
       setFieldValue: ctx.setFieldValue,
     },
     {

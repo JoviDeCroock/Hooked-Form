@@ -1,8 +1,4 @@
-import * as React from 'react';
-import { on } from './context/emitter';
-import { formContext } from './Form';
 import { get } from './helpers/operations';
-import { FormHookContext } from './types';
 import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldInformation {

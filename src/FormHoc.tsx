@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { on } from './context/emitter';
-import Form, { formContext, FormOptions } from './Form';
+import Form, { FormOptions } from './Form';
+import { EMPTY_ARRAY } from './helpers/useState';
 import { useContextEmitter } from './useContextEmitter';
 
 const OptionsContainer = <Values extends object>({
@@ -33,9 +33,9 @@ const OptionsContainer = <Values extends object>({
     };
 
     return function FormWrapper(props: { [property: string]: any }) {
-      const passDownProps = React.useMemo(() => (enableReinitialize ? Object.values(props) : []), [
-        enableReinitialize && props,
-      ]);
+      const passDownProps = React.useMemo(() => (
+        enableReinitialize ? Object.values(props) : EMPTY_ARRAY
+      ), [enableReinitialize && props]);
 
       if (mapPropsToValues && !initialValues) initialValues = mapPropsToValues(props);
 
