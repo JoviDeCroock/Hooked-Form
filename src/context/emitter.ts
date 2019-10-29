@@ -1,3 +1,5 @@
+import { unstable_batchedUpdates } from '../helpers/batched';
+
 type Force = () => void;
 
 interface EmitMap {
@@ -11,7 +13,8 @@ export function on(fieldId: string | Array<string>, cb: Force) {
     fieldId = [fieldId];
   }
 
-  fieldId.forEach((f) => {
+  // @ts-ignore
+  fieldId.some((f) => {
     if (!mapping[f]) { mapping[f] = []; }
 
     mapping[f].push(cb);
@@ -22,7 +25,8 @@ export function on(fieldId: string | Array<string>, cb: Force) {
     });
   });
 
-  return () => { disposers.forEach((c) => { c(); }); };
+  // @ts-ignore
+  return () => { disposers.some((c) => { c(); }); };
 }
 
 export function emit(fieldId: string | Array<string>) {
@@ -31,17 +35,21 @@ export function emit(fieldId: string | Array<string>) {
     fieldId = [fieldId];
   }
 
-  fieldId.forEach((f) => {
-    if (visited.indexOf(f) === -1) {
-      notify(`${f}`);
-      visited.push(f);
-    }
+  unstable_batchedUpdates(() => {
+    // @ts-ignore
+    fieldId.some((f) => {
+      if (visited.indexOf(f) === -1) {
+        notify(f);
+        visited.push(f);
+      }
+    });
+    notify('all');
   });
-  notify('all');
 }
 
 function notify(fieldId: string) {
   if (mapping[fieldId]) {
-    mapping[fieldId].forEach((cb) => { cb(); });
+    // @ts-ignore
+    mapping[fieldId].some((cb) => { cb(); });
   }
 }

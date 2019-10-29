@@ -4,7 +4,8 @@ export const deriveKeys = (obj: { [key: string]: any }, parentKey?: string): Arr
     const value = obj[key];
 
     if (Array.isArray(value)) {
-      value.forEach((v, i) => {
+      // @ts-ignore
+      value.some((v, i) => {
         typeof v === 'object' ?
           acc.push(...deriveKeys(v, `${parentKey}${key}[${i}].`)) :
           acc.push(`${parentKey}${key}[${i}].`);
@@ -12,7 +13,7 @@ export const deriveKeys = (obj: { [key: string]: any }, parentKey?: string): Arr
     } else if (typeof value === 'object') {
       acc.push(...deriveKeys(value, `${parentKey}${key}.`));
     } else {
-      acc.push(`${parentKey}${key}`);
+      acc.push(parentKey + key);
     }
 
     return acc;
