@@ -6,7 +6,7 @@ sidebar_label: UseField
 
 We export a hook that provides you with the building blocks to construct your own custom components.
 
-This accepts one parameter and that's a `fieldId`, analogue to the `Field` component.
+This accepts one parameter and that's a `fieldId`.
 
 In return it will offer you an array with the first element being an object of operations and the second being an object of information about the field
 
@@ -18,7 +18,6 @@ First object:
 - onChange: when passed a value it will change the value of this field
 - onFocus: used to untouch the field
 - setFieldValue: accepts a fieldId and a value, so you can change other fields as a reaction to this one
-- reset: resets the field to its initial value
 
 Second object:
 

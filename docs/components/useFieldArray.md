@@ -6,7 +6,7 @@ sidebar_label: UseFieldArray
 
 We export a hook that provides you with the building blocks to construct your own custom components.
 
-This accepts one parameter and that's a `fieldId`, analogue to the `FieldArray` component.
+This accepts one parameter and that's a `fieldId`.
 
 In return it will offer you an array with the first element being an object of operations and the second being an object of information about the field
 
