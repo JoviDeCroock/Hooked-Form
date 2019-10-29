@@ -72,12 +72,8 @@
   "dependencies": {},
   "peerDependencies": {
     "react": ">=16.8.0",
-    "react-dom": {
-      "optional": true
-    },
-    "react-native": {
-      "optional": true
-    }
+    "react-dom": "optional:>=16.8.0",
+    "react-native": "optional:>=0.60.0"
   },
   "mangle": {
     "regex": "^_"
