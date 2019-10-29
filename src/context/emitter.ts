@@ -19,7 +19,7 @@ export function on(fieldId: string | Array<string>, cb: Force) {
 
     mapping[f].push(cb);
     disposers.push(() => {
-      if (mapping[f].indexOf(cb) !== -1) {
+      if (mapping[f].indexOf(cb) > -1) {
         mapping[f].splice(mapping[f].indexOf(cb), 1);
       }
     });
