@@ -1,5 +1,3 @@
-import { unstable_batchedUpdates } from '../helpers/batched';
-
 type Force = () => void;
 
 interface EmitMap {
@@ -35,21 +33,14 @@ export function emit(fieldId: string | Array<string>) {
     fieldId = [fieldId];
   }
 
-  unstable_batchedUpdates(() => {
-    // @ts-ignore
-    fieldId.some((f) => {
-      if (visited.indexOf(f) === -1) {
-        notify(f);
-        visited.push(f);
-      }
-    });
-    notify('all');
+  // @ts-ignore
+  fieldId.some((f) => {
+    if (visited.indexOf(f) === -1 && mapping[f]) {
+      // @ts-ignore
+      mapping[f].some((cb) => { cb(); });
+      visited.push(f);
+    }
   });
-}
-
-function notify(fieldId: string) {
-  if (mapping[fieldId]) {
-    // @ts-ignore
-    mapping[fieldId].some((cb) => { cb(); });
-  }
+  // @ts-ignore
+  if (mapping.all) mapping.all.some((cb) => { cb(); });
 }
