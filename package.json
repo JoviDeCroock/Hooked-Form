@@ -7,12 +7,10 @@
   "repository": "https://www.github.com/jovidecroock/hooked-form",
   "sideEffects": false,
   "scripts": {
-    "build": "rimraf dist && yarn build:es5 && yarn build:minified && yarn cleanup",
+    "build": "rimraf dist && yarn build:uncompressed && yarn cleanup",
     "build:minified": "microbundle --jsx React.createElement --external react --define process.env.NODE_ENV=production --name hookedForm --output dist/prod",
-    "build:es5": "microbundle --jsx React.createElement --external react --no-compress --name hookedForm --output dist/",
-    "build:modern": "rollup -c && node ./scripts/sliceLicense.js",
+    "build:uncompressed": "microbundle --jsx React.createElement --external react --no-compress --name hookedForm --output dist/",
     "cleanup": "rimraf .rpt2_cache && rimraf .rts2_cache_cjs && rimraf .rts2_cache_umd && rimraf .rts2_cache_es",
-    "filesize": "bundlesize",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env npm run test -- --watch",
     "prepublishOnly": "npm run test && npm run build"
@@ -71,9 +69,6 @@
   },
   "jest": {
     "preset": "ts-jest",
-    "coveragePathIgnorePatterns": [
-      "rollup.config.js"
-    ],
     "coverageDirectory": "./coverage/",
     "collectCoverage": true,
     "testMatch": [
@@ -85,9 +80,5 @@
       "js",
       "jsx"
     ]
-  },
-  "bundlesize": [{
-    "path": "./dist/prod/hooked-form.js",
-    "maxSize": "2.5 kB"
-  }]
+  }
 }
