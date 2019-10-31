@@ -7,7 +7,7 @@
   "repository": "https://www.github.com/jovidecroock/hooked-form",
   "sideEffects": false,
   "scripts": {
-    "build": "rimraf dist && yarn build:es5 && yarn build:modern && yarn build:minified && yarn cleanup",
+    "build": "rimraf dist && yarn build:es5 && yarn build:minified && yarn cleanup",
     "build:minified": "microbundle --jsx React.createElement --external react --define process.env.NODE_ENV=production --name hookedForm --output dist/prod",
     "build:es5": "microbundle --jsx React.createElement --external react --no-compress --name hookedForm --output dist/",
     "build:modern": "rollup -c && node ./scripts/sliceLicense.js",
@@ -53,14 +53,7 @@
     "microbundle": "0.12.0-next.6",
     "react": "16.11.0",
     "react-dom": "16.11.0",
-    "react-native": "^0.61.3",
     "rimraf": "2.6.3",
-    "rollup": "1.25.2",
-    "rollup-plugin-filesize": "6.1.1",
-    "rollup-plugin-node-resolve": "5.2.0",
-    "rollup-plugin-replace": "2.2.0",
-    "rollup-plugin-terser": "5.1.2",
-    "rollup-plugin-typescript2": "0.24.3",
     "ts-jest": "24.1.0",
     "tslib": "1.10.0",
     "tslint": "5.18.0",
@@ -71,9 +64,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": "optional:>=16.8.0",
-    "react-native": "optional:>=0.60.0"
+    "react": ">=16.8.0"
   },
   "mangle": {
     "regex": "^_"
@@ -95,22 +86,8 @@
       "jsx"
     ]
   },
-  "bundlesize": [
-    {
-      "path": "./dist/prod/hooked-form.module.js",
-      "maxSize": "2.5 kB"
-    },
-    {
-      "path": "./dist/prod/hooked-form.umd.js",
-      "maxSize": "2.5 kB"
-    },
-    {
-      "path": "./dist/prod/hooked-form.js",
-      "maxSize": "2.5 kB"
-    },
-    {
-      "path": "./dist/prod/hooked-form.modern.js",
-      "maxSize": "2.25 kB"
-    }
-  ]
+  "bundlesize": [{
+    "path": "./dist/prod/hooked-form.js",
+    "maxSize": "2.5 kB"
+  }]
 }
