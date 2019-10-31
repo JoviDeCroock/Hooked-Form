@@ -4,7 +4,7 @@ import { EMPTY_ARRAY } from './helpers/useState';
 import { InitialValues } from './types';
 import { useContextEmitter } from './useContextEmitter';
 
-type FormHocOptions<T> = FormOptions<T> & { mapPropsToValues: (props: object) => InitialValues };
+type FormHocOptions<T> = FormOptions<T> & { mapPropsToValues?: (props: object) => InitialValues };
 
 const OptionsContainer = <Values extends object>({
   enableReinitialize,
