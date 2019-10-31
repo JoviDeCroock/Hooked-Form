@@ -1,14 +1,17 @@
 import * as React from 'react';
-import { on } from './context/emitter';
-import Form, { formContext, FormOptions } from './Form';
+import Form, { FormOptions } from './Form';
+import { EMPTY_ARRAY } from './helpers/useState';
+import { InitialValues } from './types';
 import { useContextEmitter } from './useContextEmitter';
+
+type FormHocOptions<T> = FormOptions<T> & { mapPropsToValues?: (props: object) => InitialValues };
 
 const OptionsContainer = <Values extends object>({
   enableReinitialize,
   initialValues: formInitialValues,
   mapPropsToValues,
   ...rest
-}: FormOptions<Values>) => {
+}: FormHocOptions<Values>) => {
   let initialValues = formInitialValues;
 
   if (process.env.NODE_ENV !== 'production') {
@@ -33,11 +36,9 @@ const OptionsContainer = <Values extends object>({
     };
 
     return function FormWrapper(props: { [property: string]: any }) {
-      const passDownProps = React.useMemo(() => (enableReinitialize ? Object.values(props) : []), [
-        enableReinitialize && props,
-      ]);
-
-      if (mapPropsToValues && !initialValues) initialValues = mapPropsToValues(props);
+      const passDownProps = React.useMemo(() => (
+        enableReinitialize ? Object.values(props) : EMPTY_ARRAY
+      ), [enableReinitialize && props]);
 
       // Make our listener for the reinitialization when need be.
       React.useEffect(() => {
@@ -48,7 +49,8 @@ const OptionsContainer = <Values extends object>({
         <Form<Values>
           {...rest}
           enableReinitialize={enableReinitialize}
-          initialValues={initialValues}
+          initialValues={mapPropsToValues && !initialValues ?
+            (initialValues = mapPropsToValues(props)) : initialValues}
           noForm={true}
         >
           <NewComponent {...props} />

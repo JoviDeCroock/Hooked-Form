@@ -1,15 +1,12 @@
 import * as React from 'react';
-import { on } from './context/emitter';
-import { formContext } from './Form';
 import { get } from './helpers/operations';
-import { FormHookContext } from './types';
 import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldOperations<T> {
   add: (item: T) => void;
   insert: (at: number, element: T) => void;
   move: (from: number, to: number) => void;
-  remove: (toDelete: T | number) => void;
+  remove: (toDelete: number) => void;
   replace: (at: number, element: T) => void;
   swap: (first: number, second: number) => void;
 }
@@ -55,10 +52,10 @@ export default function useFieldArray<T = any>(
         [value],
       ),
       remove: React.useCallback(
-        (element: T | number) => {
+        (index: number) => {
           ctx.setFieldValue(
             fieldId,
-            value.filter(x => x !== (typeof element === 'number' ? value[element] : element)),
+            value.filter((_, i) => i !== index),
           );
         },
         [value],

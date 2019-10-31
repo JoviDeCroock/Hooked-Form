@@ -47,7 +47,12 @@ describe('HookedForm', () => {
     expect(container.firstChild).toBeDefined();
   });
 
-  // TODO: mapPropsToValues
+  it('should use mapPropsToValues correctly', () => {
+    const { getProps } = makeHookedForm({ mapPropsToValues: ({ name }: any) => ({ name, friends: [] }) }, { name: 'jovi' });
+    const { values } = getProps();
+    expect(values.name).toEqual('jovi');
+    expect(values.friends.length).toEqual(0);
+  });
 
   it('Changes when calling change', () => {
     const { getProps } = makeHookedForm();

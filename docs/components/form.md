@@ -4,22 +4,13 @@ title: Form
 sidebar_label: Form
 ---
 
+> Deprecated!
+
 Form is used to wrap your component, you can pass options in and that will result in your pased component getting a few extra properties.
 
 ## Options
 
-- initialValues?: `object` - These values will be used to initialize your form.
-- onError?: `(error: object, setFormError: (error: string) => void) => void` - When an error occurs while submitting this function will run.
-- onSuccess?: `(result?: any) => void` - When the submit is successfull this function will be executed with your result.
-- mapPropsToValues: `(props: object) => object` - This function allows you to
-  take your props and set the initialValues with them.
-- onSubmit: `(values: object, { props, setFormError, setErrors }) => any` - This function will be used to submit the properties inside the
-form. The ErrorBag includes `setErrors` to set field-level errors and `setFormError` to set a `formError`. This `formError`
-is injected into the main component.
-- shouldSubmitWhenInvalid? : `boolean` = false - Indicates whether or not submit should be executed when your form is invalid.
-- validate?: `(values: object, touched: object) => object` - The function used to validate your form.
-- validateOnBlur?: `boolean` - Indicates that validation should be executed onBlur.
-- validateOnChange?: `boolean` - Indicates the validation should be executed on every change.
+- mapPropsToValues: `(props: object) => object` - This function allows you to take your props and set the initialValues with them.
 
 ## Properties
 

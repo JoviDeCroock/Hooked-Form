@@ -29,7 +29,7 @@ const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
         {value.map((val: object, i: number) => (
           <React.Fragment key={fieldId + i}>
             <StringField fieldId={`${fieldId}[${i}].name`} />
-            <button data-testid={`remove-element-${i}`} onClick={() => remove(val)}>Delete</button>
+            <button data-testid={`remove-element-${i}`} onClick={() => remove(i)}>Delete</button>
           </React.Fragment>
         ))}
         <button data-testid="add-element" onClick={() => add({ name: `${value.length}` })}>Add</button>

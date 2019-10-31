@@ -14,7 +14,7 @@ commitment that should be made by library authors.
 
 [Docs](https://jovidecroock.github.io/hooked-form/)
 
-[Example](https://codesandbox.io/s/k8mylo9lo)
+[Example](https://codesandbox.io/s/k8mylo9lo) // TODO!
 
 [Architecture](https://www.jovidecroock.com/forms/)
 
@@ -50,38 +50,36 @@ _prod_:
 
 ```jsx
 import React from 'react';
-import { Form, Field } from 'hooked-form';
+import { HookedForm, useField } from 'hooked-form';
 
-const StringField = ({ value, label, onChange, onFocus, onBlur, type, error, touched }) => {
+const StringField = ({ fieldId, label }) => {
+  const [{ onChange }, { touched, error, value }] = useField(fieldId);
   const onInput = React.useCallback((e) => onChange(e.currentTarget.value), [onChange]);
   return (
     <label>
       {label + ' '}
-      <input value={value} onChange={onInput} onBlur={onBlur} onFocus={onFocus} type={type} />
+      <input value={value} onChange={onInput} />
       {touched && error && <div>{error}</div>}
     </label>
   )
 }
 
-const HookedForm = () => (
-  <div>
-    <h3>Hooked Form</h3>
-    <Field label="Name:" component={StringField} fieldId="name" />
-    <input type="submit" value="Submit" />
-  </div>
-);
+const App = () => {
+  return (
+    <HookedForm
+      onSubmit={console.log}
+      validateOnblur
+      initialValues={React.useMemo(() => ({ name: '' }), [])}
+      validate={values => values.name ? {} : { name: 'Required' }}
+    >
+      <h3>Hooked Form</h3>
+      <StringField label="Name:" fieldId="name" />
+      <input type="submit" value="Submit" />
+    </HookedForm>
+  )
+}
 
-export default Form({
-  onSubmit: console.log,
-  validateOnBlur: true,
-  validateOnChange: true,
-  mapPropsToValues: () => ({ name: '' }),
-  validate: (values) => {
-    const errors = {};
-    if (!values.name) errors.name = 'Required';
-    return errors;
-  }
-})(HookedForm);
+render(<App />, document.body);
 ```
 
 ## Modern build
@@ -117,7 +115,6 @@ So if you don't plan to target older browsers feel free to use this.
 ## Credits
 
 - [Microbundle](https://github.com/developit/microbundle)
-- [use-context-selector](https://github.com/dai-shi/use-context-selector)
 
 ## Donate
 
