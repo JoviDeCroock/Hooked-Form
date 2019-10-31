@@ -13,7 +13,6 @@
 
 ### Features
 
-- Batching of updates
 - `<HookedForm>` component which abstracts the `<form>` field away, you can pass in props just as you would normally do.
 - `onSuccess` now receives a `SuccessBag` containing `resetForm`
 
