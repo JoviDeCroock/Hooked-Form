@@ -6,41 +6,33 @@ interface EmitMap {
 
 const mapping: EmitMap = {};
 export function on(fieldId: string | Array<string>, cb: Force) {
-  const disposers: Array<Force> = [];
-  if (!Array.isArray(fieldId)) {
-    fieldId = [fieldId];
-  }
+  if (!Array.isArray(fieldId)) fieldId = [fieldId];
 
-  // @ts-ignore
-  fieldId.some((f) => {
-    if (!mapping[f]) { mapping[f] = []; }
-
-    mapping[f].push(cb);
-    disposers.push(() => {
+  const disposers = fieldId.map((f) => {
+    (mapping[f] || (mapping[f] = [])).push(cb);
+    return () => {
       if (mapping[f].indexOf(cb) > -1) {
         mapping[f].splice(mapping[f].indexOf(cb), 1);
       }
-    });
+    };
   });
 
   // @ts-ignore
-  return () => { disposers.some((c) => { c(); }); };
+  return () => { disposers.map((c) => { c(); }); };
 }
 
 export function emit(fieldId: string | Array<string>) {
   const visited: Array<string> = [];
-  if (!Array.isArray(fieldId)) {
-    fieldId = [fieldId];
-  }
+  if (!Array.isArray(fieldId)) fieldId = [fieldId];
 
   // @ts-ignore
-  fieldId.some((f) => {
-    if (visited.indexOf(f) === -1 && mapping[f]) {
+  fieldId.map((f) => {
+    if (visited.indexOf(f) === -1) {
       // @ts-ignore
-      mapping[f].some((cb) => { cb(); });
+      (mapping[f] || []).map((cb) => { cb(); });
       visited.push(f);
     }
   });
   // @ts-ignore
-  if (mapping.all) mapping.all.some((cb) => { cb(); });
+  (mapping['*'] || []).map((cb) => { cb(); });
 }

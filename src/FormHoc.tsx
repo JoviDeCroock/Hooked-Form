@@ -1,14 +1,17 @@
 import * as React from 'react';
 import Form, { FormOptions } from './Form';
 import { EMPTY_ARRAY } from './helpers/useState';
+import { InitialValues } from './types';
 import { useContextEmitter } from './useContextEmitter';
+
+type FormHocOptions<T> = FormOptions<T> & { mapPropsToValues: (props: object) => InitialValues };
 
 const OptionsContainer = <Values extends object>({
   enableReinitialize,
   initialValues: formInitialValues,
   mapPropsToValues,
   ...rest
-}: FormOptions<Values>) => {
+}: FormHocOptions<Values>) => {
   let initialValues = formInitialValues;
 
   if (process.env.NODE_ENV !== 'production') {
@@ -37,8 +40,6 @@ const OptionsContainer = <Values extends object>({
         enableReinitialize ? Object.values(props) : EMPTY_ARRAY
       ), [enableReinitialize && props]);
 
-      if (mapPropsToValues && !initialValues) initialValues = mapPropsToValues(props);
-
       // Make our listener for the reinitialization when need be.
       React.useEffect(() => {
         if (enableReinitialize && mapPropsToValues) initialValues = mapPropsToValues(props);
@@ -48,7 +49,8 @@ const OptionsContainer = <Values extends object>({
         <Form<Values>
           {...rest}
           enableReinitialize={enableReinitialize}
-          initialValues={initialValues}
+          initialValues={mapPropsToValues && !initialValues ?
+            (initialValues = mapPropsToValues(props)) : initialValues}
           noForm={true}
         >
           <NewComponent {...props} />

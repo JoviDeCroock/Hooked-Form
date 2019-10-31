@@ -26,7 +26,6 @@ export interface FormOptions<T> {
   children?: any;
   enableReinitialize?: boolean;
   initialValues?: InitialValues;
-  mapPropsToValues?: (props: object) => InitialValues;
   noForm?: boolean;
   onError?: (error: object, callbag: ErrorBag) => void;
   onSuccess?: (result: any, callbag: SuccessBag) => void;

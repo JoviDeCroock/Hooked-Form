@@ -5,5 +5,5 @@ import { useContextEmitter } from './useContextEmitter';
 
 export default (optOut?: boolean): FormHookContext => {
   if (optOut) return React.useContext(formContext);
-  return useContextEmitter('all');
+  return useContextEmitter('*');
 };
