@@ -28,15 +28,15 @@ export default function useField<T = any>(
 
   return [
     {
-      onBlur: React.useCallback(() => {
+      onBlur:() => {
         ctx.setFieldTouched(fieldId, true);
-      }, EMPTY_ARRAY),
-      onChange: React.useCallback((value: T) => {
+      },
+      onChange:(value: T) => {
         ctx.setFieldValue(fieldId, value);
-      }, EMPTY_ARRAY),
-      onFocus: React.useCallback(() => {
+      },
+      onFocus:() => {
         ctx.setFieldTouched(fieldId, false);
-      }, EMPTY_ARRAY),
+      },
       setFieldValue: ctx.setFieldValue,
     },
     {
