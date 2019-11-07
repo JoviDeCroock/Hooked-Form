@@ -14,9 +14,11 @@ commitment that should be made by library authors.
 
 [Docs](https://jovidecroock.github.io/hooked-form/)
 
-[Example](https://codesandbox.io/s/k8mylo9lo) // TODO!
+[Example](https://codesandbox.io/s/k8mylo9lo) // TODO! More complex with fetch and so on.
 
 [Architecture](https://www.jovidecroock.com/forms/)
+
+[Perf-test](https://codesandbox.io/s/react-form-library-stress-test-81swz)
 
 ## Installation
 
