@@ -10,7 +10,7 @@ Form accepts a values generic, this is an object containing
 all the values of the field. This will be used to determine what
 the `validation` and `submit` will happen with.
 
-Example: `Form<{ name: string }>(options)(Component)`
+Example: `HookedForm<{ name: string }>(options)(Component)`
 
 ## Fields
 

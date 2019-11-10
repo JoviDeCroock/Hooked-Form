@@ -55,6 +55,6 @@ const MyForm = () => {
 
 Will apply the style to that form-element.
 
-CallBag:
-SuccessBag:
-ErrorBag:
+CallBag: carries the `props`, `setErrors` and `setFormError` functions.
+SuccessBag: carries the `resetForm` function.
+ErrorBag: Carries the `setErrors` and `setFormError` functions
