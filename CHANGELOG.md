@@ -6,6 +6,7 @@
 
 - The components have made place for a full hooks implementation (`Field`, `FieldArray` and `Error` are gone).
 - `useFieldArray.remove` now only accepts a numerical index instead of an object or an index.
+- `validateOnBlur` is now default `true`
 
 ### Deprecation
 

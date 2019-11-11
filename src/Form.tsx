@@ -139,7 +139,9 @@ const Form = <Values extends object>({
 
   // Run validations when needed.
   React.useEffect(() => {
-    validateForm();
+    if (isDirty.current) {
+      validateForm();
+    }
   }, [
     validateOnBlur === undefined ? touched : validateOnBlur && touched,
     validateOnChange && values,
