@@ -79,7 +79,7 @@ const Form = <Values extends object>({
   };
 
   // Provide a way to reset the full form to the initialValues.
-  const resetForm = React.useCallback(() => {
+  const resetForm = () => {
     isDirty.current = false;
     setValuesState(initialValues || EMPTY_OBJ);
     setTouchedState(EMPTY_OBJ);
@@ -90,43 +90,40 @@ const Form = <Values extends object>({
       deriveKeys(initialValues || EMPTY_OBJ),
       deriveKeys(values),
     ));
-  }, [initialValues]);
+  };
 
-  const handleSubmit = React.useCallback(
-    (event?: React.FormEvent<HTMLFormElement>) => {
-      // If we have an event prevent it (RN-compat)
-      if (event && event.preventDefault) event.preventDefault();
-      // Validate our form
-      const errors = validateForm();
-      // Use the errors to set touched state on these fields in case
-      // the consumer is checking touched && error ? showError() : null
-      setTouchedState(deriveInitial(errors, true));
-      // If we should skip submitting when invalid AND we have errors go in here
-      if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) {
-        setSubmitting(false);
-        return emit('submitting');
-      }
+  const handleSubmit = (event?: React.FormEvent<HTMLFormElement>) => {
+    // If we have an event prevent it (RN-compat)
+    if (event && event.preventDefault) event.preventDefault();
+    // Validate our form
+    const errors = validateForm();
+    // Use the errors to set touched state on these fields in case
+    // the consumer is checking touched && error ? showError() : null
+    setTouchedState(deriveInitial(errors, true));
+    // If we should skip submitting when invalid AND we have errors go in here
+    if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) {
+      setSubmitting(false);
+      return emit('submitting');
+    }
 
-      const setFormErr = (err: string) => {
-        setFormError(err);
-        emit('formError');
-      };
+    const setFormErr = (err: string) => {
+      setFormError(err);
+      emit('formError');
+    };
 
-      return new Promise(resolve => resolve(
-        onSubmit(values, { setErrors: setErrorState, setFormError: setFormErr })))
-          .then((result: any) => {
-            setSubmitting(false);
-            emit('submitting');
-            if (onSuccess) onSuccess(result, { resetForm });
-          })
-          .catch((e: any) => {
-            setSubmitting(false);
-            emit('submitting');
-            if (onError) onError(e, { setErrors: setErrorState, setFormError: setFormErr });
-          });
-    },
-    [values, resetForm],
-  );
+    return new Promise(resolve => resolve(
+      onSubmit(values, { setErrors: setErrorState, setFormError: setFormErr })))
+        .then((result: any) => {
+          setSubmitting(false);
+          emit('submitting');
+          if (onSuccess) onSuccess(result, { resetForm });
+        })
+        .catch((e: any) => {
+          setSubmitting(false);
+          emit('submitting');
+          if (onError) onError(e, { setErrors: setErrorState, setFormError: setFormErr });
+        });
+  };
 
   React.useEffect(() => {
     // This convenience method ensures we don't have to pass handleSubmit
@@ -143,7 +140,10 @@ const Form = <Values extends object>({
   // Run validations when needed.
   React.useEffect(() => {
     validateForm();
-  }, [validateOnBlur && touched, validateOnChange && values]);
+  }, [
+    validateOnBlur === undefined ? touched : validateOnBlur && touched,
+    validateOnChange && values,
+  ]);
 
   // triggers a submit.
   const submit = (e?: React.SyntheticEvent) => {
