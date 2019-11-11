@@ -3,8 +3,6 @@ import { set } from './operations';
 
 type Output = [object, (id: string, value: any) => void, (newState: object) => void];
 
-export const EMPTY_ARRAY = [];
-
 export default (initial: object | (() => object)): Output => {
   const data = React.useState(initial);
   return [

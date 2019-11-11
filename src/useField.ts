@@ -1,6 +1,4 @@
-import * as React from 'react';
 import { get } from './helpers/operations';
-import { EMPTY_ARRAY } from './helpers/useState';
 import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldOperations<T> {

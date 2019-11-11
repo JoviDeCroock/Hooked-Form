@@ -2,7 +2,7 @@ import * as React from 'react';
 import { emit } from './context/emitter';
 import { deriveInitial } from './helpers/deriveInitial';
 import { deriveKeys } from './helpers/deriveKeys';
-import useState, { EMPTY_ARRAY } from './helpers/useState';
+import useState from './helpers/useState';
 import { Errors, FormHookContext, InitialValues, Touched } from './types';
 
 export const formContext = React.createContext<FormHookContext>(null as any, () => 0);
@@ -125,6 +125,13 @@ const Form = <Values extends object>({
         });
   };
 
+  // triggers a submit.
+  const submit = (e?: React.SyntheticEvent) => {
+    if (e && e.preventDefault) e.preventDefault();
+    setSubmitting(true);
+    emit('submitting');
+  };
+
   React.useEffect(() => {
     // This convenience method ensures we don't have to pass handleSubmit
     // to the context/childComponent (since this rebinds on every value change)
@@ -139,20 +146,17 @@ const Form = <Values extends object>({
 
   // Run validations when needed.
   React.useEffect(() => {
-    if (isDirty.current) {
+    if (
+      (validateOnBlur === undefined || validateOnChange || validateOnBlur) &&
+      isDirty.current
+    ) {
       validateForm();
     }
   }, [
     validateOnBlur === undefined ? touched : validateOnBlur && touched,
     validateOnChange && values,
+    isDirty.current,
   ]);
-
-  // triggers a submit.
-  const submit = (e?: React.SyntheticEvent) => {
-    if (e && e.preventDefault) e.preventDefault();
-    setSubmitting(true);
-    emit('submitting');
-  };
 
   return (
     <formContext.Provider

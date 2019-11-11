@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Form, { FormOptions } from './Form';
-import { EMPTY_ARRAY } from './helpers/useState';
 import { InitialValues } from './types';
 import { useContextEmitter } from './useContextEmitter';
 
@@ -37,7 +36,7 @@ const OptionsContainer = <Values extends object>({
 
     return function FormWrapper(props: { [property: string]: any }) {
       const passDownProps = React.useMemo(() => (
-        enableReinitialize ? Object.values(props) : EMPTY_ARRAY
+        enableReinitialize ? Object.values(props) : []
       ), [enableReinitialize && props]);
 
       // Make our listener for the reinitialization when need be.
@@ -52,6 +51,7 @@ const OptionsContainer = <Values extends object>({
           initialValues={mapPropsToValues && !initialValues ?
             (initialValues = mapPropsToValues(props)) : initialValues}
           noForm={true}
+          validateOnBlur={rest.validateOnBlur === undefined ? false : rest.validateOnBlur}
         >
           <NewComponent {...props} />
         </Form>

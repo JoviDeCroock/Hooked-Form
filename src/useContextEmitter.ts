@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { on } from './context/emitter';
 import { formContext } from './Form';
-import { EMPTY_ARRAY } from './helpers/useState';
 import { FormHookContext } from './types';
 
 export const useContextEmitter = (fieldId: string | Array<string>) => {
@@ -14,6 +13,6 @@ export const useContextEmitter = (fieldId: string | Array<string>) => {
         state[1]();
       },
     );
-  }, EMPTY_ARRAY);
+  }, []);
   return React.useContext<FormHookContext>(formContext);
 };

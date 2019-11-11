@@ -28,55 +28,37 @@ export default function useFieldArray<T = any>(
 
   return [
     {
-      add: React.useCallback(
-        (element: T) => {
-          ctx.setFieldValue(fieldId, [...value, element]);
-        },
-        [value],
-      ),
-      insert: React.useCallback(
-        (at: number, element: T) => {
-          const result = [...value];
-          result.splice(at, 0, element);
-          ctx.setFieldValue(fieldId, result);
-        },
-        [value],
-      ),
-      move: React.useCallback(
-        (from: number, to: number) => {
-          const result = [...value];
-          result.splice(from, 1);
-          result.splice(to, 0, value[from]);
-          ctx.setFieldValue(fieldId, result);
-        },
-        [value],
-      ),
-      remove: React.useCallback(
-        (index: number) => {
-          ctx.setFieldValue(
-            fieldId,
-            value.filter((_, i) => i !== index),
-          );
-        },
-        [value],
-      ),
-      replace: React.useCallback(
-        (at: number, element: T) => {
-          const result = [...value];
-          result[at] = element;
-          ctx.setFieldValue(fieldId, result);
-        },
-        [value],
-      ),
-      swap: React.useCallback(
-        (from: number, to: number) => {
-          const result = [...value];
-          result[from] = value[to];
-          result[to] = value[from];
-          ctx.setFieldValue(fieldId, result);
-        },
-        [value],
-      ),
+      add: (element: T) => {
+        ctx.setFieldValue(fieldId, [...value, element]);
+      },
+      insert: (at: number, element: T) => {
+        const result = [...value];
+        result.splice(at, 0, element);
+        ctx.setFieldValue(fieldId, result);
+      },
+      move: (from: number, to: number) => {
+        const result = [...value];
+        result.splice(from, 1);
+        result.splice(to, 0, value[from]);
+        ctx.setFieldValue(fieldId, result);
+      },
+      remove: (index: number) => {
+        ctx.setFieldValue(
+          fieldId,
+          value.filter((_, i) => i !== index),
+        );
+      },
+      replace: (at: number, element: T) => {
+        const result = [...value];
+        result[at] = element;
+        ctx.setFieldValue(fieldId, result);
+      },
+      swap: (from: number, to: number) => {
+        const result = [...value];
+        result[from] = value[to];
+        result[to] = value[from];
+        ctx.setFieldValue(fieldId, result);
+      },
     },
     {
       error: get(ctx.errors, fieldId),
