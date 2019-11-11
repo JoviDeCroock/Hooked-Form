@@ -14,6 +14,8 @@ Form is used to wrap your component, you can pass options in and that will resul
 
 ## Properties
 
+These properties are injected to the component you pass in as the second argument to this HOC.
+
 - formError `string` - A formErorr that can be set in the `onSubmit` or `onError` function.
 - handleSubmit `() => void` - You can pass this to your Form or use it in a function.
 - isSubmitting: `boolean` - A value indicating whether or not our form is in the process of submitting.
@@ -35,15 +37,8 @@ const FormComponent = ({ handleSubmit }) => (
 
 export default Form({
   onSubmit: console.log(values),
-  validate: (values) => {
-    const errors = {};
-    if (!values.name) {
-      errors.name = 'Required';
-    }
-    else if (values.name.length < 3) {
-      errors.name = 'Too short';
-    }
-    return errors;
-  }
+  mapPropsToValues: (props) => ({
+    name: props.name,
+  })
 })(FormComponent);
 ```

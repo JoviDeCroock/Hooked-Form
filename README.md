@@ -1,5 +1,5 @@
 # Hooked-Form
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 [![npm version](https://badge.fury.io/js/hooked-form.svg)](https://badge.fury.io/js/hooked-form)
 [![Build Status](https://travis-ci.org/JoviDeCroock/hooked-form.svg?branch=master)](https://travis-ci.org/JoviDeCroock/hooked-form)
 [![Bundle size](https://badgen.net/bundlephobia/minzip/hooked-form)](https://badgen.net/bundlephobia/minzip/hooked-form)
@@ -130,8 +130,14 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars3.githubusercontent.com/u/17125876?v=4" width="100px;" alt="Jovi De Croock"/><br /><sub><b>Jovi De Croock</b></sub>](https://www.jovidecroock.com/)<br />[🚇](#infra-JoviDeCroock "Infrastructure (Hosting, Build-Tools, etc)") [⚠️](https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock "Tests") [👀](#review-JoviDeCroock "Reviewed Pull Requests") [📖](https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock "Documentation") [💻](https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock "Code") | [<img src="https://avatars1.githubusercontent.com/u/6225486?v=4" width="100px;" alt="Laurens Lavaert"/><br /><sub><b>Laurens Lavaert</b></sub>](https://www.faktion.com)<br />[💻](https://github.com/JoviDeCroock/hooked-form/commits?author=Pruxis "Code") |
-| :---: | :---: |
+<table>
+  <tr>
+    <td align="center"><a href="https://www.faktion.com"><img src="https://avatars1.githubusercontent.com/u/6225486?v=4" width="100px;" alt="Laurens Lavaert"/><br /><sub><b>Laurens Lavaert</b></sub></a><br /><a href="https://github.com/JoviDeCroock/hooked-form/commits?author=Pruxis" title="Code">💻</a></td>
+    <td align="center"><a href="https://www.jovidecroock.com/"><img src="https://avatars3.githubusercontent.com/u/17125876?v=4" width="100px;" alt="Jovi De Croock"/><br /><sub><b>Jovi De Croock</b></sub></a><br /><a href="#infra-JoviDeCroock" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock" title="Tests">⚠️</a> <a href="#review-JoviDeCroock" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock" title="Documentation">📖</a> <a href="https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock" title="Code">💻</a></td>
+    <td align="center"><a href="https://www.faktion.com/"><img src="https://avatars3.githubusercontent.com/u/17174776?v=4" width="100px;" alt="Jonathan Callewaert"/><br /><sub><b>Jonathan Callewaert</b></sub></a><br /><a href="https://github.com/JoviDeCroock/hooked-form/issues?q=author%3AJonathanCa97" title="Bug reports">🐛</a></td>
+  </tr>
+</table>
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

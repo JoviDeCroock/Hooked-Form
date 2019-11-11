@@ -30,6 +30,15 @@
         "doc",
         "code"
       ]
+    },
+    {
+      "login": "JonathanCa97",
+      "name": "Jonathan Callewaert",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/17174776?v=4",
+      "profile": "https://www.faktion.com/",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7
