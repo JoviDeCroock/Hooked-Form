@@ -126,6 +126,7 @@ const Form = <Values extends object>({
 
   // Run validations when needed.
   React.useEffect(() => {
+    if (!validateOnBlur && !validateOnChange) return;
     validateForm();
   }, [validateOnBlur && touched, validateOnChange && values]);
 
