@@ -34,11 +34,13 @@ describe('useError', () => {
       const { getProps, getByTestId } =
         makeHookedForm({ validate: () => ({ name: 'bad' }), validateOnChange: true });
 
-      const { setFieldValue, errors } = getProps();
+      const { setFieldValue } = getProps();
 
       await act(async () => {
         await setFieldValue('name', 'jovi');
       });
+
+      const { errors } = getProps();
 
       const errorPTag = getByTestId('error');
       expect(errors.name).toEqual('bad');
