@@ -22,7 +22,7 @@ export interface FormHookContext {
   resetForm: () => void;
   setFieldError: (fieldId: string, error: any) => void;
   setFieldValue: (fieldId: string, value: any) => void;
-  setFieldTouched: (fieldId: string, touched: any) => void;
+  setFieldTouched: (fieldId: string, touched: boolean) => void;
   submit: () => void;
   touched: Touched;
   validate: () => object;

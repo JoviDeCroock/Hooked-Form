@@ -166,10 +166,13 @@ const Form = <Values extends object>({
         isDirty: isDirty.current,
         isSubmitting,
         resetForm,
-        setFieldError,
-        setFieldTouched: (fieldId: string, value?: boolean) => {
+        setFieldError: (fieldId: string, error?: any) => {
+          setFieldError(fieldId, error);
           emit(fieldId);
+        },
+        setFieldTouched: (fieldId: string, value?: boolean) => {
           touch(fieldId, value == null ? true : value);
+          emit(fieldId);
         },
         setFieldValue: (fieldId: string, value: any) => {
           isDirty.current = true;
