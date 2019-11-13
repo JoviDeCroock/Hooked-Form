@@ -41,6 +41,7 @@ const OptionsContainer = <Values extends object>({
 
       // Make our listener for the reinitialization when need be.
       React.useEffect(() => {
+        // TODO: test
         if (enableReinitialize && mapPropsToValues) initialValues = mapPropsToValues(props);
       }, [...passDownProps]);
 

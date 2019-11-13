@@ -5,7 +5,6 @@ export interface FieldOperations<T> {
   onBlur: () => void;
   onChange: (value: T) => void;
   onFocus: () => void;
-  setFieldValue: (fieldId: string, value: any) => void;
 }
 
 export interface FieldInformation<T> {
@@ -23,7 +22,6 @@ export default function useField<T = any>(
   }
 
   const ctx = useContextEmitter(fieldId);
-
   return [
     {
       onBlur:() => {
@@ -35,7 +33,6 @@ export default function useField<T = any>(
       onFocus:() => {
         ctx.setFieldTouched(fieldId, false);
       },
-      setFieldValue: ctx.setFieldValue,
     },
     {
       error: get(ctx.errors, fieldId),
