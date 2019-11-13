@@ -30,15 +30,17 @@ describe('useError', () => {
   });
 
   describe('functionality', () => {
-    it('should render the correct error', () => {
+    it('should render the correct error', async () => {
       const { getProps, getByTestId } =
         makeHookedForm({ validate: () => ({ name: 'bad' }), validateOnChange: true });
 
-      const { setFieldValue, errors } = getProps();
+      const { setFieldValue } = getProps();
 
-      act(() => {
-        setFieldValue('name', 'jovi');
+      await act(async () => {
+        await setFieldValue('name', 'jovi');
       });
+
+      const { errors } = getProps();
 
       const errorPTag = getByTestId('error');
       expect(errors.name).toEqual('bad');

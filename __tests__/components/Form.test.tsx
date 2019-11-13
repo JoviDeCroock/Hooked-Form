@@ -71,13 +71,13 @@ describe('HookedForm', () => {
       setFieldValue('name', 'joviMutated')
     })
     expect(getProps().isDirty).toBe(true);
-    expect(validate).toBeCalledTimes(2);
+    expect(validate).toBeCalledTimes(1);
 
     ({ setFieldValue } = getProps());
     act(() => {
       setFieldValue('name', 'joviMutated')
     });
-    expect(validate).toBeCalledTimes(3);
+    expect(validate).toBeCalledTimes(2);
   });
 
   it('makes error and touches all fields onSubmit', () => {
