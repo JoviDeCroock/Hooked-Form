@@ -54,7 +54,7 @@ const Form = <Values extends object>({
 }: FormOptions<Values>) => {
   const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(initialValues || EMPTY_OBJ);
   const { 0: touched, 1: touch, 2: setTouchedState } = useState(EMPTY_OBJ);
-  const { 0: formErrors, 2: setErrorState } = useState(EMPTY_OBJ);
+  const { 0: errors, 1: setFieldError, 2: setErrorState } = useState(EMPTY_OBJ);
   const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
   const { 0: formError, 1: setFormError } = React.useState();
 
@@ -71,7 +71,7 @@ const Form = <Values extends object>({
       // We concat current and new errors to ensure everything
       // Will be proparly rerendered.
       deriveKeys(validationErrors || EMPTY_OBJ),
-      deriveKeys(formErrors || EMPTY_OBJ),
+      deriveKeys(errors || EMPTY_OBJ),
     ));
     // We return so we can use this in submit without having to rely
     // on the state being set.
@@ -96,12 +96,12 @@ const Form = <Values extends object>({
     // If we have an event prevent it (RN-compat)
     if (event && event.preventDefault) event.preventDefault();
     // Validate our form
-    const errors = validateForm();
-    // Use the errors to set touched state on these fields in case
+    const fieldErrors = validateForm();
+    // Use the fieldErrors to set touched state on these fields in case
     // the consumer is checking touched && error ? showError() : null
-    setTouchedState(deriveInitial(errors, true));
-    // If we should skip submitting when invalid AND we have errors go in here
-    if (!shouldSubmitWhenInvalid && Object.keys(errors).length > 0) {
+    setTouchedState(deriveInitial(fieldErrors, true));
+    // If we should skip submitting when invalid AND we have fieldErrors go in here
+    if (!shouldSubmitWhenInvalid && Object.keys(fieldErrors).length > 0) {
       setSubmitting(false);
       return emit('submitting');
     }
@@ -161,11 +161,12 @@ const Form = <Values extends object>({
   return (
     <formContext.Provider
       value={{
-        errors: formErrors as Errors,
+        errors: errors as Errors,
         formError,
         isDirty: isDirty.current,
         isSubmitting,
         resetForm,
+        setFieldError,
         setFieldTouched: (fieldId: string, value?: boolean) => {
           emit(fieldId);
           touch(fieldId, value == null ? true : value);
