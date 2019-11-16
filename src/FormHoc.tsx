@@ -20,7 +20,7 @@ const OptionsContainer = <Values extends object>({
 
   return function FormOuterWrapper(Component: React.ComponentType<any> | React.FC<any>) {
     const NewComponent = (props: any) => {
-      const ctx = useContextEmitter(['formError', 'isSubmitting', 'isDirty']);
+      const ctx = useContextEmitter(['f', 's']);
       return (
         <Component
           change={ctx.setFieldValue}

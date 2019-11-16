@@ -25,6 +25,7 @@ export interface CallBag {
 export interface FormOptions<T> {
   children?: any;
   enableReinitialize?: boolean;
+  initialErrors?: Errors;
   initialValues?: InitialValues;
   noForm?: boolean;
   onError?: (error: object, callbag: ErrorBag) => void;
@@ -41,6 +42,7 @@ export const EMPTY_OBJ = {};
 const Form = <Values extends object>({
   children,
   enableReinitialize,
+  initialErrors,
   initialValues,
   onSubmit,
   noForm,
@@ -53,8 +55,9 @@ const Form = <Values extends object>({
   ...formProps // used to inject className, onKeyDown and related on the <form>
 }: FormOptions<Values>) => {
   const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(initialValues || EMPTY_OBJ);
-  const { 0: touched, 1: touch, 2: setTouchedState } = useState(EMPTY_OBJ);
-  const { 0: errors, 1: setFieldError, 2: setErrorState } = useState(EMPTY_OBJ);
+  const { 0: touched, 1: touch, 2: setTouchedState } = useState(
+    initialErrors ? deriveInitial(initialErrors, true) : EMPTY_OBJ);
+  const { 0: errors, 1: setFieldError, 2: setErrorState } = useState(initialErrors || EMPTY_OBJ);
   const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
   const { 0: formError, 1: setFormError } = React.useState();
 
@@ -82,8 +85,8 @@ const Form = <Values extends object>({
   const resetForm = () => {
     isDirty.current = false;
     setValuesState(initialValues || EMPTY_OBJ);
-    setTouchedState(EMPTY_OBJ);
-    setErrorState(EMPTY_OBJ);
+    setTouchedState(initialErrors ? deriveInitial(initialErrors, true) : EMPTY_OBJ);
+    setErrorState(initialErrors || EMPTY_OBJ);
     emit(([] as Array<string>).concat(
       // We concat current and new values to ensure everything
       // Will be proparly rerendered.
@@ -103,24 +106,24 @@ const Form = <Values extends object>({
     // If we should skip submitting when invalid AND we have fieldErrors go in here
     if (!shouldSubmitWhenInvalid && Object.keys(fieldErrors).length > 0) {
       setSubmitting(false);
-      return emit('submitting');
+      return emit('s');
     }
 
     const setFormErr = (err: string) => {
       setFormError(err);
-      emit('formError');
+      emit('f');
     };
 
     return new Promise(resolve => resolve(
       onSubmit(values, { setErrors: setErrorState, setFormError: setFormErr })))
         .then((result: any) => {
           setSubmitting(false);
-          emit('submitting');
+          emit('s');
           if (onSuccess) onSuccess(result, { resetForm });
         })
         .catch((e: any) => {
           setSubmitting(false);
-          emit('submitting');
+          emit('s');
           if (onError) onError(e, { setErrors: setErrorState, setFormError: setFormErr });
         });
   };
@@ -129,7 +132,7 @@ const Form = <Values extends object>({
   const submit = (e?: React.SyntheticEvent) => {
     if (e && e.preventDefault) e.preventDefault();
     setSubmitting(true);
-    emit('submitting');
+    emit('s');
   };
 
   React.useEffect(() => {
