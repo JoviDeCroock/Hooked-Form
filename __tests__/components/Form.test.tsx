@@ -62,6 +62,21 @@ describe('HookedForm', () => {
     expect(values.name).toEqual('jovi');
   });
 
+  it('Sets field error correctly', () => {
+    const { getProps } = makeHookedForm({ initialValues: { name: 'jovi' }});
+    const { setFieldError } = getProps();
+    act(() => {
+      setFieldError('name', 'error');
+      // setFieldError('friends[0].name', 'err');
+      setFieldError('house.name', 'invalid');
+    });
+
+    const { errors } = getProps();
+    expect(errors.name).toEqual('error');
+    // expect(errors.fiends[0].name).toEqual('err');
+    expect(errors.house.name).toEqual('invalid');
+  });
+
   it('calls validate onChange', () => {
     const validate = jest.fn();
     const { getProps } = makeHookedForm({ validate, validateOnChange: true });

@@ -170,7 +170,6 @@ const Form = <Values extends object>({
         isDirty: isDirty.current,
         isSubmitting,
         resetForm,
-        // TODO: add test
         setFieldError: (fieldId: string, error?: any) => {
           setFieldError(fieldId, error);
           emit(fieldId);
