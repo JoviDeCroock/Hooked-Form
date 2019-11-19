@@ -4,17 +4,16 @@
       "philosophy/why"
     ],
     "components": [
-      "components/form",
-      "components/field",
-      "components/error",
-      "components/fieldarray"
+      "components/hookedForm",
+      "components/form"
     ],
     "hooks": [
-      "components/useFormConnect",
-      "components/useField",
-      "components/useError",
-      "components/useFieldArray"
+      "hooks/useField",
+      "hooks/useError",
+      "hooks/useFieldArray",
+      "hooks/useFormConnect",
+      "hooks/useSpy"
     ],
-    "types": ["staticTyping"]
+    "types": ["types/staticTyping"]
   }
 }

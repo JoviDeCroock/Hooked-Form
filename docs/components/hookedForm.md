@@ -24,6 +24,7 @@ Other options
 | name                    | type-signature                                         | description                                                                                   |
 |-------------------------|--------------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | enableReinitialize      | boolean                                                | Indicates that a change in InitialValues should trigger a reset in formValues                 |
+| initialErrors           | object                                                 | The errors to be used to initialize the formerrors                                            |
 | initialValues           | object                                                 | The values to be used to initialize the formstate                                             |
 | noForm                  | boolean                                                | Whether or not to render a `<form>` tag for the user                                          |
 | onError                 | (result: any, callbag: ErrorBag) => void               | This callback will be executed when the `onSubmit` results in an erroneous situation          |
