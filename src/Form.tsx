@@ -56,7 +56,7 @@ const Form = <Values extends object>({
 }: FormOptions<Values>) => {
   const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(initialValues || EMPTY_OBJ);
   const { 0: touched, 1: touch, 2: setTouchedState } = useState(
-    initialErrors ? deriveInitial(initialErrors, true) : EMPTY_OBJ);
+    initialErrors ? () => deriveInitial(initialErrors, true) : EMPTY_OBJ);
   const { 0: errors, 1: setFieldError, 2: setErrorState } = useState(initialErrors || EMPTY_OBJ);
   const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
   const { 0: formError, 1: setFormError } = React.useState();
@@ -95,14 +95,14 @@ const Form = <Values extends object>({
     ));
   };
 
-  const handleSubmit = (event?: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = () => {
     // Validate our form
     const fieldErrors = validateForm();
     // Use the fieldErrors to set touched state on these fields in case
     // the consumer is checking touched && error ? showError() : null
     setTouchedState(deriveInitial(fieldErrors, true));
     // If we should skip submitting when invalid AND we have fieldErrors go in here
-    if (!shouldSubmitWhenInvalid && Object.keys(fieldErrors).length > 0) {
+    if (!shouldSubmitWhenInvalid && deriveKeys(fieldErrors).length > 0) {
       setSubmitting(false);
       return emit('s');
     }

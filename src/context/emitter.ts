@@ -4,6 +4,7 @@ interface EmitMap {
   [fieldId: string]: Array<Force>;
 }
 
+const execute = (c: () => void) => { c(); };
 const mapping: EmitMap = {};
 export function on(fieldId: string | Array<string>, cb: Force) {
   if (!Array.isArray(fieldId)) fieldId = [fieldId];
@@ -18,7 +19,7 @@ export function on(fieldId: string | Array<string>, cb: Force) {
   });
 
   // @ts-ignore
-  return () => { disposers.map((c) => { c(); }); };
+  return () => { disposers.map(execute); };
 }
 
 export function emit(fieldId: string | Array<string>) {
@@ -29,10 +30,10 @@ export function emit(fieldId: string | Array<string>) {
   fieldId.map((f) => {
     if (visited.indexOf(f) === -1) {
       // @ts-ignore
-      (mapping[f] || []).map((cb) => { cb(); });
+      (mapping[f] || []).map(execute);
       visited.push(f);
     }
   });
   // @ts-ignore
-  (mapping['*'] || []).map((cb) => { cb(); });
+  (mapping['*'] || []).map(execute);
 }
