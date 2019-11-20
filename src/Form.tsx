@@ -96,8 +96,6 @@ const Form = <Values extends object>({
   };
 
   const handleSubmit = (event?: React.FormEvent<HTMLFormElement>) => {
-    // If we have an event prevent it (RN-compat)
-    if (event && event.preventDefault) event.preventDefault();
     // Validate our form
     const fieldErrors = validateForm();
     // Use the fieldErrors to set touched state on these fields in case
