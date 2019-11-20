@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { act, cleanup, render } from '@testing-library/react';
+import { act, cleanup, render, wait } from '@testing-library/react';
 import { HookedForm, useFormConnect } from '../../src';
 
 const Component = () => (<p>Hi</p>);
@@ -149,6 +149,7 @@ describe('HookedForm', () => {
   });
 
   it('uses the ErrorBag methods correctly', async () => {
+    const spy = { preventDefault: jest.fn() };
     // @ts-ignore
     const onSubmit = (_, { setErrors, setFormError }) => {
       setErrors({ name: 'hi' });
@@ -157,10 +158,76 @@ describe('HookedForm', () => {
     const { getProps } = makeHookedForm({ onSubmit });
     const { submit } = getProps();
     await act(async () => {
-      await submit();
+      await submit(spy);
     });
 
+    expect(spy.preventDefault).toBeCalledTimes(1);
     expect(getProps().formError).toBe('hi');
     expect(getProps().errors.name).toBe('hi');
+  });
+
+  it('uses the initialErrors correctly', async () => {
+    const { getProps } = makeHookedForm({ initialErrors: { name: 'bad' } });
+    const { setFieldError, resetForm } = getProps();
+    expect(getProps().errors.name).toBe('bad');
+    await act(async () => {
+      await setFieldError('name', undefined);
+    });
+    expect(getProps().errors.name).toBe(undefined);
+    await act(async () => {
+      await resetForm();
+    });
+    expect(getProps().errors.name).toBe('bad');
+  });
+
+  it('uses the initialValues correctly', async () => {
+    let TestForm: any;
+    const makeForm = (HookedFormOptions?: object, props?: object) => {
+      let injectedProps: any;
+      TestForm = () => {
+        injectedProps = useFormConnect();
+        return <Component />
+      }
+      return {
+        getProps: () => injectedProps,
+        ...render(
+          <HookedForm onSubmit={() => null} {...HookedFormOptions}>
+            <TestForm {...props} />
+          </HookedForm>
+        ),
+      };
+    }
+
+    const initialValues = { name: 'Jovi' };
+    const initialValues2 = { name: 'Liesse' };
+    let { getProps, rerender } = makeForm({ initialValues, enableReinitialize: true });
+    const { resetForm, setFieldValue } = getProps();
+
+    expect(getProps().values.name).toBe('Jovi');
+    await act(async () => {
+      await setFieldValue('name', 'someone');
+    });
+    expect(getProps().values.name).toBe('someone');
+    await act(async () => {
+      await resetForm();
+    });
+    expect(getProps().values.name).toBe('Jovi');
+
+    await act(async () => {
+      await rerender(
+        <HookedForm onSubmit={() => null} initialValues={initialValues2} enableReinitialize={true}>
+          <TestForm />
+        </HookedForm>
+      );
+    })
+    expect(getProps().values.name).toBe('Liesse');
+    await act(async () => {
+      await getProps().setFieldValue('name', 'someone');
+    });
+    expect(getProps().values.name).toBe('someone');
+    await act(async () => {
+      await getProps().resetForm();
+    });
+    expect(getProps().values.name).toBe('Liesse');
   });
 });
