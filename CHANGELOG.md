@@ -16,6 +16,7 @@
 
 - `<HookedForm>` component which abstracts the `<form>` field away, you can pass in props just as you would normally do.
 - `onSuccess` now receives a `SuccessBag` containing `resetForm`
+- `useSpy` hook that allows you to spy on arbitrary form values and execute a callback with access to context.
 
 ## 3.0.0
 

@@ -5,43 +5,39 @@
     "previous": "Previous",
     "tagline": "You will get hooked.",
     "docs": {
-      "components/error": {
-        "title": "Error",
-        "sidebar_label": "Error"
-      },
-      "components/field": {
-        "title": "Field",
-        "sidebar_label": "Field"
-      },
-      "components/fieldarray": {
-        "title": "FieldArray",
-        "sidebar_label": "FieldArray"
-      },
       "components/form": {
         "title": "Form",
         "sidebar_label": "Form"
       },
-      "components/useError": {
-        "title": "UseError",
-        "sidebar_label": "UseError"
+      "components/hookedForm": {
+        "title": "HookedForm",
+        "sidebar_label": "HookedForm"
       },
-      "components/useField": {
-        "title": "UseField",
-        "sidebar_label": "UseField"
+      "hooks/useError": {
+        "title": "useError",
+        "sidebar_label": "useError"
       },
-      "components/useFieldArray": {
-        "title": "UseFieldArray",
-        "sidebar_label": "UseFieldArray"
+      "hooks/useField": {
+        "title": "useField",
+        "sidebar_label": "useField"
       },
-      "components/useFormConnect": {
-        "title": "UseFormConnect",
-        "sidebar_label": "UseFormConnect"
+      "hooks/useFieldArray": {
+        "title": "useFieldArray",
+        "sidebar_label": "useFieldArray"
+      },
+      "hooks/useFormConnect": {
+        "title": "useFormConnect",
+        "sidebar_label": "useFormConnect"
+      },
+      "hooks/useSpy": {
+        "title": "useSpy",
+        "sidebar_label": "useSpy"
       },
       "philosophy/why": {
         "title": "Why",
         "sidebar_label": "Why"
       },
-      "staticTyping": {
+      "types/staticTyping": {
         "title": "Static Typing",
         "sidebar_label": "Static Typing"
       }
