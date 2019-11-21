@@ -1,0 +1,106 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>HookedForm · Hooked-Form</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="This component is meant to indicate the tree under it is a form, this will inject a"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="HookedForm · Hooked-Form"/><meta property="og:type" content="website"/><meta property="og:url" content="https://jovidecroock.github.io/hooked-form/"/><meta property="og:description" content="This component is meant to indicate the tree under it is a form, this will inject a"/><meta property="og:image" content="https://jovidecroock.github.io/hooked-form/img/logo.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://jovidecroock.github.io/hooked-form/img/logo.png"/><link rel="shortcut icon" href="/hooked-form/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/hooked-form/js/scrollSpy.js"></script><link rel="stylesheet" href="/hooked-form/css/main.css"/><script src="/hooked-form/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/hooked-form/"><img class="logo" src="/hooked-form/img/logo.png" alt="Hooked-Form"/><h2 class="headerTitleWithLogo">Hooked-Form</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/hooked-form/docs/components/form" target="_self">API</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>components</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">philosophy</h3><ul class=""><li class="navListItem"><a class="navItem" href="/hooked-form/docs/philosophy/why">Why</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">components</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/hooked-form/docs/components/hookedForm">HookedForm</a></li><li class="navListItem"><a class="navItem" href="/hooked-form/docs/components/form">Form</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">hooks</h3><ul class=""><li class="navListItem"><a class="navItem" href="/hooked-form/docs/hooks/useField">useField</a></li><li class="navListItem"><a class="navItem" href="/hooked-form/docs/hooks/useError">useError</a></li><li class="navListItem"><a class="navItem" href="/hooked-form/docs/hooks/useFieldArray">useFieldArray</a></li><li class="navListItem"><a class="navItem" href="/hooked-form/docs/hooks/useFormConnect">useFormConnect</a></li><li class="navListItem"><a class="navItem" href="/hooked-form/docs/hooks/useSpy">useSpy</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">types</h3><ul class=""><li class="navListItem"><a class="navItem" href="/hooked-form/docs/types/staticTyping">Static Typing</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">HookedForm</h1></header><article><div><span><p>This component is meant to indicate the tree under it is a form, this will inject a
+<code>&lt;form&gt;</code> tag for you.</p>
+<p>We can pass several options to this component where only <code>onSubmit</code> is mandatory.</p>
+<pre><code class="hljs css language-jsx"><span class="hljs-keyword">import</span> { HookedForm } <span class="hljs-keyword">from</span> <span class="hljs-string">'hooked-form'</span>;
+
+<span class="hljs-keyword">const</span> MyForm = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">HookedForm</span> <span class="hljs-attr">onSubmit</span>=<span class="hljs-string">{console.log}</span> /&gt;</span>
+  )
+}
+</span></code></pre>
+<p>Other options</p>
+<table>
+<thead>
+<tr><th>name</th><th>type-signature</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td>enableReinitialize</td><td>boolean</td><td>Indicates that a change in InitialValues should trigger a reset in formValues</td></tr>
+<tr><td>initialErrors</td><td>object</td><td>The errors to be used to initialize the formerrors</td></tr>
+<tr><td>initialValues</td><td>object</td><td>The values to be used to initialize the formstate</td></tr>
+<tr><td>noForm</td><td>boolean</td><td>Whether or not to render a <code>&lt;form&gt;</code> tag for the user</td></tr>
+<tr><td>onError</td><td>(result: any, callbag: ErrorBag) =&gt; void</td><td>This callback will be executed when the <code>onSubmit</code> results in an erroneous situation</td></tr>
+<tr><td>onSuccess</td><td>(result: any, callbag: SuccessBag) =&gt; void</td><td>This callback will be executed when the <code>onSubmit</code> results in an success</td></tr>
+<tr><td>onSubmit</td><td>(values: Partial<T>, callbag: CallBag) =&gt; Promise<any></td><td>The callback to be executed when a submit-event bubbles up</td></tr>
+<tr><td>shouldSubmitWhenInvalid</td><td>boolean</td><td>Indicates the form should submit even when validate returns errors</td></tr>
+<tr><td>validate</td><td>(values: Partial<T>) =&gt; object</td><td>This will validate your values and expects an object back, an empty object implies no errors</td></tr>
+<tr><td>validateOnBlur</td><td>boolean</td><td>Whether or not to call validate when blurring the form field</td></tr>
+<tr><td>validateOnChange</td><td>boolean</td><td>Whether or not to call validate when changing the form field</td></tr>
+</tbody>
+</table>
+<p>Every additional prop will be used for the <code>&lt;form&gt;</code> tag this way you can apply <code>className</code>, ...</p>
+<p>So for example:</p>
+<pre><code class="hljs css language-jsx"><span class="hljs-keyword">import</span> { HookedForm } <span class="hljs-keyword">from</span> <span class="hljs-string">'hooked-form'</span>;
+<span class="hljs-keyword">import</span> styled <span class="hljs-keyword">from</span> <span class="hljs-string">'styled-components'</span>;
+
+<span class="hljs-keyword">const</span> StyledForm = styled(HookedForm)<span class="hljs-string">`
+  background: blue;
+`</span>;
+
+<span class="hljs-keyword">const</span> MyForm = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">StyledForm</span> <span class="hljs-attr">onSubmit</span>=<span class="hljs-string">{console.log}</span> /&gt;</span>
+  )
+}
+</span></code></pre>
+<p>Will apply the style to that form-element.</p>
+<p>CallBag: carries the <code>props</code>, <code>setErrors</code> and <code>setFormError</code> functions.
+SuccessBag: carries the <code>resetForm</code> function.
+ErrorBag: Carries the <code>setErrors</code> and <code>setFormError</code> functions</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/hooked-form/docs/philosophy/why"><span class="arrow-prev">← </span><span>Why</span></a><a class="docs-next button" href="/hooked-form/docs/components/form"><span>Form</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>Docs</h5><a href="/hooked-form/docs/en/components/form">API</a></div><div><h5>Community</h5><a href="https://twitter.com/JoviDeC" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/JoviDeCroock/hooked-form">GitHub</a><a class="github-button" href="https://github.com/JoviDeCroock/hooked-form" data-icon="octicon-star" data-count-href="/JoviDeCroock/hooked-form/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 Jovi De Croock</section></footer></div></body></html>
