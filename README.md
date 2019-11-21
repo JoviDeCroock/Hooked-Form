@@ -14,7 +14,7 @@ commitment that should be made by library authors.
 
 [Docs](https://jovidecroock.github.io/hooked-form/)
 
-[Example](https://codesandbox.io/s/k8mylo9lo) // TODO! More complex with fetch and so on.
+[Example](https://codesandbox.io/s/sweet-poincare-3km8r4k16)
 
 [Architecture](https://www.jovidecroock.com/forms/)
 
