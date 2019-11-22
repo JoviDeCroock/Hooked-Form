@@ -29,7 +29,6 @@
     "react/no-children-prop": "off",
     "sort-keys": "off",
     "no-console": ["error", { "allow": ["warn", "error"] }],
-    "import/no-internal-modules": "off",
     "prefer-arrow/prefer-arrow-functions": "off"
   },
   "settings": {
