@@ -4,13 +4,15 @@ example
 .gitignore
 yarn.lock
 .rpt2_cache
-tslint.json
 coverage
 typings.d.ts
 Dockerfile
 mangle.json
 docker-compose.yml
 .dockerignore
+.eslintignore
+.eslintrc.json
+.prettierignore
 /website
 jest.preact.config.json
 /docs
