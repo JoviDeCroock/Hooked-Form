@@ -3,7 +3,9 @@ import Form, { FormOptions } from './Form';
 import { InitialValues } from './types';
 import { useContextEmitter } from './useContextEmitter';
 
-type FormHocOptions<T> = FormOptions<T> & { mapPropsToValues?: (props: object) => InitialValues };
+type FormHocOptions<T> = FormOptions<T> & {
+  mapPropsToValues?: (props: object) => InitialValues;
+};
 
 const OptionsContainer = <Values extends object>({
   enableReinitialize,
@@ -14,11 +16,14 @@ const OptionsContainer = <Values extends object>({
   let initialValues = formInitialValues;
 
   if (process.env.NODE_ENV !== 'production') {
-    // tslint:disable-next-line: no-console
-    console.warn('The Higher-order component has been deprecated. use <HookedForm> instead.');
+    console.warn(
+      'The Higher-order component has been deprecated. use <HookedForm> instead.'
+    );
   }
 
-  return function FormOuterWrapper(Component: React.ComponentType<any> | React.FC<any>) {
+  return function FormOuterWrapper(
+    Component: React.ComponentType<any> | React.FC<any>
+  ) {
     const NewComponent = (props: any) => {
       const ctx = useContextEmitter(['f', 's']);
       return (
@@ -35,24 +40,31 @@ const OptionsContainer = <Values extends object>({
     };
 
     return function FormWrapper(props: { [property: string]: any }) {
-      const passDownProps = React.useMemo(() => (
-        enableReinitialize ? Object.values(props) : []
-      ), [enableReinitialize && props]);
+      const passDownProps = React.useMemo(
+        () => (enableReinitialize ? Object.values(props) : []),
+        [enableReinitialize && props]
+      );
 
       // Make our listener for the reinitialization when need be.
       React.useEffect(() => {
         // TODO: test
-        if (enableReinitialize && mapPropsToValues) initialValues = mapPropsToValues(props);
+        if (enableReinitialize && mapPropsToValues)
+          initialValues = mapPropsToValues(props);
       }, [...passDownProps]);
 
       return (
         <Form<Values>
           {...rest}
           enableReinitialize={enableReinitialize}
-          initialValues={mapPropsToValues && !initialValues ?
-            (initialValues = mapPropsToValues(props)) : initialValues}
+          initialValues={
+            mapPropsToValues && !initialValues
+              ? (initialValues = mapPropsToValues(props))
+              : initialValues
+          }
           noForm={true}
-          validateOnBlur={rest.validateOnBlur === undefined ? false : rest.validateOnBlur}
+          validateOnBlur={
+            rest.validateOnBlur === undefined ? false : rest.validateOnBlur
+          }
         >
           <NewComponent {...props} />
         </Form>

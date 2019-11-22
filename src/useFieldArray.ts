@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { get } from './helpers/operations';
 import { useContextEmitter } from './useContextEmitter';
 
@@ -17,10 +16,15 @@ export interface FieldInformation<T> {
 }
 
 export default function useFieldArray<T = any>(
-  fieldId: string,
+  fieldId: string
 ): [FieldOperations<T>, FieldInformation<T>] {
-  if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
-    throw new Error('The FieldArray needs a valid "fieldId" property to function correctly.');
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    (!fieldId || typeof fieldId !== 'string')
+  ) {
+    throw new Error(
+      'The FieldArray needs a valid "fieldId" property to function correctly.'
+    );
   }
 
   const ctx = useContextEmitter(fieldId);
@@ -45,7 +49,7 @@ export default function useFieldArray<T = any>(
       remove: (index: number) => {
         ctx.setFieldValue(
           fieldId,
-          value.filter((_, i) => i !== index),
+          value.filter((_, i) => i !== index)
         );
       },
       replace: (at: number, element: T) => {
