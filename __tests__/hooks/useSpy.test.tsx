@@ -1,10 +1,9 @@
-
 import * as React from 'react';
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import { HookedForm, useFormConnect, useField, useSpy } from '../../src';
 
 const StringField = ({ fieldId }: { fieldId: string }) => {
-  const [{ onBlur, onChange, onFocus }, { value }] = useField(fieldId)
+  const [{ onBlur, onChange, onFocus }, { value }] = useField(fieldId);
   return (
     <React.Fragment>
       <input
@@ -15,15 +14,15 @@ const StringField = ({ fieldId }: { fieldId: string }) => {
         value={value}
       />
     </React.Fragment>
-  )
-}
+  );
+};
 
 const Check = ({ spy }: { spy: any }) => {
-  useSpy('age', (newValue, ctx) => {
+  useSpy('age', newValue => {
     spy(newValue);
   });
-  return <p>Checker</p>
-}
+  return <p>Checker</p>;
+};
 
 const makeHookedForm = (HookedFormOptions: object, spy: any) => {
   let injectedProps: any;
@@ -34,8 +33,8 @@ const makeHookedForm = (HookedFormOptions: object, spy: any) => {
         <StringField fieldId="age" />
         <Check spy={spy} />
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   return {
     getProps: () => injectedProps,
@@ -51,8 +50,8 @@ const validate = (values: { [fieldId: string]: any }) => {
   return {
     age: values.age && values.age > 2 ? undefined : 'bad',
     name: values.name && values.name.length > 2 ? undefined : 'bad',
-  }
-}
+  };
+};
 
 describe('useSpy', () => {
   afterEach(() => cleanup());
@@ -60,22 +59,25 @@ describe('useSpy', () => {
   describe('basic functionality', () => {
     it('should listen for changes on a field', () => {
       const spy = jest.fn();
-      const { getByTestId } = makeHookedForm({
-        validate,
-        validateOnBlur: true,
-        validateOnChange: true,
-      }, spy);
+      const { getByTestId } = makeHookedForm(
+        {
+          validate,
+          validateOnBlur: true,
+          validateOnChange: true,
+        },
+        spy
+      );
 
       const ageField = getByTestId('age');
       act(() => {
-        fireEvent.change(ageField, {target: {value: 9}})
+        fireEvent.change(ageField, { target: { value: 9 } });
       });
 
       expect(spy).toBeCalledTimes(1);
-      expect(spy).toBeCalledWith("9")
+      expect(spy).toBeCalledWith('9');
 
       act(() => {
-        fireEvent.change(ageField, {target: {value: 9}})
+        fireEvent.change(ageField, { target: { value: 9 } });
       });
       expect(spy).toBeCalledTimes(1);
     });
