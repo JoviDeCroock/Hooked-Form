@@ -60,6 +60,7 @@ const OptionsContainer = <Values extends object>({
           initialValues={initialValues}
           noForm={true}
           validateOnBlur={
+            /* istanbul ignore next */
             rest.validateOnBlur === undefined ? false : rest.validateOnBlur
           }
         >
