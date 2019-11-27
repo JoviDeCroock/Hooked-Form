@@ -1,26 +1,23 @@
 # Hooked-Form
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 [![npm version](https://badge.fury.io/js/hooked-form.svg)](https://badge.fury.io/js/hooked-form)
 [![Build Status](https://travis-ci.org/JoviDeCroock/hooked-form.svg?branch=master)](https://travis-ci.org/JoviDeCroock/hooked-form)
 [![Bundle size](https://badgen.net/bundlephobia/minzip/hooked-form)](https://badgen.net/bundlephobia/minzip/hooked-form)
 [![codecov](https://codecov.io/gh/JoviDeCroock/Hooked-Form/branch/master/graph/badge.svg)](https://codecov.io/gh/JoviDeCroock/Hooked-Form)
 
-This form library was made only with functional components, making the initial goal
-of having reduced bundle size easier to achieve.
+This form-library aims at having a minimal footprint in terms of size and bring high performance out of the box, without you having
+to look out for optimizations with `react.memo` or `shouldComponentUpdate`. This performance is acquired because this library ignores
+all emits from context since this by default signals every hook/component. Instead it has an internal emitter that only notifies the
+relevant parts.
 
-I hope to make libraries like these a more recurring theme, since focussing on reduced
-bundle size isn't only the concern of the application developer. It is also a
-commitment that should be made by library authors.
+Don't forget to ✨✨✨ if you like the library! Means a lot to the people involved in the work.
 
-[Docs](https://jovidecroock.github.io/hooked-form/)
+[Documentation](https://jovidecroock.github.io/hooked-form/)
 
 [Example](https://codesandbox.io/s/sweet-poincare-3km8r4k16)
 
-[Architecture](https://www.jovidecroock.com/forms/)
-
-[Perf-test](https://codesandbox.io/s/react-form-library-stress-test-81swz)
-
-## Installation
+## 🌍 Installation
 
 **yarn**
 
@@ -48,7 +45,7 @@ _prod_:
 <script src="https://unpkg.com/hooked-form@latest/dist/prod/hooked-form.umd.js"></script>
 ```
 
-## Example
+## 🎨 Example
 
 ```jsx
 import React from 'react';
@@ -84,7 +81,7 @@ const App = () => {
 render(<App />, document.body);
 ```
 
-## Modern build
+## 💿 Modern build
 
 This library offers a modern build (ES2015 output), this is smaller and parses faster in the browser.
 So if you don't plan to target older browsers feel free to use this.
@@ -114,17 +111,12 @@ So if you don't plan to target older browsers feel free to use this.
   onSubmit your values get traversed however if the application doesn't know what your values are
   it can't set anything as touched. This can be solved with passing `mapPropsToValues` or `initialValues`.
 
-## Credits
+## 📢 Credits
 
 - [Microbundle](https://github.com/developit/microbundle)
+- [Performance-comparison](https://codesandbox.io/s/react-form-library-stress-test-81swz)
 
-## Donate
-
-If you feel like you want to share something
-
-<a href="https://www.buymeacoffee.com/jovidc" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
-
-## Contributors
+## 😍Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://github.com/all-contributors/all-contributors#emoji-key)):
 
@@ -141,3 +133,9 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+## 🍔 Donate
+
+If you feel like this library helped out and you want to let me know
+
+<a href="https://www.buymeacoffee.com/jovidc" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
