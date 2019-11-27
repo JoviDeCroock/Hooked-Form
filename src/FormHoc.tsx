@@ -9,11 +9,10 @@ type FormHocOptions<T> = FormOptions<T> & {
 
 const OptionsContainer = <Values extends object>({
   enableReinitialize,
-  initialValues: formInitialValues,
   mapPropsToValues,
   ...rest
 }: FormHocOptions<Values>) => {
-  let initialValues = formInitialValues;
+  let isMounted = false;
 
   if (process.env.NODE_ENV !== 'production') {
     console.warn(
@@ -40,27 +39,25 @@ const OptionsContainer = <Values extends object>({
     };
 
     return function FormWrapper(props: { [property: string]: any }) {
-      const passDownProps = React.useMemo(
-        () => (enableReinitialize ? Object.values(props) : []),
-        [enableReinitialize && props]
+      const { 0: initialValues, 1: setInitialValues } = React.useState(() =>
+        mapPropsToValues ? mapPropsToValues(props) : rest.initialValues
       );
 
       // Make our listener for the reinitialization when need be.
-      React.useEffect(() => {
-        // TODO: test
-        if (enableReinitialize && mapPropsToValues)
-          initialValues = mapPropsToValues(props);
-      }, [...passDownProps]);
+      React.useEffect(
+        () => {
+          if (enableReinitialize && mapPropsToValues && isMounted)
+            setInitialValues(mapPropsToValues(props));
+          isMounted = true;
+        },
+        enableReinitialize ? Object.values(props) : []
+      );
 
       return (
         <Form<Values>
           {...rest}
           enableReinitialize={enableReinitialize}
-          initialValues={
-            mapPropsToValues && !initialValues
-              ? (initialValues = mapPropsToValues(props))
-              : initialValues
-          }
+          initialValues={initialValues}
           noForm={true}
           validateOnBlur={
             rest.validateOnBlur === undefined ? false : rest.validateOnBlur
