@@ -6,11 +6,12 @@
 
 - The components have made place for a full hooks implementation (`Field`, `FieldArray` and `Error` are gone).
 - `useFieldArray.remove` now only accepts a numerical index instead of an object or an index.
-- `validateOnBlur` is now default `true`
+- `validateOnBlur` is now default `false` in `<HookedForm />`
+- `validateOnBlur` is still `true` in `Form` to support moving over.
 
 ### Deprecation
 
-- The `Form` HOC has been deprecated in favour of the `<HookedForm />` component.
+- The `Form` HOC has been deprecated in favor of the `<HookedForm />` component.
 
 ### Features
 
