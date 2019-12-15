@@ -93,6 +93,7 @@
     }
   },
   "jest": {
+    "setupFilesAfterEnv": ["<rootDir>/__tests__/setup.js"],
     "preset": "ts-jest",
     "coverageDirectory": "./coverage/",
     "collectCoverage": true,
