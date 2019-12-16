@@ -3,20 +3,20 @@ import { get } from './helpers/operations';
 import { FormHookContext } from './types';
 import { useContextEmitter } from './useContextEmitter';
 
-const useSpy = (
+export type SpyCallback<T> = (newValue: T, ctx: FormHookContext) => void;
+
+export default function useSpy<T = any>(
   fieldId: string,
-  cb: (newValue: any, ctx: FormHookContext) => void
-) => {
-  const isMounted = React.useRef<undefined | boolean>();
+  cb?: SpyCallback<T>
+): [T, FormHookContext] {
+  const isMounted = React.useRef<boolean>(false);
   const ctx = useContextEmitter(fieldId);
   const value = get(ctx.values, fieldId);
 
   React.useEffect(() => {
-    if (isMounted.current) cb(value, ctx);
+    if (isMounted.current && cb) cb(value, ctx);
     isMounted.current = true;
   }, [value]);
 
-  return { value };
-};
-
-export default useSpy;
+  return [value, ctx];
+}
