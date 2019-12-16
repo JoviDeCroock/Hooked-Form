@@ -1,4 +1,5 @@
 import { get } from './helpers/operations';
+import { FieldInformation } from './types';
 import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldOperations<T> {
@@ -7,29 +8,28 @@ export interface FieldOperations<T> {
   onFocus: () => void;
 }
 
-export interface FieldInformation<T> {
-  error: string;
-  touched: boolean;
-  value: T;
-}
-
 export default function useField<T = any>(
-  fieldId: string,
+  fieldId: string
 ): [FieldOperations<T>, FieldInformation<T>] {
-  if (process.env.NODE_ENV !== 'production' && (!fieldId || typeof fieldId !== 'string')) {
-    throw new Error('The Field needs a valid "fieldId" property to function correctly.');
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    (!fieldId || typeof fieldId !== 'string')
+  ) {
+    throw new Error(
+      'The Field needs a valid "fieldId" property to function correctly.'
+    );
   }
 
   const ctx = useContextEmitter(fieldId);
   return [
     {
-      onBlur:() => {
+      onBlur: () => {
         ctx.setFieldTouched(fieldId, true);
       },
-      onChange:(value: T) => {
+      onChange: (value: T) => {
         ctx.setFieldValue(fieldId, value);
       },
-      onFocus:() => {
+      onFocus: () => {
         ctx.setFieldTouched(fieldId, false);
       },
     },

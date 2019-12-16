@@ -1,15 +1,26 @@
 import * as React from 'react';
 import { get } from './helpers/operations';
-import { FormHookContext } from './types';
+import { FieldInformation, FormHookContext } from './types';
 import { useContextEmitter } from './useContextEmitter';
 
-const useSpy = (fieldId: string, cb: (newValue: any, ctx: FormHookContext) => void) => {
-  const isMounted = React.useRef<undefined | boolean>();
-  const ctx = useContextEmitter(fieldId);
-  React.useEffect(() => {
-    if (isMounted.current) cb(get(ctx.values, fieldId), ctx);
-    isMounted.current = true;
-  }, [get(ctx.values, fieldId)]);
-};
+export type SpyCallback<T> = (newValue: T, ctx: FormHookContext) => void;
 
-export default useSpy;
+export default function useSpy<T = any>(
+  fieldId: string,
+  cb?: SpyCallback<T>
+): FieldInformation<T> {
+  const isMounted = React.useRef<boolean>(false);
+  const ctx = useContextEmitter(fieldId);
+  const value = get(ctx.values, fieldId);
+
+  React.useEffect(() => {
+    if (isMounted.current && cb) cb(value, ctx);
+    isMounted.current = true;
+  }, [value]);
+
+  return {
+    error: get(ctx.errors, fieldId),
+    touched: get(ctx.touched, fieldId),
+    value,
+  };
+}
