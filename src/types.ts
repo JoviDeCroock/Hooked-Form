@@ -28,3 +28,9 @@ export interface FormHookContext {
   validate: () => object;
   values: Values;
 }
+
+export interface FieldInformation<T> {
+  error: string;
+  touched: boolean;
+  value: T;
+}

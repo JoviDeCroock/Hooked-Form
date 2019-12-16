@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { get } from './helpers/operations';
-import { FormHookContext } from './types';
+import { FieldInformation, FormHookContext } from './types';
 import { useContextEmitter } from './useContextEmitter';
 
 export type SpyCallback<T> = (newValue: T, ctx: FormHookContext) => void;
@@ -8,7 +8,7 @@ export type SpyCallback<T> = (newValue: T, ctx: FormHookContext) => void;
 export default function useSpy<T = any>(
   fieldId: string,
   cb?: SpyCallback<T>
-): [T, FormHookContext] {
+): FieldInformation<T> {
   const isMounted = React.useRef<boolean>(false);
   const ctx = useContextEmitter(fieldId);
   const value = get(ctx.values, fieldId);
@@ -18,5 +18,9 @@ export default function useSpy<T = any>(
     isMounted.current = true;
   }, [value]);
 
-  return [value, ctx];
+  return {
+    error: get(ctx.errors, fieldId),
+    touched: get(ctx.touched, fieldId),
+    value,
+  };
 }
