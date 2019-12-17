@@ -1,5 +1,9 @@
 # Releases
 
+## 4.1.0
+
+- The `useSpy` now returns an object with the observed Field data `{ value, error, touched }`
+
 ## 4.0.0
 
 ### Breaking
