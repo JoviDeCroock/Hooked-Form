@@ -104,13 +104,6 @@ So if you don't plan to target older browsers feel free to use this.
   }
 ```
 
-## FAQ
-
-- When initially submitting my form shows no errors?
-  
-  onSubmit your values get traversed however if the application doesn't know what your values are
-  it can't set anything as touched. This can be solved with passing `mapPropsToValues` or `initialValues`.
-
 ## 📢 Credits
 
 - [Microbundle](https://github.com/developit/microbundle)
