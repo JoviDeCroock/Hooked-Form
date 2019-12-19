@@ -19,6 +19,12 @@ const StringField = ({ fieldId }) => {
 };
 ```
 
+This hook accepts a second argument called the `options`, this is an object which can include:
+
+- validate: `(value) => string | null | undefined` and this will set the error on the field-level
+- validateOnBlur: `boolean (default true)`
+- validateOnChange: `boolean (default true)`
+
 As you can see the first argument of your payload gives you the functions to control the state
 
 - onBlur, when tabbed will set the `touched` state for this field to `true`.

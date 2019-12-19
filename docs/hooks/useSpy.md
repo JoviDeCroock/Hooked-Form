@@ -15,12 +15,12 @@ triggered with the new `value` and the [context](./useFormConnect.md) as argumen
 
 ```jsx
 const MyComponent = () => {
-  useSpy('age', (newAge, { setFieldError }) => {
+  const { value: age, touched, error } = useSpy('age', (newAge, { setFieldError }) => {
     if (newAge < 18) {
       setFieldError('age', 'you must be 18 or older');
     }
   });
-  return <div>Irrelevant</div>;
+  return <div>{age}</div>;
 }
 ```
 
