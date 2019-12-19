@@ -39,7 +39,17 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "arempe93",
+      "name": "Andrew Rempe",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4637120?v=4",
+      "profile": "https://github.com/arempe93",
+      "contributions": [
+        "code"
+      ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "skipCi": true
 }
