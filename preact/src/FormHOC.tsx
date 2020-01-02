@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { HookedForm, FormOptions } from './Form';
 import { InitialValues } from './types';
-import {useFormConnect} from './useFormConnect';
+import { useFormConnect } from './useFormConnect';
 
 type FormHocOptions<T> = FormOptions<T> & {
   mapPropsToValues?: (props: object) => InitialValues;

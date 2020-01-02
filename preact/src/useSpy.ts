@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'preact/hooks';
 import { get } from './helpers/operations';
 import { FormHookContext } from './types';
-import {useFormConnect} from './useFormConnect';
+import { useFormConnect } from './useFormConnect';
 
 export const useSpy = (fieldId: string, cb: (newValue: any, ctx: FormHookContext) => void) => {
   const isMounted = useRef<undefined | boolean>();

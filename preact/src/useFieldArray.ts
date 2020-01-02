@@ -1,5 +1,5 @@
 import { get } from './helpers/operations';
-import {useFormConnect} from './useFormConnect';
+import { useFormConnect } from './useFormConnect';
 
 export interface FieldOperations<T> {
   add: (item: T) => void;

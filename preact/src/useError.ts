@@ -1,5 +1,5 @@
 import { get } from './helpers/operations';
-import {useFormConnect} from './useFormConnect';
+import { useFormConnect } from './useFormConnect';
 
 export interface FieldInformation {
   error: string;
