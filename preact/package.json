@@ -1,0 +1,36 @@
+{
+  "name": "hooked-form",
+  "version": "4.2.0",
+  "description": "Forms done with Preact-Hooks",
+  "sideEffects": false,
+  "scripts": {
+    "build": "rimraf dist && yarn build:uncompressed && yarn build:minified && yarn cleanup",
+    "build:minified": "microbundle --jsx React.createElement --external react --define process.env.NODE_ENV=production --format cjs --name hookedForm --output dist/prod",
+    "build:uncompressed": "microbundle --jsx React.createElement --external react --no-compress --name hookedForm --output dist/",
+    "cleanup": "rimraf .rpt2_cache && rimraf .rts2_cache_cjs && rimraf .rts2_cache_umd && rimraf .rts2_cache_es"
+  },
+  "main": "dist/hooked-form.js",
+  "browser": "dist/hooked-form.umd.js",
+  "umd:main": "dist/hooked-form.umd.js",
+  "jsnext:main": "dist/hooked-form.modern.js",
+  "module": "dist/hooked-form.module.js",
+  "source": "src/index.ts",
+  "syntax": {
+    "esmodules": "dist/hooked-form.modern.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "cross-env": "5.2.0",
+    "microbundle": "0.12.0-next.6",
+    "preact": "10.1.1",
+    "rimraf": "2.6.3",
+    "tslib": "1.10.0",
+    "typescript": "3.7.3"
+  },
+  "peerDependencies": {
+    "preact": ">=10.0.0"
+  },
+  "mangle": {
+    "regex": "^_"
+  }
+}
