@@ -1,5 +1,9 @@
 # Releases
 
+## 4.2.0
+
+- Add Preact support with `hooked-form/preact`
+
 ## 4.1.0
 
 - The `useSpy` now returns an object with the observed Field data `{ value, error, touched }`
