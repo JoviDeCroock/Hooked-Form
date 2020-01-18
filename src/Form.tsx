@@ -35,7 +35,7 @@ export interface Payload {
 }
 
 export interface FormOptions<T> {
-  children?: ((form: Payload) => React.ReactNode) | React.ReactNode;
+  children: ((form: Payload) => React.ReactNode) | React.ReactNode;
   enableReinitialize?: boolean;
   initialErrors?: Errors;
   initialValues?: InitialValues;
@@ -67,13 +67,13 @@ const Form = <Values extends object>({
   ...formProps // used to inject className, onKeyDown and related on the <form>
 }: FormOptions<Values>) => {
   const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(
-    initialValues || EMPTY_OBJ
+    initialValues
   );
   const { 0: touched, 1: touch, 2: setTouchedState } = useState(
-    initialErrors ? () => deriveInitial(initialErrors, true) : EMPTY_OBJ
+    initialErrors && (() => deriveInitial(initialErrors, true))
   );
   const { 0: errors, 1: setFieldError, 2: setErrorState } = useState(
-    initialErrors || EMPTY_OBJ
+    initialErrors
   );
   const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
   const { 0: formError, 1: setFormError } = React.useState();
@@ -103,11 +103,9 @@ const Form = <Values extends object>({
   // Provide a way to reset the full form to the initialValues.
   const resetForm = () => {
     isDirty.current = false;
-    setValuesState(initialValues || EMPTY_OBJ);
-    setTouchedState(
-      initialErrors ? deriveInitial(initialErrors, true) : EMPTY_OBJ
-    );
-    setErrorState(initialErrors || EMPTY_OBJ);
+    setValuesState(initialValues);
+    setTouchedState(initialErrors && deriveInitial(initialErrors, true));
+    setErrorState(initialErrors);
     emit(
       ([] as Array<string>).concat(
         // We concat current and new values to ensure everything
