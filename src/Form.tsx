@@ -35,7 +35,7 @@ export interface Payload {
 }
 
 export interface FormOptions<T> {
-  children?: (form: Payload) => React.ReactNode | any;
+  children?: ((form: Payload) => React.ReactNode) | React.ReactNode;
   enableReinitialize?: boolean;
   initialErrors?: Errors;
   initialValues?: InitialValues;
@@ -174,7 +174,6 @@ const Form = <Values extends object>({
 
   // Run validations when needed.
   React.useEffect(() => {
-    // TODO: add test
     if (
       (validateOnBlur === undefined || validateOnChange || validateOnBlur) &&
       isDirty.current
