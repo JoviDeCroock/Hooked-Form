@@ -35,7 +35,7 @@ export interface Payload {
 }
 
 export interface FormOptions<T> {
-  children: ((form: Payload) => React.ReactNode) | React.ReactNode;
+  children?: ((form: Payload) => React.ReactNode) | React.ReactNode;
   enableReinitialize?: boolean;
   initialErrors?: Errors;
   initialValues?: InitialValues;
