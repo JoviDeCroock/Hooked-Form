@@ -5,7 +5,10 @@ import { deriveKeys } from './helpers/deriveKeys';
 import useState from './helpers/useState';
 import { Errors, FormHookContext, InitialValues, Touched } from './types';
 
-export const formContext = React.createContext<FormHookContext>(null as any, () => 0);
+export const formContext = React.createContext<FormHookContext>(
+  null as any,
+  () => 0
+);
 
 export interface SuccessBag {
   resetForm: () => void;
@@ -22,8 +25,17 @@ export interface CallBag {
   setFormError: (error: string) => void;
 }
 
+export interface Payload {
+  change: (fieldId: string, value: any) => void;
+  formError?: string | null;
+  isDirty?: boolean | null;
+  isSubmitting?: boolean | null;
+  handleSubmit: (e?: React.SyntheticEvent) => void;
+  resetForm: () => void;
+}
+
 export interface FormOptions<T> {
-  children?: any;
+  children?: (form: Payload) => React.ReactNode | any;
   enableReinitialize?: boolean;
   initialErrors?: Errors;
   initialValues?: InitialValues;
@@ -54,10 +66,15 @@ const Form = <Values extends object>({
   validateOnChange,
   ...formProps // used to inject className, onKeyDown and related on the <form>
 }: FormOptions<Values>) => {
-  const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(initialValues || EMPTY_OBJ);
+  const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(
+    initialValues || EMPTY_OBJ
+  );
   const { 0: touched, 1: touch, 2: setTouchedState } = useState(
-    initialErrors ? () => deriveInitial(initialErrors, true) : EMPTY_OBJ);
-  const { 0: errors, 1: setFieldError, 2: setErrorState } = useState(initialErrors || EMPTY_OBJ);
+    initialErrors ? () => deriveInitial(initialErrors, true) : EMPTY_OBJ
+  );
+  const { 0: errors, 1: setFieldError, 2: setErrorState } = useState(
+    initialErrors || EMPTY_OBJ
+  );
   const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
   const { 0: formError, 1: setFormError } = React.useState();
 
@@ -70,12 +87,14 @@ const Form = <Values extends object>({
     // triggers no render.
     const validationErrors = validate ? validate(values) : EMPTY_OBJ;
     setErrorState(validationErrors);
-    emit(([] as Array<string>).concat(
-      // We concat current and new errors to ensure everything
-      // Will be proparly rerendered.
-      deriveKeys(validationErrors || EMPTY_OBJ),
-      deriveKeys(errors || EMPTY_OBJ),
-    ));
+    emit(
+      ([] as Array<string>).concat(
+        // We concat current and new errors to ensure everything
+        // Will be proparly rerendered.
+        deriveKeys(validationErrors || EMPTY_OBJ),
+        deriveKeys(errors || EMPTY_OBJ)
+      )
+    );
     // We return so we can use this in submit without having to rely
     // on the state being set.
     return validationErrors;
@@ -85,14 +104,18 @@ const Form = <Values extends object>({
   const resetForm = () => {
     isDirty.current = false;
     setValuesState(initialValues || EMPTY_OBJ);
-    setTouchedState(initialErrors ? deriveInitial(initialErrors, true) : EMPTY_OBJ);
+    setTouchedState(
+      initialErrors ? deriveInitial(initialErrors, true) : EMPTY_OBJ
+    );
     setErrorState(initialErrors || EMPTY_OBJ);
-    emit(([] as Array<string>).concat(
-      // We concat current and new values to ensure everything
-      // Will be proparly rerendered.
-      deriveKeys(initialValues || EMPTY_OBJ),
-      deriveKeys(values),
-    ));
+    emit(
+      ([] as Array<string>).concat(
+        // We concat current and new values to ensure everything
+        // Will be proparly rerendered.
+        deriveKeys(initialValues || EMPTY_OBJ),
+        deriveKeys(values)
+      )
+    );
   };
 
   const handleSubmit = () => {
@@ -112,18 +135,22 @@ const Form = <Values extends object>({
       emit('f');
     };
 
-    return new Promise(resolve => resolve(
-      onSubmit(values, { setErrors: setErrorState, setFormError: setFormErr })))
-        .then((result: any) => {
-          setSubmitting(false);
-          emit('s');
-          if (onSuccess) onSuccess(result, { resetForm });
-        })
-        .catch((e: any) => {
-          setSubmitting(false);
-          emit('s');
-          if (onError) onError(e, { setErrors: setErrorState, setFormError: setFormErr });
-        });
+    return new Promise(resolve =>
+      resolve(
+        onSubmit(values, { setErrors: setErrorState, setFormError: setFormErr })
+      )
+    )
+      .then((result: any) => {
+        setSubmitting(false);
+        emit('s');
+        if (onSuccess) onSuccess(result, { resetForm });
+      })
+      .catch((e: any) => {
+        setSubmitting(false);
+        emit('s');
+        if (onError)
+          onError(e, { setErrors: setErrorState, setFormError: setFormErr });
+      });
   };
 
   // triggers a submit.
@@ -160,6 +187,24 @@ const Form = <Values extends object>({
     isDirty.current,
   ]);
 
+  const change = (fieldId: string, value: any) => {
+    isDirty.current = true;
+    setFieldValue(fieldId, value);
+    emit(fieldId);
+  };
+
+  const toRender =
+    typeof children === 'function'
+      ? children({
+          change,
+          formError,
+          isDirty: isDirty.current,
+          isSubmitting,
+          handleSubmit: submit,
+          resetForm,
+        })
+      : children;
+
   return (
     <formContext.Provider
       value={{
@@ -176,23 +221,20 @@ const Form = <Values extends object>({
           touch(fieldId, value == null ? true : value);
           emit(fieldId);
         },
-        setFieldValue: (fieldId: string, value: any) => {
-          isDirty.current = true;
-          setFieldValue(fieldId, value);
-          emit(fieldId);
-        },
+        setFieldValue: change,
         submit,
         touched: touched as Touched,
         validate: validateForm,
         values,
       }}
     >
-      {noForm ?
-        children :
+      {noForm ? (
+        toRender
+      ) : (
         <form onSubmit={submit} {...formProps}>
-          {children}
+          {toRender}
         </form>
-      }
+      )}
     </formContext.Provider>
   );
 };
