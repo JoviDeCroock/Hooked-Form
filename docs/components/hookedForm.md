@@ -59,3 +59,13 @@ Will apply the style to that form-element.
 CallBag: carries the `props`, `setErrors` and `setFormError` functions.
 SuccessBag: carries the `resetForm` function.
 ErrorBag: Carries the `setErrors` and `setFormError` functions
+
+This component can also be called as a render function which will give you:
+
+```jsx
+const Form = () => (
+  <HookedForm onSubmit={console.log}>
+    {({ change, formError, isDirty, isSubmitting, handleSubmit, resetForm }) => (<form onSubmit={handleSubmit} />)}
+  </HookedForm>
+)
+```
