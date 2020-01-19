@@ -4,8 +4,7 @@ export interface Source {
   [key: string]: any;
 }
 
-// TODO: consider TCO conversion (while).
-export function get(source: Source, key: any): any {
+export function get(source: Source, key: any, index?: number): any {
   return getHelper(source, toPath(key), 0);
 }
 
@@ -14,13 +13,15 @@ function getHelper(source: Source, path: Array<string>, index: number): any {
   return getHelper(source[path[index]], path, index + 1);
 }
 
-// TODO: consider TCO conversion (while).
 export function set(source: Source | Array<any>, key: string, value: any): any {
   return setHelper(source, value, toPath(key), 0);
 }
 
 function setHelper(
-  source: Source | Array<any>, value: any, pathArray: Array<string>, currentIndex: number,
+  source: Source | Array<any>,
+  value: any,
+  pathArray: Array<string>,
+  currentIndex: number
 ): any {
   if (currentIndex >= pathArray.length) return value;
 
@@ -31,8 +32,10 @@ function setHelper(
     source &&
       // @ts-ignore
       (Array.isArray(source) ? source[currentPath] : source[currentPath]),
-      value, pathArray, currentIndex + 1,
-    );
+    value,
+    pathArray,
+    currentIndex + 1
+  );
 
   if (!source) {
     return { [currentPath]: continuedPath };

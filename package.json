@@ -1,6 +1,6 @@
 {
   "name": "hooked-form",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Forms done with React-Hooks",
   "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
   "private": false,
@@ -93,7 +93,9 @@
     }
   },
   "jest": {
-    "setupFilesAfterEnv": ["<rootDir>/__tests__/setup.js"],
+    "setupFilesAfterEnv": [
+      "<rootDir>/__tests__/setup.js"
+    ],
     "preset": "ts-jest",
     "coverageDirectory": "./coverage/",
     "collectCoverage": true,
