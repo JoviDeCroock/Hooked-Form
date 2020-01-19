@@ -1,6 +1,6 @@
 # Releases
 
-## unreleased
+## 4.2.0
 
 - Remove the deprecation of `Form`
 - Add render props to `HookedForm`
