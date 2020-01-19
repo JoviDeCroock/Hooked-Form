@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { set } from './operations';
-import { EMPTY_OBJ } from '../Form';
+import { emit } from '../context/emitter';
+
+export const EMPTY_OBJ = {};
 
 type Output = [
   object,
@@ -8,13 +10,13 @@ type Output = [
   (newState?: object) => void
 ];
 
-// TODO: allow generic
 export default (initial?: object | (() => object)): Output => {
   const data = React.useState(initial || EMPTY_OBJ);
   return [
     data[0],
     (id: string, value: any) => {
       data[1](state => set(state, id, value));
+      emit(id);
     },
     (newState?: object) => {
       data[1](newState || EMPTY_OBJ);

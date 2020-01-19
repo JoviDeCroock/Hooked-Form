@@ -2,7 +2,7 @@ import * as React from 'react';
 import { emit } from './context/emitter';
 import { deriveInitial } from './helpers/deriveInitial';
 import { deriveKeys } from './helpers/deriveKeys';
-import useState from './helpers/useState';
+import useState, { EMPTY_OBJ } from './helpers/useState';
 import { Errors, FormHookContext, InitialValues, Touched } from './types';
 
 export const formContext = React.createContext<FormHookContext>(
@@ -49,8 +49,6 @@ export interface FormOptions<T> {
   validateOnChange?: boolean;
 }
 
-export const EMPTY_OBJ = {};
-
 const Form = <Values extends object>({
   children,
   enableReinitialize,
@@ -80,27 +78,19 @@ const Form = <Values extends object>({
 
   const isDirty = React.useRef(false);
 
-  // The callback to validate our form
   const validateForm = () => {
-    // TO prevent a rerender when we have no validate function and it gets called
-    // we reuse the EMPTY_OBJ since this implies equality for the state-hook and
-    // triggers no render.
-    const validationErrors = validate ? validate(values) : EMPTY_OBJ;
+    const validationErrors = (validate && validate(values)) || EMPTY_OBJ;
     setErrorState(validationErrors);
     emit(
       ([] as Array<string>).concat(
-        // We concat current and new errors to ensure everything
-        // Will be proparly rerendered.
-        deriveKeys(validationErrors || EMPTY_OBJ),
-        deriveKeys(errors || EMPTY_OBJ)
+        deriveKeys(validationErrors),
+        deriveKeys(errors)
       )
     );
-    // We return so we can use this in submit without having to rely
-    // on the state being set.
+
     return validationErrors;
   };
 
-  // Provide a way to reset the full form to the initialValues.
   const resetForm = () => {
     isDirty.current = false;
     setValuesState(initialValues);
@@ -108,8 +98,6 @@ const Form = <Values extends object>({
     setErrorState(initialErrors);
     emit(
       ([] as Array<string>).concat(
-        // We concat current and new values to ensure everything
-        // Will be proparly rerendered.
         deriveKeys(initialValues || EMPTY_OBJ),
         deriveKeys(values)
       )
@@ -117,12 +105,8 @@ const Form = <Values extends object>({
   };
 
   const handleSubmit = () => {
-    // Validate our form
     const fieldErrors = validateForm();
-    // Use the fieldErrors to set touched state on these fields in case
-    // the consumer is checking touched && error ? showError() : null
     setTouchedState(deriveInitial(fieldErrors, true));
-    // If we should skip submitting when invalid AND we have fieldErrors go in here
     if (!shouldSubmitWhenInvalid && deriveKeys(fieldErrors).length > 0) {
       setSubmitting(false);
       return emit('s');
@@ -151,7 +135,6 @@ const Form = <Values extends object>({
       });
   };
 
-  // triggers a submit.
   const submit = (e?: React.SyntheticEvent) => {
     if (e && e.preventDefault) e.preventDefault();
     setSubmitting(true);
@@ -165,12 +148,10 @@ const Form = <Values extends object>({
     if (isSubmitting) handleSubmit();
   }, [isSubmitting]);
 
-  // Make our listener for the reinitialization when need be.
   React.useEffect(() => {
     if (enableReinitialize) resetForm();
   }, [initialValues]);
 
-  // Run validations when needed.
   React.useEffect(() => {
     if (
       (validateOnBlur === undefined || validateOnChange || validateOnBlur) &&
@@ -187,7 +168,6 @@ const Form = <Values extends object>({
   const change = (fieldId: string, value: any) => {
     isDirty.current = true;
     setFieldValue(fieldId, value);
-    emit(fieldId);
   };
 
   const toRender =
@@ -212,11 +192,9 @@ const Form = <Values extends object>({
         resetForm,
         setFieldError: (fieldId: string, error?: any) => {
           setFieldError(fieldId, error);
-          emit(fieldId);
         },
         setFieldTouched: (fieldId: string, value?: boolean) => {
           touch(fieldId, value == null ? true : value);
-          emit(fieldId);
         },
         setFieldValue: change,
         submit,

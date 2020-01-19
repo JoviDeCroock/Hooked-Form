@@ -22,7 +22,6 @@ const OptionsContainer = <Values extends object>({
         mapPropsToValues ? mapPropsToValues(props) : rest.initialValues
       );
 
-      // Make our listener for the reinitialization when need be.
       React.useEffect(
         () => {
           if (enableReinitialize && mapPropsToValues && isMounted)
