@@ -4,8 +4,6 @@ title: Form
 sidebar_label: Form
 ---
 
-> Deprecated!
-
 Form is used to wrap your component, you can pass options in and that will result in your pased component getting a few extra properties.
 
 ## Options
