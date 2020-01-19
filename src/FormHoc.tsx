@@ -14,30 +14,9 @@ const OptionsContainer = <Values extends object>({
 }: FormHocOptions<Values>) => {
   let isMounted = false;
 
-  if (process.env.NODE_ENV !== 'production') {
-    console.warn(
-      'The Higher-order component has been deprecated. use <HookedForm> instead.'
-    );
-  }
-
   return function FormOuterWrapper(
     Component: React.ComponentType<any> | React.FC<any>
   ) {
-    const NewComponent = (props: any) => {
-      const ctx = useContextEmitter(['f', 's']);
-      return (
-        <Component
-          change={ctx.setFieldValue}
-          formError={ctx.formError}
-          handleSubmit={ctx.submit}
-          isSubmitting={ctx.isSubmitting}
-          resetForm={ctx.resetForm}
-          isDirty={ctx.isDirty}
-          {...props}
-        />
-      );
-    };
-
     return function FormWrapper(props: { [property: string]: any }) {
       const { 0: initialValues, 1: setInitialValues } = React.useState(() =>
         mapPropsToValues ? mapPropsToValues(props) : rest.initialValues
@@ -64,7 +43,7 @@ const OptionsContainer = <Values extends object>({
             rest.validateOnBlur === undefined ? false : rest.validateOnBlur
           }
         >
-          <NewComponent {...props} />
+          {form => <Component {...form} {...props} />}
         </Form>
       );
     };

@@ -1,5 +1,10 @@
 # Releases
 
+## unreleased
+
+- Remove the deprecation of `Form`
+- Add render props to `HookedForm`
+
 ## 4.1.0
 
 - The `useSpy` now returns an object with the observed Field data `{ value, error, touched }`
