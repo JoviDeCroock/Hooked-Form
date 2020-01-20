@@ -2,7 +2,7 @@
 
 [![npm version](https://badgen.net/npm/v/hooked-form)](https://www.npmjs.com/package/hooked-form)
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
-[![Build Status](https://travis-ci.org/JoviDeCroock/hooked-form.svg?branch=master)](https://travis-ci.org/JoviDeCroock/hooked-form)
+[![Build Status](https://travis-ci.com/JoviDeCroock/hooked-form.svg?branch=master)](https://travis-ci.com/JoviDeCroock/hooked-form)
 [![Bundle size](https://badgen.net/bundlephobia/minzip/hooked-form)](https://badgen.net/bundlephobia/minzip/hooked-form)
 [![codecov](https://codecov.io/gh/JoviDeCroock/Hooked-Form/branch/master/graph/badge.svg)](https://codecov.io/gh/JoviDeCroock/Hooked-Form)
 
