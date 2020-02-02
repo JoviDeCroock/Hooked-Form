@@ -45,30 +45,32 @@ import { HookedForm, useField } from 'hooked-form';
 
 const StringField = ({ fieldId, label }) => {
   const [{ onChange }, { touched, error, value }] = useField(fieldId);
-  const onInput = React.useCallback((e) => onChange(e.currentTarget.value), [onChange]);
+  const onInput = React.useCallback(e => onChange(e.currentTarget.value), [
+    onChange,
+  ]);
   return (
     <label>
       {label + ' '}
       <input value={value} onChange={onInput} />
       {touched && error && <div>{error}</div>}
     </label>
-  )
-}
+  );
+};
 
 const App = () => {
   return (
     <HookedForm
       onSubmit={console.log}
-      validateOnblur
+      validateOnBlur
       initialValues={React.useMemo(() => ({ name: '' }), [])}
-      validate={values => values.name ? {} : { name: 'Required' }}
+      validate={values => (values.name ? {} : { name: 'Required' })}
     >
       <h3>Hooked Form</h3>
       <StringField label="Name:" fieldId="name" />
       <input type="submit" value="Submit" />
     </HookedForm>
-  )
-}
+  );
+};
 
 render(<App />, document.body);
 ```
@@ -119,6 +121,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
