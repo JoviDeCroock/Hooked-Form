@@ -34,7 +34,8 @@ export interface Payload {
   resetForm: () => void;
 }
 
-export interface FormOptions<T> {
+export interface FormOptions<T>
+  extends Omit<React.HTMLProps<HTMLFormElement>, 'onSubmit' | 'onError'> {
   children?: ((form: Payload) => React.ReactNode) | React.ReactNode;
   enableReinitialize?: boolean;
   initialErrors?: Errors;
