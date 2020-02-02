@@ -3,7 +3,7 @@ import { emit } from './context/emitter';
 import { deriveInitial } from './helpers/deriveInitial';
 import { deriveKeys } from './helpers/deriveKeys';
 import useState, { EMPTY_OBJ } from './helpers/useState';
-import { Errors, FormHookContext, InitialValues, Touched } from './types';
+import { Errors, FormHookContext, Touched } from './types';
 
 export const formContext = React.createContext<FormHookContext>(
   null as any,
@@ -39,13 +39,13 @@ export interface FormOptions<T>
   children?: ((form: Payload) => React.ReactNode) | React.ReactNode;
   enableReinitialize?: boolean;
   initialErrors?: Errors;
-  initialValues?: InitialValues;
+  initialValues?: Partial<T>;
   noForm?: boolean;
   onError?: (error: object, callbag: ErrorBag) => void;
   onSuccess?: (result: any, callbag: SuccessBag) => void;
   onSubmit: (values: Partial<T>, callbag: CallBag) => Promise<any> | any;
   shouldSubmitWhenInvalid?: boolean;
-  validate?: (values: Partial<T>) => object;
+  validate?: (values: Partial<T>) => object | undefined;
   validateOnBlur?: boolean;
   validateOnChange?: boolean;
 }
