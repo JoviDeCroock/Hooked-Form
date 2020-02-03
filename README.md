@@ -116,12 +116,12 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
     <td align="center"><a href="https://www.jovidecroock.com/"><img src="https://avatars3.githubusercontent.com/u/17125876?v=4" width="100px;" alt=""/><br /><sub><b>Jovi De Croock</b></sub></a><br /><a href="#infra-JoviDeCroock" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock" title="Tests">⚠️</a> <a href="https://github.com/JoviDeCroock/hooked-form/pulls?q=is%3Apr+reviewed-by%3AJoviDeCroock" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock" title="Documentation">📖</a> <a href="https://github.com/JoviDeCroock/hooked-form/commits?author=JoviDeCroock" title="Code">💻</a></td>
     <td align="center"><a href="https://www.faktion.com/"><img src="https://avatars3.githubusercontent.com/u/17174776?v=4" width="100px;" alt=""/><br /><sub><b>Jonathan Callewaert</b></sub></a><br /><a href="https://github.com/JoviDeCroock/hooked-form/issues?q=author%3AJonathanCa97" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/arempe93"><img src="https://avatars1.githubusercontent.com/u/4637120?v=4" width="100px;" alt=""/><br /><sub><b>Andrew Rempe</b></sub></a><br /><a href="https://github.com/JoviDeCroock/hooked-form/commits?author=arempe93" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/tatchi"><img src="https://avatars2.githubusercontent.com/u/5595092?v=4" width="100px;" alt=""/><br /><sub><b>Corentin Leruth</b></sub></a><br /><a href="https://github.com/JoviDeCroock/hooked-form/commits?author=tatchi" title="Code">💻</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

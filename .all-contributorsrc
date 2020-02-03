@@ -48,6 +48,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "tatchi",
+      "name": "Corentin Leruth",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/5595092?v=4",
+      "profile": "https://github.com/tatchi",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
