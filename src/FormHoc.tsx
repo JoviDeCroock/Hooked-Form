@@ -1,23 +1,21 @@
 import * as React from 'react';
 import Form, { FormOptions } from './Form';
-import { InitialValues } from './types';
-import { useContextEmitter } from './useContextEmitter';
 
-type FormHocOptions<T> = FormOptions<T> & {
-  mapPropsToValues?: (props: object) => InitialValues;
+type FormHocOptions<T, P> = FormOptions<T> & {
+  mapPropsToValues?: (props: P) => Partial<T>;
 };
 
-const OptionsContainer = <Values extends object>({
+const OptionsContainer = <Values extends object, Props extends object>({
   enableReinitialize,
   mapPropsToValues,
   ...rest
-}: FormHocOptions<Values>) => {
+}: FormHocOptions<Values, Props>) => {
   let isMounted = false;
 
   return function FormOuterWrapper(
     Component: React.ComponentType<any> | React.FC<any>
   ) {
-    return function FormWrapper(props: { [property: string]: any }) {
+    return function FormWrapper(props: Props) {
       const { 0: initialValues, 1: setInitialValues } = React.useState(() =>
         mapPropsToValues ? mapPropsToValues(props) : rest.initialValues
       );

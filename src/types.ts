@@ -10,10 +10,6 @@ export interface Errors {
   [fieldId: string]: string | Array<Errors>;
 }
 
-export interface InitialValues {
-  [fieldId: string]: any;
-}
-
 export interface FormHookContext {
   errors: Errors;
   isDirty?: boolean;
