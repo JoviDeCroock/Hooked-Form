@@ -6,7 +6,7 @@ import useState, { EMPTY_OBJ } from './helpers/useState';
 import { Errors, FormHookContext, Touched } from './types';
 
 export const formContext = React.createContext<FormHookContext>(
-  null as any,
+  EMPTY_OBJ as FormHookContext,
   () => 0
 );
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Form, { FormOptions } from './Form';
 
-type FormHocOptions<T, P> = FormOptions<T> & {
-  mapPropsToValues?: (props: P) => Partial<T>;
+type FormHocOptions<Values, Props> = FormOptions<Values> & {
+  mapPropsToValues?: (props: Props) => Partial<Values>;
 };
 
 const OptionsContainer = <Values extends object, Props extends object>({
