@@ -1,5 +1,5 @@
 function toPath(value: string) {
-  return value.replace(/\[("|')?([^\[\]]+)\1\]/g, '.$2').split('.');
+  return;
 }
 
 export interface Source {
@@ -7,7 +7,11 @@ export interface Source {
 }
 
 export function get(source: Source, key: any, index?: number): any {
-  return getHelper(source, toPath(key), 0);
+  return getHelper(
+    source,
+    key.replace(/\[("|')?([^\[\]]+)\1\]/g, '.$2').split('.'),
+    0
+  );
 }
 
 function getHelper(source: Source, path: Array<string>, index: number): any {
@@ -16,7 +20,12 @@ function getHelper(source: Source, path: Array<string>, index: number): any {
 }
 
 export function set(source: Source | Array<any>, key: string, value: any): any {
-  return setHelper(source, value, toPath(key), 0);
+  return setHelper(
+    source,
+    value,
+    key.replace(/\[("|')?([^\[\]]+)\1\]/g, '.$2').split('.'),
+    0
+  );
 }
 
 function setHelper(
