@@ -27,13 +27,13 @@ export function on(fieldId: string | Array<string>, cb: Force) {
 }
 
 export function emit(fieldId: string | Array<string>) {
-  const visited: Array<string> = [];
+  const visited: Set<string> = new Set();
   if (!Array.isArray(fieldId)) fieldId = [fieldId];
 
   fieldId.map(f => {
-    if (visited.indexOf(f) === -1) {
+    if (!visited.has(f)) {
       (mapping[f] || []).forEach(execute);
-      visited.push(f);
+      visited.add(f);
     }
   });
 
