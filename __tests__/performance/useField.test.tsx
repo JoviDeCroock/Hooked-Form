@@ -3,46 +3,81 @@ import { act, cleanup, render } from '@testing-library/react';
 
 import { HookedForm, useFormConnect, useField } from '../../src';
 
-let renders = 0;
-const StringField = React.memo(() => {
-  const [, { error }] = useField('name')
-  renders +=1;
+let events: string[] = [];
+const StringField = React.memo(({ name }: { name: string }) => {
+  const [, { error }] = useField(name);
+  events.push(`render ${name}`);
   return <p>{error}</p>;
-})
+});
 
 const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
   const TestHookedForm = () => {
     injectedProps = useFormConnect();
-    return <StringField />
-  }
+    return (
+      <div>
+        <StringField name="name" />
+        <StringField name="address" />
+      </div>
+    );
+  };
 
   return {
     getProps: () => injectedProps,
-    ...render(<HookedForm onSubmit={() => null} {...HookedFormOptions}><TestHookedForm {...props} /></HookedForm>),
+    ...render(
+      <HookedForm onSubmit={console.log} {...HookedFormOptions}>
+        <TestHookedForm {...props} />
+      </HookedForm>
+    ),
   };
 };
 
 describe('ErorrMessage', () => {
+  const initialValues = {
+    name: 'HookedForm',
+    family: 'family',
+    friends: [{ id: '1a', name: 'someone' }],
+  };
+
   afterEach(() => {
-    renders = 0;
+    events = [];
     cleanup();
   });
 
-  describe('perHookedFormance', () => {
+  describe('HookedFieldPerformance', () => {
     it('should not rerender when props change or parent rerenders', () => {
-      const { getProps } = makeHookedForm({ initialValues: { name: 'j' } });
+      const { getProps } = makeHookedForm({ initialValues });
       const { setFieldValue } = getProps();
 
-      expect(renders).toBe(1);
+      expect(events).toHaveLength(2);
       act(() => {
         setFieldValue('age', '2');
       });
-      expect(renders).toBe(1);
+
+      expect(events).toHaveLength(2);
       act(() => {
         setFieldValue('name', 'jovi');
       });
-      expect(renders).toBe(2);
-    })
+      expect(events).toHaveLength(3);
+    });
+
+    it('validation', () => {
+      const { getProps } = makeHookedForm({
+        initialValues: { name: 'j' },
+        validate: () => ({}),
+      });
+      const { setFieldValue } = getProps();
+
+      expect(events).toHaveLength(2);
+      act(() => {
+        setFieldValue('age', '2');
+      });
+
+      expect(events).toHaveLength(2);
+      act(() => {
+        setFieldValue('name', 'jovi');
+      });
+      expect(events).toHaveLength(3);
+    });
   });
 });
