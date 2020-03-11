@@ -1,4 +1,6 @@
-import toPath from './toPath';
+function toPath(value: string) {
+  return value.replace(/\[("|')?([^\[\]]+)\1\]/g, '.$2').split('.');
+}
 
 export interface Source {
   [key: string]: any;
@@ -26,6 +28,7 @@ function setHelper(
   if (currentIndex >= pathArray.length) return value;
 
   const currentPath = pathArray[currentIndex];
+
   // At this point we could be dealing with a FieldArray
   // so be cautious not to use Stringed keys, if not it's an object.
   const continuedPath: any = setHelper(
