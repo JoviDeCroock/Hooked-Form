@@ -1,7 +1,3 @@
-function toPath(value: string) {
-  return;
-}
-
 export interface Source {
   [key: string]: any;
 }
