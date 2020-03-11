@@ -4,9 +4,10 @@ interface EmitMap {
   [fieldId: string]: Set<Force>;
 }
 
-const execute = (c: () => void) => {
+const execute = (c: Force) => {
   c();
 };
+
 const mapping: EmitMap = { '*': new Set() };
 
 export function on(fieldId: string | Array<string>, cb: Force) {
@@ -31,8 +32,8 @@ export function emit(fieldId: string | Array<string>) {
   if (!Array.isArray(fieldId)) fieldId = [fieldId];
 
   fieldId.map(f => {
-    if (!visited.has(f)) {
-      (mapping[f] || []).forEach(execute);
+    if (!visited.has(f) && mapping[f]) {
+      mapping[f].forEach(execute);
       visited.add(f);
     }
   });
