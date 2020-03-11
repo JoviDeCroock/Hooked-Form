@@ -12,3 +12,4 @@ mangle.json
 .rpt2_cache
 mangle.json
 ./preact/dist
+.vscode

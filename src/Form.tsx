@@ -2,9 +2,10 @@ import * as React from 'react';
 import { emit } from './context/emitter';
 import { deriveInitial } from './helpers/deriveInitial';
 import { deriveKeys } from './helpers/deriveKeys';
-import useState, { EMPTY_OBJ } from './helpers/useState';
 import { Errors, FormHookContext, Touched } from './types';
+import { set } from './helpers/operations';
 
+const EMPTY_OBJ = {};
 export const formContext = React.createContext<FormHookContext>(
   EMPTY_OBJ as FormHookContext,
   () => 0
@@ -65,14 +66,15 @@ const Form = <Values extends object>({
   validateOnChange,
   ...formProps // used to inject className, onKeyDown and related on the <form>
 }: FormOptions<Values>) => {
-  const { 0: values, 1: setFieldValue, 2: setValuesState } = useState(
-    initialValues
+  const { 0: values, 1: setValues } = React.useState<Partial<Values> | object>(
+    initialValues || EMPTY_OBJ
   );
-  const { 0: touched, 1: touch, 2: setTouchedState } = useState(
-    initialErrors && (() => deriveInitial(initialErrors, true))
+
+  const { 0: touched, 1: setTouched } = React.useState(
+    (initialErrors && (() => deriveInitial(initialErrors, true))) || EMPTY_OBJ
   );
-  const { 0: errors, 1: setFieldError, 2: setErrorState } = useState(
-    initialErrors
+  const { 0: errors, 1: setErrors } = React.useState(
+    initialErrors || EMPTY_OBJ
   );
   const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
   const { 0: formError, 1: setFormError } = React.useState();
@@ -81,11 +83,11 @@ const Form = <Values extends object>({
 
   const validateForm = () => {
     const validationErrors = (validate && validate(values)) || EMPTY_OBJ;
-    setErrorState(validationErrors);
+    setErrors(validationErrors as Errors);
     emit(
       ([] as Array<string>).concat(
         deriveKeys(validationErrors),
-        deriveKeys(errors)
+        deriveKeys(errors as any)
       )
     );
 
@@ -94,9 +96,12 @@ const Form = <Values extends object>({
 
   const resetForm = () => {
     isDirty.current = false;
-    setValuesState(initialValues);
-    setTouchedState(initialErrors && deriveInitial(initialErrors, true));
-    setErrorState(initialErrors);
+    setValues(initialValues || EMPTY_OBJ);
+    if (initialErrors) {
+      setTouched(deriveInitial(initialErrors, true));
+      setErrors(initialErrors);
+    }
+
     emit(
       ([] as Array<string>).concat(
         deriveKeys(initialValues || EMPTY_OBJ),
@@ -107,7 +112,7 @@ const Form = <Values extends object>({
 
   const handleSubmit = () => {
     const fieldErrors = validateForm();
-    setTouchedState(deriveInitial(fieldErrors, true));
+    setTouched(deriveInitial(fieldErrors, true));
     if (!shouldSubmitWhenInvalid && deriveKeys(fieldErrors).length > 0) {
       setSubmitting(false);
       return emit('s');
@@ -119,9 +124,7 @@ const Form = <Values extends object>({
     };
 
     return new Promise(resolve =>
-      resolve(
-        onSubmit(values, { setErrors: setErrorState, setFormError: setFormErr })
-      )
+      resolve(onSubmit(values, { setErrors, setFormError: setFormErr }))
     )
       .then((result: any) => {
         setSubmitting(false);
@@ -131,8 +134,7 @@ const Form = <Values extends object>({
       .catch((e: any) => {
         setSubmitting(false);
         emit('s');
-        if (onError)
-          onError(e, { setErrors: setErrorState, setFormError: setFormErr });
+        if (onError) onError(e, { setErrors, setFormError: setFormErr });
       });
   };
 
@@ -168,7 +170,8 @@ const Form = <Values extends object>({
 
   const change = (fieldId: string, value: any) => {
     isDirty.current = true;
-    setFieldValue(fieldId, value);
+    setValues(state => set(state, fieldId, value));
+    emit(fieldId);
   };
 
   const toRender =
@@ -192,10 +195,14 @@ const Form = <Values extends object>({
         isSubmitting,
         resetForm,
         setFieldError: (fieldId: string, error?: any) => {
-          setFieldError(fieldId, error);
+          setErrors(state => set(state as object, fieldId, error));
+          emit(fieldId);
         },
         setFieldTouched: (fieldId: string, value?: boolean) => {
-          touch(fieldId, value == null ? true : value);
+          setTouched(state =>
+            set(state as object, fieldId, value == null ? true : value)
+          );
+          emit(fieldId);
         },
         setFieldValue: change,
         submit,
