@@ -1,5 +1,13 @@
 # Releases
 
+## 4.2.2
+
+- Perf improvements (internal emitter uses Set)
+
+## 4.2.1
+
+- Size improvements
+
 ## 4.2.0
 
 - Remove the deprecation of `Form`
