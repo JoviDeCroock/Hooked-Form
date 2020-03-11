@@ -170,7 +170,7 @@ const Form = <Values extends object>({
 
   const change = (fieldId: string, value: any) => {
     isDirty.current = true;
-    setValues(state => set(state, fieldId, value));
+    setValues(set(values, fieldId, value));
     emit(fieldId);
   };
 
@@ -195,13 +195,11 @@ const Form = <Values extends object>({
         isSubmitting,
         resetForm,
         setFieldError: (fieldId: string, error?: any) => {
-          setErrors(state => set(state as object, fieldId, error));
+          setErrors(set(errors, fieldId, error));
           emit(fieldId);
         },
         setFieldTouched: (fieldId: string, value?: boolean) => {
-          setTouched(state =>
-            set(state as object, fieldId, value == null ? true : value)
-          );
+          setTouched(set(touched, fieldId, value == null ? true : value));
           emit(fieldId);
         },
         setFieldValue: change,
