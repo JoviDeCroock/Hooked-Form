@@ -1,11 +1,13 @@
-import toPath from './toPath';
-
 export interface Source {
   [key: string]: any;
 }
 
 export function get(source: Source, key: any, index?: number): any {
-  return getHelper(source, toPath(key), 0);
+  return getHelper(
+    source,
+    key.replace(/\[("|')?([^\[\]]+)\1\]/g, '.$2').split('.'),
+    0
+  );
 }
 
 function getHelper(source: Source, path: Array<string>, index: number): any {
@@ -14,7 +16,12 @@ function getHelper(source: Source, path: Array<string>, index: number): any {
 }
 
 export function set(source: Source | Array<any>, key: string, value: any): any {
-  return setHelper(source, value, toPath(key), 0);
+  return setHelper(
+    source,
+    value,
+    key.replace(/\[("|')?([^\[\]]+)\1\]/g, '.$2').split('.'),
+    0
+  );
 }
 
 function setHelper(
@@ -26,6 +33,7 @@ function setHelper(
   if (currentIndex >= pathArray.length) return value;
 
   const currentPath = pathArray[currentIndex];
+
   // At this point we could be dealing with a FieldArray
   // so be cautious not to use Stringed keys, if not it's an object.
   const continuedPath: any = setHelper(
