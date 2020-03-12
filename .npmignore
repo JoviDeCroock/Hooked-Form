@@ -18,6 +18,7 @@ jest.preact.config.json
 /docs
 .rts2_cache_es
 .rts2_cache_umd
+.vscode
 .rts2_cache_cjs
 mangle.json
 .all-contributorsrc
