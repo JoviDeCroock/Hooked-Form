@@ -7,7 +7,7 @@
   "repository": "https://www.github.com/jovidecroock/hooked-form",
   "sideEffects": false,
   "scripts": {
-    "build": "rimraf dist && yarn build:uncompressed && yarn build:minified && yarn cleanup",
+    "build": "rimraf dist && yarn build:uncompressed && yarn cleanup",
     "build:minified": "microbundle --jsx React.createElement --external react --define process.env.NODE_ENV=production --name hookedForm --output dist/prod",
     "build:uncompressed": "microbundle --jsx React.createElement --external react --no-compress --name hookedForm --output dist/",
     "cleanup": "rimraf .rpt2_cache && rimraf .rts2_cache_cjs && rimraf .rts2_cache_umd && rimraf .rts2_cache_es",

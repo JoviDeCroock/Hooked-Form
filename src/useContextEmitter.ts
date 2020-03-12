@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { on } from './context/emitter';
 import { formContext } from './Form';
 import { FormHookContext } from './types';
 
-export const useContextEmitter = (fieldId: string | Array<string>) => {
+export const useContextEmitter = (fieldId: string) => {
   const state = React.useReducer(c => !c, false);
+  const context = React.useContext<FormHookContext>(formContext);
 
   React.useEffect(() => {
-    return on(fieldId, () => {
+    return context.on(fieldId, () => {
       state[1]();
     });
   }, []);
 
-  return React.useContext<FormHookContext>(formContext);
+  return context;
 };

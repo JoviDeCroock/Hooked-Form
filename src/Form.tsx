@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { emit } from './context/emitter';
+import { createEmitter } from './context/emitter';
 import { deriveInitial } from './helpers/deriveInitial';
 import { deriveKeys } from './helpers/deriveKeys';
 import { Errors, FormHookContext, Touched } from './types';
@@ -66,6 +66,8 @@ const Form = <Values extends object>({
   validateOnChange,
   ...formProps // used to inject className, onKeyDown and related on the <form>
 }: FormOptions<Values>) => {
+  const { emit, on } = React.useMemo(createEmitter, []);
+
   const { 0: values, 1: setValues } = React.useState<Partial<Values> | object>(
     initialValues || EMPTY_OBJ
   );
@@ -84,10 +86,11 @@ const Form = <Values extends object>({
   const validateForm = () => {
     const validationErrors = (validate && validate(values)) || EMPTY_OBJ;
     setErrors(validationErrors as Errors);
+    // TODO: this doesn't actually see issues between renders, we could do a shallow-equal?
     emit(
       ([] as Array<string>).concat(
         deriveKeys(validationErrors),
-        deriveKeys(errors as any)
+        deriveKeys(errors)
       )
     );
 
@@ -209,6 +212,7 @@ const Form = <Values extends object>({
         touched: touched as Touched,
         validate: validateForm,
         values,
+        on,
       }}
     >
       {noForm ? (

@@ -1,3 +1,5 @@
+import { Force } from './context/emitter';
+
 export interface Values {
   [fieldId: string]: any;
 }
@@ -23,6 +25,7 @@ export interface FormHookContext {
   touched: Touched;
   validate: () => object;
   values: Values;
+  on: (fieldId: string, cb: Force) => void;
 }
 
 export interface FieldInformation<T> {

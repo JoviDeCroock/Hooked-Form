@@ -1,4 +1,4 @@
-type Force = () => void;
+export type Force = () => void;
 
 interface EmitMap {
   [fieldId: string]: Set<Force>;
@@ -8,35 +8,29 @@ const execute = (c: Force) => {
   c();
 };
 
-const mapping: EmitMap = { '*': new Set() };
+export const createEmitter = () => {
+  const mapping: EmitMap = { '*': new Set() };
 
-export function on(fieldId: string | Array<string>, cb: Force) {
-  if (!Array.isArray(fieldId)) fieldId = [fieldId];
+  function on(fieldId: string, cb: Force) {
+    (mapping[fieldId] || (mapping[fieldId] = new Set())).add(cb);
 
-  const disposers = fieldId.map(f => {
-    (mapping[f] || (mapping[f] = new Set())).add(cb);
     return () => {
-      if (mapping[f].has(cb)) {
-        mapping[f].delete(cb);
-      }
+      mapping[fieldId].delete(cb);
     };
-  });
+  }
 
-  return () => {
-    disposers.map(execute);
-  };
-}
+  function emit(fieldId: string | Array<string>) {
+    const visited: Set<string> = new Set();
+    if (!Array.isArray(fieldId)) fieldId = [fieldId];
 
-export function emit(fieldId: string | Array<string>) {
-  const visited: Set<string> = new Set();
-  if (!Array.isArray(fieldId)) fieldId = [fieldId];
+    fieldId.push('*');
+    fieldId.map(f => {
+      if (!visited.has(f) && mapping[f]) {
+        mapping[f].forEach(execute);
+        visited.add(f);
+      }
+    });
+  }
 
-  fieldId.map(f => {
-    if (!visited.has(f) && mapping[f]) {
-      mapping[f].forEach(execute);
-      visited.add(f);
-    }
-  });
-
-  mapping['*'].forEach(execute);
-}
+  return { on, emit };
+};
