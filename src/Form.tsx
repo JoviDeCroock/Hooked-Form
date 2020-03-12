@@ -85,14 +85,15 @@ const Form = <Values extends object>({
 
   const validateForm = () => {
     const validationErrors = (validate && validate(values)) || EMPTY_OBJ;
-    setErrors(validationErrors as Errors);
-    // TODO: this doesn't actually see issues between renders, we could do a shallow-equal?
-    emit(
-      ([] as Array<string>).concat(
-        deriveKeys(validationErrors),
-        deriveKeys(errors)
-      )
-    );
+    if (JSON.stringify(errors) === JSON.stringify(validationErrors)) {
+      setErrors(validationErrors as Errors);
+      emit(
+        ([] as Array<string>).concat(
+          deriveKeys(validationErrors),
+          deriveKeys(errors)
+        )
+      );
+    }
 
     return validationErrors;
   };
