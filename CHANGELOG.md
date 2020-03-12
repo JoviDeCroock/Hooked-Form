@@ -1,5 +1,10 @@
 # Releases
 
+## 4.2.3
+
+- Every `Form` isntance will now have it's own `emitter`
+- Validation will now be checked for equality and not emit if it hasn't changed deeply
+
 ## 4.2.2
 
 - Perf improvements (internal emitter uses Set)
