@@ -85,7 +85,11 @@ const Form = <Values extends object>({
 
   const validateForm = () => {
     const validationErrors = (validate && validate(values)) || EMPTY_OBJ;
-    if (JSON.stringify(errors) === JSON.stringify(validationErrors)) {
+    if (
+      // Add early bailout for "EMPTY_OBJ"
+      validationErrors !== errors &&
+      JSON.stringify(errors) !== JSON.stringify(validationErrors)
+    ) {
       setErrors(validationErrors as Errors);
       emit(
         ([] as Array<string>).concat(
