@@ -4,16 +4,14 @@ export const deriveKeys = (
 ): Array<string> => {
   parentKey = parentKey || '';
   return Object.keys(obj).reduce<Array<string>>((acc, key) => {
-    const value = obj[key];
-
-    if (Array.isArray(value)) {
-      value.some((v, i) => {
+    if (Array.isArray(obj[key])) {
+      obj[key].some((v: any, i: number) => {
         typeof v === 'object'
           ? acc.push(...deriveKeys(v, `${parentKey}${key}[${i}].`))
           : acc.push(`${parentKey}${key}[${i}]`);
       });
-    } else if (typeof value === 'object') {
-      acc.push(...deriveKeys(value, `${parentKey}${key}.`));
+    } else if (typeof obj[key] === 'object') {
+      acc.push(...deriveKeys(obj[key], `${parentKey}${key}.`));
     } else {
       acc.push(parentKey + key);
     }

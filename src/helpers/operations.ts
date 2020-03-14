@@ -32,28 +32,30 @@ function setHelper(
 ): any {
   if (currentIndex >= pathArray.length) return value;
 
-  const currentPath = pathArray[currentIndex];
-
   // At this point we could be dealing with a FieldArray
   // so be cautious not to use Stringed keys, if not it's an object.
   const continuedPath: any = setHelper(
     source &&
       // @ts-ignore
-      (Array.isArray(source) ? source[currentPath] : source[currentPath]),
+      (Array.isArray(source)
+        ? source[pathArray[currentIndex]]
+        : source[pathArray[currentIndex]]),
     value,
     pathArray,
     currentIndex + 1
   );
 
   if (!source) {
-    return { [currentPath]: continuedPath };
+    return { [pathArray[currentIndex]]: continuedPath };
   }
 
   // FieldArray copying.
   if (Array.isArray(source)) {
-    source[Number(currentPath)] = continuedPath;
+    source[Number(pathArray[currentIndex])] = continuedPath;
     return source;
   }
 
-  return Object.assign({}, source, { [currentPath]: continuedPath });
+  return Object.assign({}, source, {
+    [pathArray[currentIndex]]: continuedPath,
+  });
 }
