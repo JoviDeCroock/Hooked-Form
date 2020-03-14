@@ -43,7 +43,15 @@ function setHelper(
   );
 
   if (!source) {
-    return { [pathArray[currentIndex]]: continuedPath };
+    // @ts-ignore
+    if (isNaN(pathArray[currentIndex])) {
+      return { [pathArray[currentIndex]]: continuedPath };
+    }
+
+    const result: any[] = [];
+    // @ts-ignore
+    result[pathArray[currentIndex]] = continuedPath;
+    return result;
   }
 
   // FieldArray copying.
