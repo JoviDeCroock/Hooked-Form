@@ -35,11 +35,8 @@ function setHelper(
   // At this point we could be dealing with a FieldArray
   // so be cautious not to use Stringed keys, if not it's an object.
   const continuedPath: any = setHelper(
-    source &&
-      // @ts-ignore
-      (Array.isArray(source)
-        ? source[pathArray[currentIndex]]
-        : source[pathArray[currentIndex]]),
+    // @ts-ignore
+    source && source[pathArray[currentIndex]],
     value,
     pathArray,
     currentIndex + 1
