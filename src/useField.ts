@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { get } from './helpers/operations';
 import { FieldInformation } from './types';
 import { useContextEmitter } from './useContextEmitter';
@@ -24,7 +24,7 @@ export default function useField<T = any>(
 
   const ctx = useContextEmitter(fieldId);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (validate) ctx.fieldValidators.push([fieldId, validate]);
   }, []);
 

@@ -66,7 +66,7 @@ const Form = <Values extends object>({
   validateOnChange,
   ...formProps // used to inject className, onKeyDown and related on the <form>
 }: FormOptions<Values>) => {
-  const { emit, on } = React.useMemo(createEmitter, []);
+  const emitter = React.useMemo(createEmitter, []);
   const fieldValidators = React.useRef<ValidationTuple[]>([]);
 
   const { 0: values, 1: setValues } = React.useState<Partial<Values> | object>(
@@ -99,7 +99,7 @@ const Form = <Values extends object>({
       JSON.stringify(errors) !== JSON.stringify(validationErrors)
     ) {
       setErrors(validationErrors as Errors);
-      emit(
+      emitter.emit(
         ([] as Array<string>).concat(
           deriveKeys(validationErrors),
           deriveKeys(errors)
@@ -118,7 +118,7 @@ const Form = <Values extends object>({
       setErrors(initialErrors);
     }
 
-    emit(
+    emitter.emit(
       ([] as Array<string>).concat(
         deriveKeys(initialValues || EMPTY_OBJ),
         deriveKeys(values)
@@ -126,46 +126,47 @@ const Form = <Values extends object>({
     );
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e?: React.SyntheticEvent) => {
+    if (e && e.preventDefault) e.preventDefault();
+    setSubmitting(true);
+    emitter.emit('s');
     const fieldErrors = validateForm();
     setTouched(deriveInitial(fieldErrors, true));
+
     if (!shouldSubmitWhenInvalid && deriveKeys(fieldErrors).length > 0) {
       setSubmitting(false);
-      return emit('s');
+      return emitter.emit('s');
     }
 
-    const setFormErr = (err: string) => {
-      setFormError(err);
-      emit('f');
-    };
-
     return new Promise(resolve =>
-      resolve(onSubmit(values, { setErrors, setFormError: setFormErr }))
+      resolve(
+        onSubmit(values, {
+          setErrors,
+          setFormError: (err: string) => {
+            setFormError(err);
+            emitter.emit('f');
+          },
+        })
+      )
     )
       .then((result: any) => {
         setSubmitting(false);
-        emit('s');
+        emitter.emit('s');
         if (onSuccess) onSuccess(result, { resetForm });
       })
       .catch((e: any) => {
         setSubmitting(false);
-        emit('s');
-        if (onError) onError(e, { setErrors, setFormError: setFormErr });
+        emitter.emit('s');
+        if (onError)
+          onError(e, {
+            setErrors,
+            setFormError: (err: string) => {
+              setFormError(err);
+              emitter.emit('f');
+            },
+          });
       });
   };
-
-  const submit = (e?: React.SyntheticEvent) => {
-    if (e && e.preventDefault) e.preventDefault();
-    setSubmitting(true);
-    emit('s');
-  };
-
-  React.useEffect(() => {
-    // This convenience method ensures we don't have to pass handleSubmit
-    // to the context/childComponent (since this rebinds on every value change)
-    // This avoids a lot of rerenders
-    if (isSubmitting) handleSubmit();
-  }, [isSubmitting]);
 
   React.useEffect(() => {
     if (enableReinitialize) resetForm();
@@ -187,7 +188,7 @@ const Form = <Values extends object>({
   const change = (fieldId: string, value: any) => {
     isDirty.current = true;
     setValues(state => set(state, fieldId, value));
-    emit(fieldId);
+    emitter.emit(fieldId);
   };
 
   const toRender =
@@ -197,7 +198,7 @@ const Form = <Values extends object>({
           formError,
           isDirty: isDirty.current,
           isSubmitting,
-          handleSubmit: submit,
+          handleSubmit,
           resetForm,
         })
       : children;
@@ -212,27 +213,27 @@ const Form = <Values extends object>({
         resetForm,
         setFieldError: (fieldId: string, error?: any) => {
           setErrors(state => set(state as object, fieldId, error));
-          emit(fieldId);
+          emitter.emit(fieldId);
         },
         setFieldTouched: (fieldId: string, value?: boolean) => {
           setTouched(state =>
             set(state as object, fieldId, value == null ? true : value)
           );
-          emit(fieldId);
+          emitter.emit(fieldId);
         },
         setFieldValue: change,
-        submit,
+        submit: handleSubmit,
         touched: touched as Touched,
         validate: validateForm,
         values,
-        on,
+        on: emitter.on,
         fieldValidators: fieldValidators.current,
       }}
     >
       {noForm ? (
         toRender
       ) : (
-        <form onSubmit={submit} {...formProps}>
+        <form onSubmit={handleSubmit} {...formProps}>
           {toRender}
         </form>
       )}
