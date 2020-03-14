@@ -2,8 +2,8 @@ import * as React from 'react';
 import { createEmitter } from './context/emitter';
 import { deriveInitial } from './helpers/deriveInitial';
 import { deriveKeys } from './helpers/deriveKeys';
-import { Errors, FormHookContext, Touched } from './types';
-import { set } from './helpers/operations';
+import { Errors, FormHookContext, Touched, ValidationTuple } from './types';
+import { set, get } from './helpers/operations';
 
 const EMPTY_OBJ = {};
 export const formContext = React.createContext<FormHookContext>(
@@ -67,6 +67,7 @@ const Form = <Values extends object>({
   ...formProps // used to inject className, onKeyDown and related on the <form>
 }: FormOptions<Values>) => {
   const { emit, on } = React.useMemo(createEmitter, []);
+  const fieldValidators = React.useRef<ValidationTuple[]>([]);
 
   const { 0: values, 1: setValues } = React.useState<Partial<Values> | object>(
     initialValues || EMPTY_OBJ
@@ -85,6 +86,13 @@ const Form = <Values extends object>({
 
   const validateForm = () => {
     const validationErrors = (validate && validate(values)) || EMPTY_OBJ;
+    fieldValidators.current.some(tuple => {
+      const error = tuple[1](get(values, tuple[0]));
+      if (error) {
+        set(validationErrors, tuple[0], error);
+      }
+    });
+
     if (
       // Add early bailout for "EMPTY_OBJ"
       validationErrors !== errors &&
@@ -218,6 +226,7 @@ const Form = <Values extends object>({
         validate: validateForm,
         values,
         on,
+        fieldValidators: fieldValidators.current,
       }}
     >
       {noForm ? (
