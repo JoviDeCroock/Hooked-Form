@@ -186,6 +186,21 @@ describe('HookedForm', () => {
     expect(formError).toEqual('hi');
   });
 
+  it('errors correctly', async () => {
+    const onSubmit = () => {
+      throw new Error('hi');
+    };
+
+    const { getProps } = makeHookedForm({ onSubmit });
+    const { submit } = getProps();
+
+    await act(async () => {
+      await submit();
+    });
+
+    expect(true).toBe(true);
+  });
+
   it('uses the ErrorBag methods correctly', async () => {
     const spy = { preventDefault: jest.fn() };
     // @ts-ignore
