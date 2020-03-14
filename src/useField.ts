@@ -11,7 +11,7 @@ export interface FieldOperations<T> {
 
 export default function useField<T = any>(
   fieldId: string,
-  validate: (value: T) => string | undefined
+  validate?: (value: T) => string | undefined
 ): [FieldOperations<T>, FieldInformation<T>] {
   if (
     process.env.NODE_ENV !== 'production' &&
@@ -25,7 +25,7 @@ export default function useField<T = any>(
   const ctx = useContextEmitter(fieldId);
 
   React.useEffect(() => {
-    ctx.fieldValidators.push([fieldId, validate]);
+    if (validate) ctx.fieldValidators.push([fieldId, validate]);
   }, []);
 
   return [
