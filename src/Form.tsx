@@ -85,13 +85,18 @@ const Form = <Values extends object>({
   const isDirty = React.useRef(false);
 
   const validateForm = () => {
-    const validationErrors = (validate && validate(values)) || EMPTY_OBJ;
+    let validationErrors = (validate && validate(values)) || EMPTY_OBJ;
     fieldValidators.current.some(tuple => {
-      const error = tuple[1](get(values, tuple[0]));
-      if (error) {
-        set(validationErrors, tuple[0], error);
-      }
+      validationErrors = set(
+        validationErrors,
+        tuple[0],
+        tuple[1](get(values, tuple[0]))
+      );
     });
+
+    // When we have fieldValidation we should remove the properties that return undefiend
+    if (fieldValidators.current.length)
+      validationErrors = JSON.parse(JSON.stringify(validationErrors));
 
     if (
       // Add early bailout for "EMPTY_OBJ"
@@ -148,13 +153,13 @@ const Form = <Values extends object>({
           },
         })
       )
-    )
-      .then((result: any) => {
+    ).then(
+      (result: any) => {
         setSubmitting(false);
         emitter.emit('s');
         if (onSuccess) onSuccess(result, { resetForm });
-      })
-      .catch((e: any) => {
+      },
+      (e: any) => {
         setSubmitting(false);
         emitter.emit('s');
         if (onError)
@@ -165,7 +170,8 @@ const Form = <Values extends object>({
               emitter.emit('f');
             },
           });
-      });
+      }
+    );
   };
 
   React.useEffect(() => {
@@ -215,10 +221,8 @@ const Form = <Values extends object>({
           setErrors(state => set(state as object, fieldId, error));
           emitter.emit(fieldId);
         },
-        setFieldTouched: (fieldId: string, value?: boolean) => {
-          setTouched(state =>
-            set(state as object, fieldId, value == null ? true : value)
-          );
+        setFieldTouched: (fieldId: string, value: boolean) => {
+          setTouched(state => set(state as object, fieldId, value));
           emitter.emit(fieldId);
         },
         setFieldValue: change,

@@ -171,7 +171,9 @@ describe('HookedForm', () => {
     const onSubmit = () => {
       throw new Error('hi');
     };
-    const onError = jest.fn();
+    const onError = jest.fn((e, { setFormError }) => {
+      setFormError(e.message);
+    });
     const { getProps } = makeHookedForm({ onSubmit, onError });
     const { submit } = getProps();
 
@@ -180,6 +182,8 @@ describe('HookedForm', () => {
     });
 
     expect(onError).toBeCalledTimes(1);
+    const { formError } = getProps();
+    expect(formError).toEqual('hi');
   });
 
   it('uses the ErrorBag methods correctly', async () => {
