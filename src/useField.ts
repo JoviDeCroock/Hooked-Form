@@ -25,7 +25,13 @@ export default function useField<T = any>(
   const ctx = useContextEmitter(fieldId);
 
   useEffect(() => {
-    if (validate) ctx.fieldValidators.push([fieldId, validate]);
+    let index: number;
+    if (validate) index = ctx.fieldValidators.push([fieldId, validate]);
+    return () => {
+      if (index) {
+        ctx.fieldValidators.splice(index, 1);
+      }
+    };
   }, []);
 
   return [

@@ -56,7 +56,8 @@ function setHelper(
 
   // FieldArray copying.
   if (Array.isArray(source)) {
-    source[Number(pathArray[currentIndex])] = continuedPath;
+    // @ts-ignore
+    source[pathArray[currentIndex]] = continuedPath;
     return source;
   }
 
