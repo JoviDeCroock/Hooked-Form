@@ -29,7 +29,7 @@ export default function useField<T = any>(
     if (validate) index = ctx.fieldValidators.push([fieldId, validate]);
     return () => {
       if (index) {
-        ctx.fieldValidators.splice(index, 1);
+        ctx.fieldValidators.splice(index - 1, 1);
       }
     };
   }, []);
