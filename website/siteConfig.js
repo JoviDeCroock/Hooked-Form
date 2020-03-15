@@ -12,8 +12,8 @@ const siteConfig = {
   title: 'Hooked-Form',
   tagline: "You will get hooked.",
   url: 'https://jovidecroock.github.io',
-  baseUrl: '/hooked-form/',
-  projectName: 'hooked-form',
+  baseUrl: '/Hooked-Form/',
+  projectName: 'Hooked-Form',
   organizationName: 'jovidecroock',
 
   // For no header links in the top nav bar -> headerLinks: [],
