@@ -1,5 +1,5 @@
 {
-  "projectName": "hooked-form",
+  "projectName": "Hooked-Form",
   "projectOwner": "JoviDeCroock",
   "repoType": "github",
   "repoHost": "https://github.com",
@@ -55,7 +55,8 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/5595092?v=4",
       "profile": "https://github.com/tatchi",
       "contributions": [
-        "code"
+        "code",
+        "bug"
       ]
     }
   ],
