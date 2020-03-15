@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { get } from './helpers/operations';
 import { FieldInformation } from './types';
 import { useContextEmitter } from './useContextEmitter';
@@ -9,7 +10,8 @@ export interface FieldOperations<T> {
 }
 
 export default function useField<T = any>(
-  fieldId: string
+  fieldId: string,
+  validate?: (value: T) => string | undefined
 ): [FieldOperations<T>, FieldInformation<T>] {
   if (
     process.env.NODE_ENV !== 'production' &&
@@ -21,6 +23,17 @@ export default function useField<T = any>(
   }
 
   const ctx = useContextEmitter(fieldId);
+
+  useEffect(() => {
+    let index: number;
+    if (validate) index = ctx.fieldValidators.push([fieldId, validate]);
+    return () => {
+      if (index) {
+        ctx.fieldValidators.splice(index - 1, 1);
+      }
+    };
+  }, []);
+
   return [
     {
       onBlur: () => {

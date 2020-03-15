@@ -47,10 +47,9 @@ export default function useFieldArray<T = any>(
         ctx.setFieldValue(fieldId, result);
       },
       remove: (index: number) => {
-        ctx.setFieldValue(
-          fieldId,
-          value.filter((_, i) => i !== index)
-        );
+        const result = [...value];
+        result.splice(index, 1);
+        ctx.setFieldValue(fieldId, result);
       },
       replace: (at: number, element: T) => {
         const result = [...value];

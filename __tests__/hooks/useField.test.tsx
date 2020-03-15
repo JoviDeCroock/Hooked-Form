@@ -1,10 +1,18 @@
-
 import * as React from 'react';
 import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import { HookedForm, useFormConnect, useField } from '../../src';
 
-const StringField = ({ fieldId }: { fieldId: string }) => {
-  const [{ onBlur, onChange, onFocus }, { value, touched, error }] = useField(fieldId)
+const StringField = ({
+  fieldId,
+  val,
+}: {
+  fieldId: string;
+  val?: (value: any) => string | undefined;
+}) => {
+  const [{ onBlur, onChange, onFocus }, { value, touched, error }] = useField(
+    fieldId,
+    val as any
+  );
   return (
     <React.Fragment>
       <input
@@ -15,10 +23,12 @@ const StringField = ({ fieldId }: { fieldId: string }) => {
         value={value}
       />
       <p data-testid={`${fieldId}-error`}>{error}</p>
-      <p data-testid={`${fieldId}-touched`}>{touched ? 'touched' : 'untouched'}</p>
+      <p data-testid={`${fieldId}-touched`}>
+        {touched ? 'touched' : 'untouched'}
+      </p>
     </React.Fragment>
-  )
-}
+  );
+};
 
 const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
@@ -26,11 +36,14 @@ const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
     injectedProps = useFormConnect();
     return (
       <React.Fragment>
-        <StringField fieldId="name" />
+        <StringField
+          fieldId="name"
+          val={props && (props as any).nameValidate}
+        />
         <StringField fieldId="age" />
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   return {
     getProps: () => injectedProps,
@@ -46,8 +59,8 @@ const validate = (values: { [fieldId: string]: any }) => {
   return {
     age: values.age && values.age > 2 ? undefined : 'bad',
     name: values.name && values.name.length > 2 ? undefined : 'bad',
-  }
-}
+  };
+};
 
 describe('useField', () => {
   afterEach(() => cleanup());
@@ -62,13 +75,13 @@ describe('useField', () => {
 
       const nameField = getByTestId('name');
       act(() => {
-        fireEvent.change(nameField, {target: {value: 'upper'}})
+        fireEvent.change(nameField, { target: { value: 'upper' } });
       });
 
       expect((nameField as any).value).toEqual('upper');
 
       act(() => {
-        fireEvent.change(nameField, {target: {value: 'u'}})
+        fireEvent.change(nameField, { target: { value: 'u' } });
       });
 
       expect((nameField as any).value).toEqual('u');
@@ -77,7 +90,7 @@ describe('useField', () => {
       expect(nameErrorField.textContent).toEqual('bad');
 
       act(() => {
-        fireEvent.change(nameField, {target: {value: 'upper'}})
+        fireEvent.change(nameField, { target: { value: 'upper' } });
       });
 
       expect(nameErrorField.textContent).toEqual('');
@@ -93,29 +106,73 @@ describe('useField', () => {
       const nameField = getByTestId('name');
       const nameErrorField = getByTestId('name-error');
       act(() => {
-        fireEvent.change(nameField, {target: {value: 'upper'}})
+        fireEvent.change(nameField, { target: { value: 'upper' } });
       });
 
       expect((nameField as any).value).toEqual('upper');
 
       act(() => {
-        fireEvent.change(nameField, {target: {value: 'u'}})
+        fireEvent.change(nameField, { target: { value: 'u' } });
       });
 
       expect((nameField as any).value).toEqual('u');
 
       act(() => {
-        fireEvent.blur(nameField)
+        fireEvent.blur(nameField);
       });
 
       expect(nameErrorField.textContent).toEqual('bad');
 
       act(() => {
-        fireEvent.focus(nameField)
+        fireEvent.focus(nameField);
       });
 
       const touched = getByTestId('name-touched');
       expect(touched.innerHTML).toBe('untouched');
+    });
+
+    it('should support field validation', () => {
+      const { getByTestId } = makeHookedForm(
+        {
+          validateOnBlur: true,
+          validateOnChange: false,
+        },
+        {
+          // @ts-ignore
+          nameValidate: (val: any) => (val === 'upper' ? 'bad' : undefined),
+        }
+      );
+
+      const nameField = getByTestId('name');
+      const nameErrorField = getByTestId('name-error');
+      act(() => {
+        fireEvent.change(nameField, { target: { value: 'upper' } });
+      });
+
+      expect((nameField as any).value).toEqual('upper');
+
+      act(() => {
+        fireEvent.blur(nameField);
+      });
+
+      expect(nameErrorField.textContent).toEqual('bad');
+
+      act(() => {
+        fireEvent.focus(nameField);
+      });
+
+      const touched = getByTestId('name-touched');
+      expect(touched.innerHTML).toBe('untouched');
+
+      act(() => {
+        fireEvent.change(nameField, { target: { value: 'jovi' } });
+      });
+
+      act(() => {
+        fireEvent.blur(nameField);
+      });
+
+      expect(nameErrorField.textContent).toEqual('');
     });
   });
 });

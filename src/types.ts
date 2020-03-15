@@ -12,6 +12,8 @@ export interface Errors {
   [fieldId: string]: string | Array<Errors>;
 }
 
+export type ValidationTuple = [string, (value: any) => string | undefined];
+
 export interface FormHookContext {
   errors: Errors;
   isDirty?: boolean;
@@ -26,6 +28,7 @@ export interface FormHookContext {
   validate: () => object;
   values: Values;
   on: (fieldId: string, cb: Force) => void;
+  fieldValidators: ValidationTuple[];
 }
 
 export interface FieldInformation<T> {
