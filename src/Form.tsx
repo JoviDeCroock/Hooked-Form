@@ -66,26 +66,29 @@ const Form = <Values extends object>({
   validateOnChange,
   ...formProps // used to inject className, onKeyDown and related on the <form>
 }: FormOptions<Values>) => {
-  const emitter = React.useMemo(createEmitter, []);
   const fieldValidators = React.useRef<ValidationTuple[]>([]);
+  const isDirty = React.useRef(false);
 
   const { 0: values, 1: setValues } = React.useState<Partial<Values> | object>(
     initialValues || EMPTY_OBJ
   );
 
-  const { 0: touched, 1: setTouched } = React.useState(
-    (initialErrors && (() => deriveInitial(initialErrors, true))) || EMPTY_OBJ
-  );
-  const { 0: errors, 1: setErrors } = React.useState(
+  const { 0: touched, 1: setTouched } = React.useState<
+    Partial<Touched> | object
+  >((initialErrors && (() => deriveInitial(initialErrors, true))) || EMPTY_OBJ);
+
+  const { 0: errors, 1: setErrors } = React.useState<Partial<Errors> | object>(
     initialErrors || EMPTY_OBJ
   );
+
   const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
   const { 0: formError, 1: setFormError } = React.useState();
 
-  const isDirty = React.useRef(false);
+  const emitter = React.useMemo(createEmitter, []);
 
   const validateForm = () => {
     let validationErrors = (validate && validate(values)) || EMPTY_OBJ;
+
     fieldValidators.current.some(tuple => {
       validationErrors = set(
         validationErrors,
@@ -99,7 +102,7 @@ const Form = <Values extends object>({
       validationErrors = JSON.parse(JSON.stringify(validationErrors));
 
     if (
-      // Add early bailout for "EMPTY_OBJ"
+      // Eager bailout for the EMPTY_OBJ case.
       validationErrors !== errors &&
       JSON.stringify(errors) !== JSON.stringify(validationErrors)
     ) {

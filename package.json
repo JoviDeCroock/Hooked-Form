@@ -1,6 +1,6 @@
 {
   "name": "hooked-form",
-  "version": "4.2.3",
+  "version": "4.3.0-beta.0",
   "description": "Forms done with React-Hooks",
   "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
   "private": false,

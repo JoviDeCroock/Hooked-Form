@@ -1,5 +1,9 @@
 # Releases
 
+## 4.3.0
+
+- Add second argument to `useField` used to validate fields.
+
 ## 4.2.3
 
 - Every `Form` isntance will now have it's own `emitter`
