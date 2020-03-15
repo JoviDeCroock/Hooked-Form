@@ -78,4 +78,17 @@ control the values on a field.</p>
 <li>value, the current value for this field</li>
 <li>touched, whether or not your user has visited this field.</li>
 </ul>
+<p>The <code>useField</code> hook accepts a second argument, a validation function.</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> StringField = <span class="hljs-function">(<span class="hljs-params">{ fieldId }</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> [{ onChange, onBlur, onFocus }, { value, touched, error }] = useField(fieldId, (value) =&gt; value === <span class="hljs-string">'x'</span> ? <span class="hljs-string">'error'</span>: <span class="hljs-literal">undefined</span>);
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Fragment</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">onBlur</span>=<span class="hljs-string">{onBlur}</span> <span class="hljs-attr">onFocus</span>=<span class="hljs-string">{onFocus}</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{e</span> =&gt;</span> onChange(e.target.value)} value={value} /&gt;
+      {touched &amp;&amp; error &amp;&amp; <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{error}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Fragment</span>&gt;</span></span>
+  )
+};
+</code></pre>
+<p>You can return an error-string or <code>undefined</code> this will set the error after the <code>Form.validate</code> so you can combine the two for simple
+and complex validation.</p>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/Hooked-Form/docs/components/form"><span class="arrow-prev">← </span><span>Form</span></a><a class="docs-next button" href="/Hooked-Form/docs/hooks/useError"><span class="function-name-prevnext">useError</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>Docs</h5><a href="/Hooked-Form/docs/en/components/form">API</a></div><div><h5>Community</h5><a href="https://twitter.com/JoviDeC" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="https://github.com/JoviDeCroock/Hooked-Form">GitHub</a><a class="github-button" href="https://github.com/JoviDeCroock/Hooked-Form" data-icon="octicon-star" data-count-href="/JoviDeCroock/Hooked-Form/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2020 Jovi De Croock</section></footer></div></body></html>
