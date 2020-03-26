@@ -2,7 +2,13 @@ import * as React from 'react';
 import { createEmitter } from './context/emitter';
 import { deriveInitial } from './helpers/deriveInitial';
 import { deriveKeys } from './helpers/deriveKeys';
-import { Errors, FormHookContext, Touched, ValidationTuple } from './types';
+import {
+  Errors,
+  FormHookContext,
+  Touched,
+  ValidationTuple,
+  FormOptions,
+} from './types';
 import { set, get } from './helpers/operations';
 
 const EMPTY_OBJ = {};
@@ -10,46 +16,6 @@ export const formContext = React.createContext<FormHookContext>(
   EMPTY_OBJ as FormHookContext,
   () => 0
 );
-
-export interface SuccessBag {
-  resetForm: () => void;
-}
-
-export interface ErrorBag {
-  setErrors: (errors: Errors) => void;
-  setFormError: (error: string) => void;
-}
-
-export interface CallBag {
-  props?: object;
-  setErrors: (errors: Errors) => void;
-  setFormError: (error: string) => void;
-}
-
-export interface Payload {
-  change: (fieldId: string, value: any) => void;
-  formError?: string | null;
-  isDirty?: boolean | null;
-  isSubmitting?: boolean | null;
-  handleSubmit: (e?: React.SyntheticEvent) => void;
-  resetForm: () => void;
-}
-
-export interface FormOptions<T>
-  extends Omit<React.HTMLProps<HTMLFormElement>, 'onSubmit' | 'onError'> {
-  children?: ((form: Payload) => React.ReactNode) | React.ReactNode;
-  enableReinitialize?: boolean;
-  initialErrors?: Errors;
-  initialValues?: Partial<T>;
-  noForm?: boolean;
-  onError?: (error: object, callbag: ErrorBag) => void;
-  onSuccess?: (result: any, callbag: SuccessBag) => void;
-  onSubmit: (values: Partial<T>, callbag: CallBag) => Promise<any> | any;
-  shouldSubmitWhenInvalid?: boolean;
-  validate?: (values: Partial<T>) => object | undefined;
-  validateOnBlur?: boolean;
-  validateOnChange?: boolean;
-}
 
 const Form = <Values extends object>({
   children,
@@ -186,7 +152,9 @@ const Form = <Values extends object>({
       (validateOnBlur === undefined || validateOnChange || validateOnBlur) &&
       isDirty.current
     ) {
-      validateForm();
+      (typeof queueMicrotask === 'function' ? queueMicrotask : setTimeout)(
+        validateForm
+      );
     }
   }, [
     validateOnBlur === undefined ? touched : validateOnBlur && touched,

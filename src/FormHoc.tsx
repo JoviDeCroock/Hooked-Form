@@ -1,5 +1,6 @@
 import * as React from 'react';
-import Form, { FormOptions } from './Form';
+import Form from './Form';
+import { FormOptions, FormHookContext } from './types';
 
 type FormHocOptions<Values, Props> = FormOptions<Values> & {
   mapPropsToValues?: (props: Props) => Partial<Values>;
@@ -40,7 +41,7 @@ const OptionsContainer = <Values extends object, Props extends object>({
             rest.validateOnBlur === undefined ? false : rest.validateOnBlur
           }
         >
-          {form => <Component {...form} {...props} />}
+          {(form: FormHookContext) => <Component {...form} {...props} />}
         </Form>
       );
     };
