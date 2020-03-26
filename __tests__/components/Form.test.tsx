@@ -84,13 +84,11 @@ describe('HookedForm', () => {
     const { setFieldError } = getProps();
     act(() => {
       setFieldError('name', 'error');
-      // setFieldError('friends[0].name', 'err');
       setFieldError('house.name', 'invalid');
     });
 
     const { errors } = getProps();
     expect(errors.name).toEqual('error');
-    // expect(errors.fiends[0].name).toEqual('err');
     expect(errors.house.name).toEqual('invalid');
   });
 
@@ -99,9 +97,11 @@ describe('HookedForm', () => {
     const { getProps } = makeHookedForm({ validate, validateOnChange: true });
     expect(getProps().isDirty).toBe(false);
     let { setFieldValue } = getProps();
+    jest.useFakeTimers();
     act(() => {
       setFieldValue('name', 'joviMutated');
     });
+    jest.runAllTimers();
     expect(getProps().isDirty).toBe(true);
     expect(validate).toBeCalledTimes(1);
 
@@ -109,6 +109,7 @@ describe('HookedForm', () => {
     act(() => {
       setFieldValue('name', 'joviMutated');
     });
+    jest.runAllTimers();
     expect(validate).toBeCalledTimes(2);
   });
 

@@ -143,9 +143,11 @@ describe('HookedForm', () => {
     const { getProps } = makeHookedForm({ validate, validateOnChange: true });
     expect(getProps().isDirty).toBe(false);
     let { setFieldValue } = getProps();
+    jest.useFakeTimers();
     act(() => {
       setFieldValue('name', 'joviMutated');
     });
+    jest.runAllTimers();
     expect(getProps().isDirty).toBe(true);
     expect(validate).toBeCalledTimes(1);
 
@@ -153,6 +155,7 @@ describe('HookedForm', () => {
     act(() => {
       setFieldValue('name', 'joviMutated');
     });
+    jest.runAllTimers();
     expect(validate).toBeCalledTimes(2);
   });
 

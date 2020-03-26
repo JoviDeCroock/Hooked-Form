@@ -4,7 +4,7 @@ import { act, cleanup, fireEvent, render } from '@testing-library/react';
 import { HookedForm, useFormConnect, useFieldArray, useField } from '../../src';
 
 const StringField = ({ fieldId }: { fieldId: string }) => {
-  const [{ onChange, onBlur }, { error, value }] = useField(fieldId)
+  const [{ onChange, onBlur }, { error, value }] = useField(fieldId);
   return (
     <React.Fragment>
       <input
@@ -15,44 +15,72 @@ const StringField = ({ fieldId }: { fieldId: string }) => {
       />
       <p data-testid={`${fieldId}-error`}>{error}</p>
     </React.Fragment>
-  )
-}
+  );
+};
 
 const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
   const TestHookedForm = () => {
     const fieldId = 'friends';
-    const [{ add, remove, swap, insert, move, replace }, { value }] = useFieldArray(fieldId);
-    injectedProps = { ...useFormConnect(), value }
+    const [
+      { add, remove, swap, insert, move, replace },
+      { value },
+    ] = useFieldArray(fieldId);
+    injectedProps = { ...useFormConnect(), value };
     return (
       <React.Fragment>
         {value.map((val: object, i: number) => (
           <React.Fragment key={fieldId + i}>
             <StringField fieldId={`${fieldId}[${i}].name`} />
-            <button data-testid={`remove-element-${i}`} onClick={() => remove(i)}>Delete</button>
+            <button
+              data-testid={`remove-element-${i}`}
+              onClick={() => remove(i)}
+            >
+              Delete
+            </button>
           </React.Fragment>
         ))}
-        <button data-testid="add-element" onClick={() => add({ name: `${value.length}` })}>Add</button>
-        <button data-testid="insert-element" onClick={() => insert(1, { name: `${value.length}` })}>Insert</button>
-        <button data-testid="swap-element" onClick={() => swap(0, 1)}>Swap</button>
-        <button data-testid="move-element" onClick={() => move(0, 1)}>Move</button>
-        <button data-testid="replace-element" onClick={() => replace(1, { name: `hi` })}>Move</button>
+        <button
+          data-testid="add-element"
+          onClick={() => add({ name: `${value.length}` })}
+        >
+          Add
+        </button>
+        <button
+          data-testid="insert-element"
+          onClick={() => insert(1, { name: `${value.length}` })}
+        >
+          Insert
+        </button>
+        <button data-testid="swap-element" onClick={() => swap(0, 1)}>
+          Swap
+        </button>
+        <button data-testid="move-element" onClick={() => move(0, 1)}>
+          Move
+        </button>
+        <button
+          data-testid="replace-element"
+          onClick={() => replace(1, { name: `hi` })}
+        >
+          Move
+        </button>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const initialValues = {
-    friends: [
-      { name: 'K' },
-      { name: 'J' },
-    ],
+    friends: [{ name: 'K' }, { name: 'J' }],
     hobby: { id: 1, name: 'badass' },
-  }
+  };
 
   return {
     getProps: () => injectedProps,
     ...render(
-      <HookedForm initialValues={initialValues} onSubmit={() => null} {...HookedFormOptions}>
+      <HookedForm
+        initialValues={initialValues}
+        onSubmit={() => null}
+        {...HookedFormOptions}
+      >
         <TestHookedForm {...props} />
       </HookedForm>
     ),
@@ -64,7 +92,8 @@ describe('FieldArray', () => {
 
   it('should render the stringfields and handle onChange aswell as validation', async () => {
     const { getByTestId } = makeHookedForm({
-      validate: (values: any) => (values.friends[0].name === 'A') ? { friends: [{ name: 'bad' }] } : {},
+      validate: (values: any) =>
+        values.friends[0].name === 'A' ? { friends: [{ name: 'bad' }] } : {},
       validateOnBlur: true,
       validateOnChange: true,
     });
@@ -74,9 +103,11 @@ describe('FieldArray', () => {
 
     expect((firstFriendField as any).value).toEqual('K');
     expect((secondFriendField as any).value).toEqual('J');
+    jest.useFakeTimers();
     await act(async () => {
       await fireEvent.change(firstFriendField, { target: { value: 'A' } });
-    })
+    });
+    jest.runAllTimers();
 
     expect((firstFriendField as any).value).toEqual('A');
     const firstFriendFieldError = getByTestId('friends[0].name-error');
@@ -103,7 +134,7 @@ describe('FieldArray', () => {
     let { values } = getProps();
     expect(values.friends).toHaveLength(2);
     expect(values.friends[0].name).toEqual('J');
-    expect(values.friends[1].name).toEqual('K')
+    expect(values.friends[1].name).toEqual('K');
 
     await act(async () => {
       await fireEvent.click(swapButton);
@@ -145,7 +176,7 @@ describe('FieldArray', () => {
     let { values } = getProps();
     expect(values.friends).toHaveLength(2);
     expect(values.friends[0].name).toEqual('J');
-    expect(values.friends[1].name).toEqual('K')
+    expect(values.friends[1].name).toEqual('K');
     await act(async () => {
       await fireEvent.click(moveButton);
     });
@@ -163,7 +194,7 @@ describe('FieldArray', () => {
     });
     const { values } = getProps();
     expect(values.friends).toHaveLength(1);
-    expect(values.friends[0].name).toEqual('J')
+    expect(values.friends[0].name).toEqual('J');
   });
 
   it('Should replace fields when asked to', async () => {
@@ -173,6 +204,6 @@ describe('FieldArray', () => {
       await fireEvent.click(replace);
     });
     const { values } = getProps();
-    expect(values.friends[1].name).toEqual('hi')
+    expect(values.friends[1].name).toEqual('hi');
   });
 });

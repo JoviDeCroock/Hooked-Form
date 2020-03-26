@@ -72,6 +72,7 @@ describe('useField', () => {
         validateOnBlur: true,
         validateOnChange: true,
       });
+      jest.useFakeTimers();
 
       const nameField = getByTestId('name');
       act(() => {
@@ -83,6 +84,7 @@ describe('useField', () => {
       act(() => {
         fireEvent.change(nameField, { target: { value: 'u' } });
       });
+      jest.runAllTimers();
 
       expect((nameField as any).value).toEqual('u');
 
@@ -92,6 +94,7 @@ describe('useField', () => {
       act(() => {
         fireEvent.change(nameField, { target: { value: 'upper' } });
       });
+      jest.runAllTimers();
 
       expect(nameErrorField.textContent).toEqual('');
     });
@@ -102,7 +105,7 @@ describe('useField', () => {
         validateOnBlur: true,
         validateOnChange: false,
       });
-
+      jest.useFakeTimers();
       const nameField = getByTestId('name');
       const nameErrorField = getByTestId('name-error');
       act(() => {
@@ -120,7 +123,7 @@ describe('useField', () => {
       act(() => {
         fireEvent.blur(nameField);
       });
-
+      jest.runAllTimers();
       expect(nameErrorField.textContent).toEqual('bad');
 
       act(() => {
@@ -151,10 +154,11 @@ describe('useField', () => {
 
       expect((nameField as any).value).toEqual('upper');
 
+      jest.useFakeTimers();
       act(() => {
         fireEvent.blur(nameField);
       });
-
+      jest.runAllTimers();
       expect(nameErrorField.textContent).toEqual('bad');
 
       act(() => {
@@ -171,6 +175,7 @@ describe('useField', () => {
       act(() => {
         fireEvent.blur(nameField);
       });
+      jest.runAllTimers();
 
       expect(nameErrorField.textContent).toEqual('');
     });

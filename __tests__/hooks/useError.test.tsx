@@ -6,14 +6,14 @@ import { HookedForm, useFormConnect, useError } from '../../src';
 const ErrorDisplay = () => {
   const error = useError('name');
   return <p data-testid="error">{error}</p>;
-}
+};
 
 const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
   const TestHookedForm = () => {
     injectedProps = useFormConnect();
-    return <ErrorDisplay />
-  }
+    return <ErrorDisplay />;
+  };
   return {
     getProps: () => injectedProps,
     ...render(
@@ -31,14 +31,18 @@ describe('useError', () => {
 
   describe('functionality', () => {
     it('should render the correct error', async () => {
-      const { getProps, getByTestId } =
-        makeHookedForm({ validate: () => ({ name: 'bad' }), validateOnChange: true });
+      const { getProps, getByTestId } = makeHookedForm({
+        validate: () => ({ name: 'bad' }),
+        validateOnChange: true,
+      });
 
       const { setFieldValue } = getProps();
 
+      jest.useFakeTimers();
       await act(async () => {
         await setFieldValue('name', 'jovi');
       });
+      jest.runAllTimers();
 
       const { errors } = getProps();
 
