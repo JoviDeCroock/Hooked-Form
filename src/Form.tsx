@@ -82,7 +82,9 @@ const Form = <Values extends object>({
   );
 
   const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
-  const { 0: formError, 1: setFormError } = React.useState();
+  const { 0: formError, 1: setFormError } = React.useState<
+    string | undefined
+  >();
 
   const emitter = React.useMemo(createEmitter, []);
 
