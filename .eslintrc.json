@@ -16,6 +16,7 @@
     "prettier/@typescript-eslint"
   ],
   "rules": {
+    "prefer-cosnt": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/member-ordering": "off",

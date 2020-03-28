@@ -20,7 +20,7 @@ export interface FormHookContext {
   formError?: string | null;
   isSubmitting: boolean;
   resetForm: () => void;
-  setFieldError: (fieldId: string, error: any) => void;
+  setFieldError: (fieldId: string, error?: string | undefined) => void;
   setFieldValue: (fieldId: string, value: any) => void;
   setFieldTouched: (fieldId: string, touched: boolean) => void;
   submit: () => void;

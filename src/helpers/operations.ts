@@ -2,17 +2,14 @@ export interface Source {
   [key: string]: any;
 }
 
-export function get(source: Source, key: any, index?: number): any {
-  return getHelper(
-    source,
-    key.replace(/\[("|')?([^\[\]]+)\1\]/g, '.$2').split('.'),
-    0
-  );
-}
-
-function getHelper(source: Source, path: Array<string>, index: number): any {
-  if (!source || path.length <= index) return source;
-  return getHelper(source[path[index]], path, index + 1);
+export function get(source: Source, key: any): any {
+  // eslint-disable-next-line
+  let path = key.replace(/\[("|')?([^\[\]]+)\1\]/g, '.$2').split('.'),
+    index = 0;
+  while (source && path.length > index) {
+    source = source[path[index++]];
+  }
+  return source;
 }
 
 export function set(source: Source | Array<any>, key: string, value: any): any {
