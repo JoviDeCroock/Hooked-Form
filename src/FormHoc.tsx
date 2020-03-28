@@ -13,7 +13,7 @@ const OptionsContainer = <Values extends object, Props extends object>({
   let isMounted = false;
 
   return function FormOuterWrapper(
-    Component: React.ComponentType<any> | React.FC<any>
+    Component: React.ComponentType<Props> | React.FC<Props>
   ) {
     return function FormWrapper(props: Props) {
       const { 0: initialValues, 1: setInitialValues } = React.useState(() =>

@@ -28,7 +28,7 @@ export default function useFieldArray<T = any>(
   }
 
   const ctx = useContextEmitter(fieldId);
-  const value: Array<any> = get(ctx.values, fieldId);
+  const value: Array<T> = get(ctx.values, fieldId);
 
   return [
     {

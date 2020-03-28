@@ -42,7 +42,7 @@ export interface FormOptions<T>
   initialErrors?: Errors;
   initialValues?: Partial<T>;
   noForm?: boolean;
-  onError?: (error: object, callbag: ErrorBag) => void;
+  onError?: (error: Error, callbag: ErrorBag) => void;
   onSuccess?: (result: any, callbag: SuccessBag) => void;
   onSubmit: (values: Partial<T>, callbag: CallBag) => Promise<any> | any;
   shouldSubmitWhenInvalid?: boolean;
@@ -162,7 +162,7 @@ const Form = <Values extends object>({
         emitter.emit('s');
         if (onSuccess) onSuccess(result, { resetForm });
       },
-      (e: any) => {
+      (e: Error) => {
         setSubmitting(false);
         emitter.emit('s');
         if (onError)
@@ -220,7 +220,7 @@ const Form = <Values extends object>({
         isDirty: isDirty.current,
         isSubmitting,
         resetForm,
-        setFieldError: (fieldId: string, error?: any) => {
+        setFieldError: (fieldId: string, error?: string) => {
           setErrors(state => set(state as object, fieldId, error));
           emitter.emit(fieldId);
         },
