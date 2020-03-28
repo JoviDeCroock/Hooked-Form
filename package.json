@@ -25,17 +25,25 @@
     "hooks",
     "validation"
   ],
-  "main": "dist/hooked-form.js",
-  "browser": "dist/hooked-form.umd.js",
-  "umd:main": "dist/hooked-form.umd.js",
-  "jsnext:main": "dist/hooked-form.modern.js",
-  "module": "dist/hooked-form.module.js",
-  "source": "src/index.ts",
+  "main": "./dist/hooked-form.js",
+  "browser": "./dist/hooked-form.umd.js",
+  "umd:main": "./dist/hooked-form.umd.js",
+  "jsnext:main": "./dist/hooked-form.modern.js",
+  "module": "./dist/hooked-form.module.js",
+  "source": "./src/index.ts",
   "syntax": {
-    "esmodules": "dist/hooked-form.modern.js"
+    "esmodules": "./dist/hooked-form.modern.js"
   },
-  "types": "dist/index.d.ts",
-  "typings": "dist/index.d.ts",
+  "types": "./dist/index.d.ts",
+  "typings": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "browser": "./dist/hooked-form.module.js",
+      "umd": "./dist/hooked-form.umd.js",
+      "import": "./dist/hooked-form.module.js",
+      "require": "./dist/hooked-form.js"
+    }
+  },
   "license": "MIT",
   "devDependencies": {
     "@testing-library/react": "9.5.0",
@@ -60,7 +68,7 @@
     "rimraf": "2.6.3",
     "ts-jest": "24.2.0",
     "tslib": "1.11.1",
-    "typescript": "3.7.3"
+    "typescript": "3.8.3"
   },
   "dependencies": {},
   "peerDependencies": {
