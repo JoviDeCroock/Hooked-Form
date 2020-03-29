@@ -11,7 +11,7 @@ to look out for optimizations with `react.memo` or `shouldComponentUpdate`. This
 all emits from context since this by default signals every hook/component. Instead it has an internal emitter that only notifies the
 relevant parts.
 
-[Documentation](https://jovidecroock.github.io/hooked-form/)
+[Documentation](https://jovidecroock.github.io/Hooked-Form/)
 
 [Example](https://codesandbox.io/s/sweet-poincare-3km8r4k16)
 
