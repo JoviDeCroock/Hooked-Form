@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { act, cleanup, render, wait } from '@testing-library/react';
+import { act, cleanup, render } from '@testing-library/react';
 import { HookedForm, useFormConnect } from '../../src';
 
 const Component = () => <p>Hi</p>;
@@ -49,6 +49,16 @@ describe('HookedForm', () => {
   it('should render child element', () => {
     const { container } = makeHookedForm();
     expect(container.firstChild).toBeDefined();
+  });
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLFormElement>();
+    const { getByTestId } = makeHookedForm({
+      ref,
+      ['data-testid']: 'myForm',
+    });
+
+    expect(getByTestId('myForm')).toBe(ref.current);
   });
 
   it('Changes when calling change', () => {

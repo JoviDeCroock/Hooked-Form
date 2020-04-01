@@ -51,21 +51,24 @@ export interface FormOptions<T>
   validateOnChange?: boolean;
 }
 
-const Form = <Values extends object>({
-  children,
-  enableReinitialize,
-  initialErrors,
-  initialValues,
-  onSubmit,
-  noForm,
-  validate,
-  onError,
-  onSuccess,
-  shouldSubmitWhenInvalid,
-  validateOnBlur,
-  validateOnChange,
-  ...formProps // used to inject className, onKeyDown and related on the <form>
-}: FormOptions<Values>) => {
+const Form = <Values extends object>(
+  {
+    children,
+    enableReinitialize,
+    initialErrors,
+    initialValues,
+    onSubmit,
+    noForm,
+    validate,
+    onError,
+    onSuccess,
+    shouldSubmitWhenInvalid,
+    validateOnBlur,
+    validateOnChange,
+    ...formProps // used to inject className, onKeyDown and related on the <form>
+  }: FormOptions<Values>,
+  innerRef: React.Ref<HTMLFormElement>
+) => {
   const fieldValidators = React.useRef<ValidationTuple[]>([]);
   const isDirty = React.useRef(false);
 
@@ -242,7 +245,7 @@ const Form = <Values extends object>({
       {noForm ? (
         toRender
       ) : (
-        <form onSubmit={handleSubmit} {...formProps}>
+        <form onSubmit={handleSubmit} {...formProps} ref={innerRef}>
           {toRender}
         </form>
       )}
@@ -250,4 +253,6 @@ const Form = <Values extends object>({
   );
 };
 
-export default Form;
+export default React.forwardRef(Form) as <Values extends Record<string, any>>(
+  props: FormOptions<Values>
+) => JSX.Element;
