@@ -32,7 +32,7 @@ export default function useField<T = any>(
         ctx.fieldValidators.splice(index - 1, 1);
       }
     };
-  }, [fieldId]);
+  }, []);
 
   return [
     {
