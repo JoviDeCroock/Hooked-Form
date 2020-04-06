@@ -10,7 +10,7 @@ export const useContextEmitter = (fieldId: string) => {
     return context.on(fieldId, () => {
       state[1]();
     });
-  }, []);
+  }, [fieldId]);
 
   return context;
 };
