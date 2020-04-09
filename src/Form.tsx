@@ -81,10 +81,8 @@ const Form = <Values extends object>({
     initialErrors || EMPTY_OBJ
   );
 
-  const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
-  const { 0: formError, 1: setFormError } = React.useState<
-    string | undefined
-  >();
+  const submittingState = React.useState(false);
+  const formErrorState = React.useState<string | undefined>();
 
   const emitter = React.useMemo(createEmitter, []);
 
@@ -137,13 +135,13 @@ const Form = <Values extends object>({
 
   const handleSubmit = (e?: React.SyntheticEvent) => {
     if (e && e.preventDefault) e.preventDefault();
-    setSubmitting(true);
+    submittingState[1](true);
     emitter._emit('s');
     const fieldErrors = validateForm();
     setTouched(deriveInitial(fieldErrors, true));
 
     if (!shouldSubmitWhenInvalid && deriveKeys(fieldErrors).length > 0) {
-      setSubmitting(false);
+      submittingState[1](false);
       return emitter._emit('s');
     }
 
@@ -152,25 +150,25 @@ const Form = <Values extends object>({
         onSubmit(values, {
           setErrors,
           setFormError: (err: string) => {
-            setFormError(err);
+            formErrorState[1](err);
             emitter._emit('f');
           },
         })
       )
     ).then(
       (result: any) => {
-        setSubmitting(false);
+        submittingState[1](false);
         emitter._emit('s');
         if (onSuccess) onSuccess(result, { resetForm });
       },
       (e: Error) => {
-        setSubmitting(false);
+        submittingState[1](false);
         emitter._emit('s');
         if (onError)
           onError(e, {
             setErrors,
             setFormError: (err: string) => {
-              setFormError(err);
+              formErrorState[1](err);
               emitter._emit('f');
             },
           });
@@ -205,9 +203,9 @@ const Form = <Values extends object>({
     typeof children === 'function'
       ? children({
           change,
-          formError,
+          formError: formErrorState[0],
           isDirty: isDirty.current,
-          isSubmitting,
+          isSubmitting: submittingState[0],
           handleSubmit,
           resetForm,
         })
@@ -217,9 +215,9 @@ const Form = <Values extends object>({
     <formContext.Provider
       value={{
         errors: errors as Errors,
-        formError,
+        formError: formErrorState[0],
         isDirty: isDirty.current,
-        isSubmitting,
+        isSubmitting: submittingState[0],
         resetForm,
         setFieldError: (fieldId: string, error?: string) => {
           setErrors(state => set(state as object, fieldId, error));
