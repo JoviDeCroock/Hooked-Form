@@ -3,6 +3,7 @@ export const deriveKeys = (
   parentKey?: string
 ): Array<string> => {
   parentKey = parentKey || '';
+
   return Object.keys(obj).reduce<Array<string>>((acc, key) => {
     if (Array.isArray(obj[key])) {
       obj[key].some((v: any, i: number) => {

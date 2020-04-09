@@ -92,11 +92,10 @@ const Form = <Values extends object>({
     let validationErrors = (validate && validate(values)) || EMPTY_OBJ;
 
     fieldValidators.current.some(tuple => {
-      validationErrors = set(
-        validationErrors,
-        tuple[0],
-        tuple[1](get(values, tuple[0]))
-      );
+      const error = tuple[1](get(values, tuple[0]));
+      if (error) {
+        validationErrors = set(validationErrors, tuple[0], error);
+      }
     });
 
     // When we have fieldValidation we should remove the properties that return undefiend
