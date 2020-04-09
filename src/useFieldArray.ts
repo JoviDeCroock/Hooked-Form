@@ -39,8 +39,8 @@ export default function useFieldArray<T = any>(
       },
       insert: (at: number, element: T) => {
         value.splice(at, 0, element);
-        touched.splice(at, 0, {});
-        errors.splice(at, 0, {});
+        touched.splice(at, 0, false);
+        errors.splice(at, 0, undefined);
 
         ctx.setFieldValue(fieldId, value);
         ctx.setFieldTouched(fieldId, touched as any);
@@ -64,7 +64,12 @@ export default function useFieldArray<T = any>(
       },
       remove: (index: number) => {
         value.splice(index, 1);
+        errors.splice(index, 1);
+        touched.splice(index, 1);
+
         ctx.setFieldValue(fieldId, value);
+        ctx.setFieldTouched(fieldId, touched as any);
+        ctx.setFieldError(fieldId, errors as any);
       },
       replace: (at: number, element: T) => {
         value[at] = element;

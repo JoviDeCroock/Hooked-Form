@@ -92,26 +92,6 @@ const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
 describe('FieldArrayWithErrors', () => {
   afterEach(() => cleanup());
 
-  it('should render the stringfields and handle onChange aswell as validation', async () => {
-    const { getByTestId } = makeHookedForm({
-      validateOnBlur: true,
-      validateOnChange: true,
-    });
-
-    const firstFriendField = getByTestId('friends[0].name');
-    const secondFriendField = getByTestId('friends[1].name');
-
-    expect((firstFriendField as any).value).toEqual('K');
-    expect((secondFriendField as any).value).toEqual('J');
-    await act(async () => {
-      await fireEvent.change(firstFriendField, { target: { value: 'ABC' } });
-    });
-
-    expect((firstFriendField as any).value).toEqual('ABC');
-    const firstFriendFieldError = getByTestId('friends[0].name-error');
-    expect(firstFriendFieldError.textContent).toEqual('err');
-  });
-
   it('Should swap fields (values, errors, touched)', async () => {
     const { getByTestId, getProps } = makeHookedForm();
     const swapButton = getByTestId('swap-element');
@@ -146,5 +126,37 @@ describe('FieldArrayWithErrors', () => {
     expect(errors.friends[1].name).toEqual('err');
     expect(values.friends[0].name).toEqual('K');
     expect(errors.friends[0]).toBeUndefined();
+  });
+
+  it('Should insert fields (values, errors, touched)', async () => {
+    const { getByTestId, getProps } = makeHookedForm();
+    const insertButton = getByTestId('insert-element');
+    const firstFriendField = getByTestId('friends[0].name');
+
+    await act(async () => {
+      await fireEvent.change(firstFriendField, { target: { value: 'JJJ' } });
+    });
+    await act(async () => {
+      await fireEvent.blur(firstFriendField);
+    });
+
+    let { values, errors } = getProps();
+    expect(values.friends[0].name).toEqual('JJJ');
+    expect(errors.friends[0].name).toEqual('err');
+    expect(values.friends[1].name).toEqual('J');
+    expect(errors.friends[1]).toBeUndefined();
+
+    await act(async () => {
+      await fireEvent.click(insertButton);
+    });
+    ({ values, errors } = getProps());
+    expect(values.friends).toHaveLength(3);
+    expect(values.friends[0].name).toEqual('JJJ');
+    expect(errors.friends[0]).toBeDefined();
+    expect(errors.friends[0].name).toEqual('err');
+    expect(values.friends[1].name).toEqual('2');
+    expect(errors.friends[1]).toBeUndefined();
+    expect(values.friends[2].name).toEqual('J');
+    expect(errors.friends[2]).toBeUndefined();
   });
 });
