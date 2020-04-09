@@ -1,5 +1,10 @@
 # Releases
 
+## 4.3.1
+
+- Fix issue where changing the `fieldId` wouldn't rebind the `validate`/`onChange` (relates to arrays and insertions)
+- Fix reordering of `errors` and `touched` with array operations
+
 ## 4.3.0
 
 - Add second argument to `useField` used to validate fields.
