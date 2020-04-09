@@ -68,6 +68,7 @@ const Form = <Values extends object>({
 }: FormOptions<Values>) => {
   const fieldValidators = React.useRef<ValidationTuple[]>([]);
   const isDirty = React.useRef(false);
+  const emitter = React.useMemo(createEmitter, []);
 
   const { 0: values, 1: setValues } = React.useState<Partial<Values> | object>(
     initialValues || EMPTY_OBJ
@@ -81,12 +82,8 @@ const Form = <Values extends object>({
     initialErrors || EMPTY_OBJ
   );
 
-  const { 0: isSubmitting, 1: setSubmitting } = React.useState(false);
-  const { 0: formError, 1: setFormError } = React.useState<
-    string | undefined
-  >();
-
-  const emitter = React.useMemo(createEmitter, []);
+  const submittingState = React.useState(false);
+  const formErrorState = React.useState<string | undefined>();
 
   const validateForm = () => {
     let validationErrors = (validate && validate(values)) || EMPTY_OBJ;
@@ -108,7 +105,7 @@ const Form = <Values extends object>({
       JSON.stringify(errors) !== JSON.stringify(validationErrors)
     ) {
       setErrors(validationErrors as Errors);
-      emitter.emit(
+      emitter._emit(
         ([] as Array<string>).concat(
           deriveKeys(validationErrors),
           deriveKeys(errors)
@@ -127,7 +124,7 @@ const Form = <Values extends object>({
       setErrors(initialErrors);
     }
 
-    emitter.emit(
+    emitter._emit(
       ([] as Array<string>).concat(
         deriveKeys(initialValues || EMPTY_OBJ),
         deriveKeys(values)
@@ -137,14 +134,14 @@ const Form = <Values extends object>({
 
   const handleSubmit = (e?: React.SyntheticEvent) => {
     if (e && e.preventDefault) e.preventDefault();
-    setSubmitting(true);
-    emitter.emit('s');
+    submittingState[1](true);
+    emitter._emit('s');
     const fieldErrors = validateForm();
     setTouched(deriveInitial(fieldErrors, true));
 
     if (!shouldSubmitWhenInvalid && deriveKeys(fieldErrors).length > 0) {
-      setSubmitting(false);
-      return emitter.emit('s');
+      submittingState[1](false);
+      return emitter._emit('s');
     }
 
     return new Promise(resolve =>
@@ -152,26 +149,26 @@ const Form = <Values extends object>({
         onSubmit(values, {
           setErrors,
           setFormError: (err: string) => {
-            setFormError(err);
-            emitter.emit('f');
+            formErrorState[1](err);
+            emitter._emit('f');
           },
         })
       )
     ).then(
       (result: any) => {
-        setSubmitting(false);
-        emitter.emit('s');
+        submittingState[1](false);
+        emitter._emit('s');
         if (onSuccess) onSuccess(result, { resetForm });
       },
       (e: Error) => {
-        setSubmitting(false);
-        emitter.emit('s');
+        submittingState[1](false);
+        emitter._emit('s');
         if (onError)
           onError(e, {
             setErrors,
             setFormError: (err: string) => {
-              setFormError(err);
-              emitter.emit('f');
+              formErrorState[1](err);
+              emitter._emit('f');
             },
           });
       }
@@ -198,16 +195,16 @@ const Form = <Values extends object>({
   const change = (fieldId: string, value: any) => {
     isDirty.current = true;
     setValues(state => set(state, fieldId, value));
-    emitter.emit(fieldId);
+    emitter._emit(fieldId);
   };
 
   const toRender =
     typeof children === 'function'
       ? children({
           change,
-          formError,
+          formError: formErrorState[0],
           isDirty: isDirty.current,
-          isSubmitting,
+          isSubmitting: submittingState[0],
           handleSubmit,
           resetForm,
         })
@@ -217,24 +214,24 @@ const Form = <Values extends object>({
     <formContext.Provider
       value={{
         errors: errors as Errors,
-        formError,
+        formError: formErrorState[0],
         isDirty: isDirty.current,
-        isSubmitting,
+        isSubmitting: submittingState[0],
         resetForm,
         setFieldError: (fieldId: string, error?: string) => {
           setErrors(state => set(state as object, fieldId, error));
-          emitter.emit(fieldId);
+          emitter._emit(fieldId);
         },
         setFieldTouched: (fieldId: string, value: boolean) => {
           setTouched(state => set(state as object, fieldId, value));
-          emitter.emit(fieldId);
+          emitter._emit(fieldId);
         },
         setFieldValue: change,
         submit: handleSubmit,
         touched: touched as Touched,
         validate: validateForm,
         values,
-        on: emitter.on,
+        on: emitter._on,
         fieldValidators: fieldValidators.current,
       }}
     >

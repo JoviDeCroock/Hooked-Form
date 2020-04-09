@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { get } from './helpers/operations';
-import { FieldInformation } from './types';
+import { FieldInformation, ValidationTuple } from './types';
 import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldOperations<T> {
@@ -25,11 +25,11 @@ export default function useField<T = any>(
   const ctx = useContextEmitter(fieldId);
 
   useEffect(() => {
-    let index: number;
-    if (validate) index = ctx.fieldValidators.push([fieldId, validate]);
+    const tuple: ValidationTuple = [fieldId, validate as (v: any) => string];
+    if (validate) ctx.fieldValidators.push(tuple);
     return () => {
-      if (index) {
-        ctx.fieldValidators.splice(index - 1, 1);
+      if (validate) {
+        ctx.fieldValidators.splice(ctx.fieldValidators.indexOf(tuple), 1);
       }
     };
   }, [fieldId]);
