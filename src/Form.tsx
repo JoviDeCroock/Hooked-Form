@@ -68,6 +68,7 @@ const Form = <Values extends object>({
 }: FormOptions<Values>) => {
   const fieldValidators = React.useRef<ValidationTuple[]>([]);
   const isDirty = React.useRef(false);
+  const emitter = React.useMemo(createEmitter, []);
 
   const { 0: values, 1: setValues } = React.useState<Partial<Values> | object>(
     initialValues || EMPTY_OBJ
@@ -83,8 +84,6 @@ const Form = <Values extends object>({
 
   const submittingState = React.useState(false);
   const formErrorState = React.useState<string | undefined>();
-
-  const emitter = React.useMemo(createEmitter, []);
 
   const validateForm = () => {
     let validationErrors = (validate && validate(values)) || EMPTY_OBJ;

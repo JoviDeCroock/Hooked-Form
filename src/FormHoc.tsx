@@ -5,39 +5,42 @@ type FormHocOptions<Values, Props> = FormOptions<Values> & {
   mapPropsToValues?: (props: Props) => Partial<Values>;
 };
 
-const OptionsContainer = <Values extends object, Props extends object>({
-  enableReinitialize,
-  mapPropsToValues,
-  ...rest
-}: FormHocOptions<Values, Props>) => {
+const OptionsContainer = <Values extends object, Props extends object>(
+  options: FormHocOptions<Values, Props>
+) => {
   let isMounted = false;
 
   return function FormOuterWrapper(
     Component: React.ComponentType<Props> | React.FC<Props>
   ) {
     return function FormWrapper(props: Props) {
-      const initialValuesState = React.useState(() =>
-        mapPropsToValues ? mapPropsToValues(props) : rest.initialValues
+      const initialValuesState = React.useState(
+        () => options.mapPropsToValues && options.mapPropsToValues(props)
       );
 
       React.useEffect(
         () => {
-          if (enableReinitialize && mapPropsToValues && isMounted)
-            initialValuesState[1](mapPropsToValues(props));
+          if (
+            options.enableReinitialize &&
+            options.mapPropsToValues &&
+            isMounted
+          )
+            initialValuesState[1](options.mapPropsToValues(props));
           isMounted = true;
         },
-        enableReinitialize ? Object.values(props) : []
+        options.enableReinitialize ? Object.values(props) : []
       );
 
       return (
         <Form<Values>
-          {...rest}
-          enableReinitialize={enableReinitialize}
-          initialValues={initialValuesState[0]}
+          {...options}
+          initialValues={initialValuesState[0] || options.initialValues}
           noForm={true}
           validateOnBlur={
             /* istanbul ignore next */
-            rest.validateOnBlur === undefined ? false : rest.validateOnBlur
+            options.validateOnBlur === undefined
+              ? false
+              : options.validateOnBlur
           }
         >
           {form => <Component {...form} {...props} />}
