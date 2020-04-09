@@ -16,14 +16,14 @@ const OptionsContainer = <Values extends object, Props extends object>({
     Component: React.ComponentType<Props> | React.FC<Props>
   ) {
     return function FormWrapper(props: Props) {
-      const { 0: initialValues, 1: setInitialValues } = React.useState(() =>
+      const initialValuesState = React.useState(() =>
         mapPropsToValues ? mapPropsToValues(props) : rest.initialValues
       );
 
       React.useEffect(
         () => {
           if (enableReinitialize && mapPropsToValues && isMounted)
-            setInitialValues(mapPropsToValues(props));
+            initialValuesState[1](mapPropsToValues(props));
           isMounted = true;
         },
         enableReinitialize ? Object.values(props) : []
@@ -33,7 +33,7 @@ const OptionsContainer = <Values extends object, Props extends object>({
         <Form<Values>
           {...rest}
           enableReinitialize={enableReinitialize}
-          initialValues={initialValues}
+          initialValues={initialValuesState[0]}
           noForm={true}
           validateOnBlur={
             /* istanbul ignore next */
