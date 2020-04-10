@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { get } from '../helpers/operations';
-import { FieldInformation, ValidationTuple } from '../types';
+import {
+  FieldInformation,
+  ValidationTuple,
+  PrivateFormHookContext,
+} from '../types';
 import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldOperations<T> {
@@ -22,14 +26,14 @@ export default function useField<T = any>(
     );
   }
 
-  const ctx = useContextEmitter(fieldId);
+  const ctx = useContextEmitter(fieldId) as PrivateFormHookContext;
 
   useEffect(() => {
     const tuple: ValidationTuple = [fieldId, validate as (v: any) => string];
-    if (validate) ctx.fieldValidators.push(tuple);
+    if (validate) ctx._fieldValidators.push(tuple);
     return () => {
       if (validate) {
-        ctx.fieldValidators.splice(ctx.fieldValidators.indexOf(tuple), 1);
+        ctx._fieldValidators.splice(ctx._fieldValidators.indexOf(tuple), 1);
       }
     };
   }, [fieldId]);

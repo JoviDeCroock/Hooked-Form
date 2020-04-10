@@ -27,13 +27,17 @@ export interface FormHookContext {
   touched: Touched;
   validate: () => object;
   values: Values;
-  on: (fieldId: string, cb: Force) => void;
-  fieldValidators: ValidationTuple[];
 }
 
-export type ArrayHookContext = FormHookContext & {
+export type PrivateFormHookContext = FormHookContext & {
+  _on: (fieldId: string, cb: Force) => void;
+  _fieldValidators: ValidationTuple[];
+};
+
+export type ArrayHookContext = PrivateFormHookContext & {
   _getErrors: () => { current: Errors };
   _getTouched: () => { current: Touched };
+  _getValues: () => { current: Values };
 };
 
 export interface FieldInformation<T> {

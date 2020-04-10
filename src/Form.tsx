@@ -90,6 +90,7 @@ const Form = <Values extends object>({
 
   const t = React.useRef(touched);
   const e = React.useRef(errors);
+  const v = React.useRef(values);
 
   const submittingState = React.useState(false);
   const formErrorState = React.useState<string | undefined>();
@@ -127,7 +128,7 @@ const Form = <Values extends object>({
 
   const resetForm = () => {
     isDirty.current = false;
-    setValues(initialValues || EMPTY_OBJ);
+    setValues((v.current = initialValues || EMPTY_OBJ));
     if (initialErrors) {
       setTouched((t.current = deriveInitial(initialErrors, true)));
       setErrors((e.current = initialErrors));
@@ -141,8 +142,8 @@ const Form = <Values extends object>({
     );
   };
 
-  const handleSubmit = (e?: React.SyntheticEvent) => {
-    if (e && e.preventDefault) e.preventDefault();
+  const handleSubmit = (event?: React.SyntheticEvent) => {
+    if (event && event.preventDefault) event.preventDefault();
     submittingState[1](true);
     emitter._emit('s');
     const fieldErrors = validateForm();
@@ -156,7 +157,9 @@ const Form = <Values extends object>({
     return new Promise(resolve =>
       resolve(
         onSubmit(values, {
-          setErrors,
+          setErrors: (submitErrors: Errors) => {
+            setErrors((e.current = submitErrors));
+          },
           setFormError: (err: string) => {
             formErrorState[1](err);
             emitter._emit('f');
@@ -169,12 +172,14 @@ const Form = <Values extends object>({
         emitter._emit('s');
         if (onSuccess) onSuccess(result, { resetForm });
       },
-      (e: Error) => {
+      (err: Error) => {
         submittingState[1](false);
         emitter._emit('s');
         if (onError)
-          onError(e, {
-            setErrors,
+          onError(err, {
+            setErrors: (submitErrors: Errors) => {
+              setErrors((e.current = submitErrors));
+            },
             setFormError: (err: string) => {
               formErrorState[1](err);
               emitter._emit('f');
@@ -203,7 +208,7 @@ const Form = <Values extends object>({
 
   const change = (fieldId: string, value: any) => {
     isDirty.current = true;
-    setValues(state => set(state, fieldId, value));
+    setValues(state => (v.current = set(state, fieldId, value)));
     emitter._emit(fieldId);
   };
 
@@ -245,10 +250,11 @@ const Form = <Values extends object>({
           touched: touched as Touched,
           validate: validateForm,
           values,
-          on: emitter._on,
-          fieldValidators: fieldValidators.current,
+          _fieldValidators: fieldValidators.current,
+          _on: emitter._on,
           _getTouched: () => t,
           _getErrors: () => e,
+          _getValues: () => v,
         } as ArrayHookContext
       }
     >

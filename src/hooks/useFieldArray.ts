@@ -29,14 +29,16 @@ export default function useFieldArray<T = any>(
   }
 
   const ctx = useContextEmitter(fieldId) as ArrayHookContext;
-  const value: Array<T> = get(ctx.values, fieldId);
+  const values: Array<T> = get(ctx.values, fieldId);
 
   return [
     {
       add: (element: T) => {
+        const value = get(ctx._getValues().current, fieldId) || [];
         ctx.setFieldValue(fieldId, [...value, element]);
       },
       insert: (at: number, element: T) => {
+        const value = get(ctx._getValues().current, fieldId) || [];
         const touched = get(ctx._getTouched().current, fieldId) || [];
         const errors = get(ctx._getErrors().current, fieldId) || [];
 
@@ -49,6 +51,7 @@ export default function useFieldArray<T = any>(
         ctx.setFieldError(fieldId, errors as any);
       },
       move: (from: number, to: number) => {
+        const value = get(ctx._getValues().current, fieldId) || [];
         const touched = get(ctx._getTouched().current, fieldId) || [];
         const errors = get(ctx._getErrors().current, fieldId) || [];
 
@@ -68,6 +71,7 @@ export default function useFieldArray<T = any>(
         ctx.setFieldError(fieldId, newErrors as any);
       },
       remove: (index: number) => {
+        const value = get(ctx._getValues().current, fieldId) || [];
         const touched = get(ctx._getTouched().current, fieldId) || [];
         const errors = get(ctx._getErrors().current, fieldId) || [];
 
@@ -80,6 +84,7 @@ export default function useFieldArray<T = any>(
         ctx.setFieldError(fieldId, errors as any);
       },
       replace: (at: number, element: T) => {
+        const value = get(ctx._getValues().current, fieldId) || [];
         const touched = get(ctx._getTouched().current, fieldId) || [];
         const errors = get(ctx._getErrors().current, fieldId) || [];
 
@@ -92,6 +97,7 @@ export default function useFieldArray<T = any>(
         ctx.setFieldError(fieldId, errors as any);
       },
       swap: (from: number, to: number) => {
+        const value = get(ctx._getValues().current, fieldId) || [];
         const touched = get(ctx._getTouched().current, fieldId) || [];
         const errors = get(ctx._getErrors().current, fieldId) || [];
 
@@ -113,7 +119,7 @@ export default function useFieldArray<T = any>(
     },
     {
       error: get(ctx.errors, fieldId),
-      value,
+      value: values,
     },
   ];
 }
