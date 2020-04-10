@@ -81,6 +81,7 @@ const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
       <HookedForm
         initialValues={initialValues}
         onSubmit={() => null}
+        validateOnChange
         {...HookedFormOptions}
       >
         <TestHookedForm {...props} />
@@ -107,9 +108,7 @@ describe('FieldArrayWithErrors', () => {
     await act(async () => {
       await fireEvent.change(firstFriendField, { target: { value: 'JJJ' } });
     });
-    await act(async () => {
-      await fireEvent.blur(firstFriendField);
-    });
+
     ({ values, errors } = getProps());
     expect(values.friends[0].name).toEqual('JJJ');
     expect(errors.friends[0].name).toEqual('err');
@@ -135,9 +134,6 @@ describe('FieldArrayWithErrors', () => {
 
     await act(async () => {
       await fireEvent.change(firstFriendField, { target: { value: 'JJJ' } });
-    });
-    await act(async () => {
-      await fireEvent.blur(firstFriendField);
     });
 
     let { values, errors } = getProps();

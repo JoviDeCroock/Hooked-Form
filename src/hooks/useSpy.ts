@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { get } from './helpers/operations';
-import { FieldInformation, FormHookContext } from './types';
+import { get } from '../helpers/operations';
+import { FieldInformation, FormHookContext } from '../types';
 import { useContextEmitter } from './useContextEmitter';
 
 export type SpyCallback<T> = (newValue: T, ctx: FormHookContext) => void;
