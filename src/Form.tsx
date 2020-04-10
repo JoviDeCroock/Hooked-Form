@@ -57,35 +57,25 @@ export interface FormOptions<T>
   validateOnChange?: boolean;
 }
 
-const Form = <Values extends object>({
-  children,
-  enableReinitialize,
-  initialErrors,
-  initialValues,
-  onSubmit,
-  noForm,
-  validate,
-  onError,
-  onSuccess,
-  shouldSubmitWhenInvalid,
-  validateOnBlur,
-  validateOnChange,
-  ...formProps // used to inject className, onKeyDown and related on the <form>
-}: FormOptions<Values>) => {
+const Form = <Values extends object>(options: FormOptions<Values>) => {
   const fieldValidators = React.useRef<ValidationTuple[]>([]);
   const isDirty = React.useRef(false);
   const emitter = React.useMemo(createEmitter, []);
 
   const { 0: values, 1: setValues } = React.useState<Partial<Values> | object>(
-    initialValues || EMPTY_OBJ
+    options.initialValues || EMPTY_OBJ
   );
 
   const { 0: touched, 1: setTouched } = React.useState<
     Partial<Touched> | object
-  >((initialErrors && (() => deriveInitial(initialErrors, true))) || EMPTY_OBJ);
+  >(
+    (options.initialErrors &&
+      (() => deriveInitial(options.initialErrors as Errors, true))) ||
+      EMPTY_OBJ
+  );
 
   const { 0: errors, 1: setErrors } = React.useState<Partial<Errors> | object>(
-    initialErrors || EMPTY_OBJ
+    options.initialErrors || EMPTY_OBJ
   );
 
   const t = React.useRef(touched);
@@ -96,7 +86,8 @@ const Form = <Values extends object>({
   const formErrorState = React.useState<string | undefined>();
 
   const validateForm = () => {
-    let validationErrors = (validate && validate(values)) || EMPTY_OBJ;
+    let validationErrors =
+      (options.validate && options.validate(values)) || EMPTY_OBJ;
 
     fieldValidators.current.some(tuple => {
       const error = tuple[1](get(values, tuple[0]));
@@ -128,15 +119,15 @@ const Form = <Values extends object>({
 
   const resetForm = () => {
     isDirty.current = false;
-    setValues((v.current = initialValues || EMPTY_OBJ));
-    if (initialErrors) {
-      setTouched((t.current = deriveInitial(initialErrors, true)));
-      setErrors((e.current = initialErrors));
+    setValues((v.current = options.initialValues || EMPTY_OBJ));
+    if (options.initialErrors) {
+      setTouched((t.current = deriveInitial(options.initialErrors, true)));
+      setErrors((e.current = options.initialErrors));
     }
 
     emitter._emit(
       ([] as Array<string>).concat(
-        deriveKeys(initialValues || EMPTY_OBJ),
+        deriveKeys(options.initialValues || EMPTY_OBJ),
         deriveKeys(values)
       )
     );
@@ -149,14 +140,17 @@ const Form = <Values extends object>({
     const fieldErrors = validateForm();
     setTouched((t.current = deriveInitial(fieldErrors, true)));
 
-    if (!shouldSubmitWhenInvalid && deriveKeys(fieldErrors).length > 0) {
+    if (
+      !options.shouldSubmitWhenInvalid &&
+      deriveKeys(fieldErrors).length > 0
+    ) {
       submittingState[1](false);
       return emitter._emit('s');
     }
 
     return new Promise(resolve =>
       resolve(
-        onSubmit(values, {
+        options.onSubmit(values, {
           setErrors: (submitErrors: Errors) => {
             setErrors((e.current = submitErrors));
           },
@@ -170,13 +164,13 @@ const Form = <Values extends object>({
       (result: any) => {
         submittingState[1](false);
         emitter._emit('s');
-        if (onSuccess) onSuccess(result, { resetForm });
+        if (options.onSuccess) options.onSuccess(result, { resetForm });
       },
       (err: Error) => {
         submittingState[1](false);
         emitter._emit('s');
-        if (onError)
-          onError(err, {
+        if (options.onError)
+          options.onError(err, {
             setErrors: (submitErrors: Errors) => {
               setErrors((e.current = submitErrors));
             },
@@ -190,19 +184,23 @@ const Form = <Values extends object>({
   };
 
   React.useEffect(() => {
-    if (enableReinitialize) resetForm();
-  }, [initialValues]);
+    if (options.enableReinitialize) resetForm();
+  }, [options.initialValues]);
 
   React.useEffect(() => {
     if (
-      (validateOnBlur === undefined || validateOnChange || validateOnBlur) &&
+      (options.validateOnBlur === undefined ||
+        options.validateOnChange ||
+        options.validateOnBlur) &&
       isDirty.current
     ) {
       validateForm();
     }
   }, [
-    validateOnBlur === undefined ? touched : validateOnBlur && touched,
-    validateOnChange && values,
+    options.validateOnBlur === undefined
+      ? touched
+      : options.validateOnBlur && touched,
+    options.validateOnChange && values,
     isDirty.current,
   ]);
 
@@ -213,8 +211,8 @@ const Form = <Values extends object>({
   };
 
   const toRender =
-    typeof children === 'function'
-      ? children({
+    typeof options.children === 'function'
+      ? options.children({
           change,
           formError: formErrorState[0],
           isDirty: isDirty.current,
@@ -222,7 +220,7 @@ const Form = <Values extends object>({
           handleSubmit,
           resetForm,
         })
-      : children;
+      : options.children;
 
   return (
     <formContext.Provider
@@ -258,10 +256,15 @@ const Form = <Values extends object>({
         } as ArrayHookContext
       }
     >
-      {noForm ? (
+      {options.noForm ? (
         toRender
       ) : (
-        <form onSubmit={handleSubmit} {...formProps}>
+        <form
+          onSubmit={handleSubmit}
+          className={options.className}
+          onKeyDown={options.onKeyDown}
+          autoComplete={options.autoComplete}
+        >
           {toRender}
         </form>
       )}

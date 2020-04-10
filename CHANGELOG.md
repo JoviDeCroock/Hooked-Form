@@ -1,5 +1,9 @@
 # Releases
 
+## 4.3.3
+
+- Ensure data safety on FieldArray operations
+
 ## 4.3.2
 
 - Fix potential issue with registering validators
