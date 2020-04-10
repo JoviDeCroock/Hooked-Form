@@ -32,8 +32,8 @@ export interface FormHookContext {
 }
 
 export type ArrayHookContext = FormHookContext & {
-  getErrors: () => { current: Errors };
-  getTouched: () => { current: Touched };
+  _getErrors: () => { current: Errors };
+  _getTouched: () => { current: Touched };
 };
 
 export interface FieldInformation<T> {

@@ -247,8 +247,8 @@ const Form = <Values extends object>({
           values,
           on: emitter._on,
           fieldValidators: fieldValidators.current,
-          getTouched: () => t,
-          getErrors: () => e,
+          _getTouched: () => t,
+          _getErrors: () => e,
         } as ArrayHookContext
       }
     >

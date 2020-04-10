@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { get } from './helpers/operations';
-import { FieldInformation, ValidationTuple } from './types';
+import { get } from '../helpers/operations';
+import { FieldInformation, ValidationTuple } from '../types';
 import { useContextEmitter } from './useContextEmitter';
 
 export interface FieldOperations<T> {
