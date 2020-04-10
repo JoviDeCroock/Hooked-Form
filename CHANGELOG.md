@@ -1,5 +1,10 @@
 # Releases
 
+## 4.3.2
+
+- Fix potential issue with registering validators
+- Save bytes
+
 ## 4.3.1
 
 - Fix issue where changing the `fieldId` wouldn't rebind the `validate`/`onChange` (relates to arrays and insertions)
