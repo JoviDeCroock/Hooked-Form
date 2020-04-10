@@ -2,7 +2,13 @@ import * as React from 'react';
 import { createEmitter } from './context/emitter';
 import { deriveInitial } from './helpers/deriveInitial';
 import { deriveKeys } from './helpers/deriveKeys';
-import { Errors, FormHookContext, Touched, ValidationTuple } from './types';
+import {
+  Errors,
+  FormHookContext,
+  Touched,
+  ValidationTuple,
+  ArrayHookContext,
+} from './types';
 import { set, get } from './helpers/operations';
 
 const EMPTY_OBJ = {};
@@ -82,6 +88,9 @@ const Form = <Values extends object>({
     initialErrors || EMPTY_OBJ
   );
 
+  const t = React.useRef(touched);
+  const e = React.useRef(errors);
+
   const submittingState = React.useState(false);
   const formErrorState = React.useState<string | undefined>();
 
@@ -104,7 +113,7 @@ const Form = <Values extends object>({
       validationErrors !== errors &&
       JSON.stringify(errors) !== JSON.stringify(validationErrors)
     ) {
-      setErrors(validationErrors as Errors);
+      setErrors((e.current = validationErrors as Errors));
       emitter._emit(
         ([] as Array<string>).concat(
           deriveKeys(validationErrors),
@@ -120,8 +129,8 @@ const Form = <Values extends object>({
     isDirty.current = false;
     setValues(initialValues || EMPTY_OBJ);
     if (initialErrors) {
-      setTouched(deriveInitial(initialErrors, true));
-      setErrors(initialErrors);
+      setTouched((t.current = deriveInitial(initialErrors, true)));
+      setErrors((e.current = initialErrors));
     }
 
     emitter._emit(
@@ -137,7 +146,7 @@ const Form = <Values extends object>({
     submittingState[1](true);
     emitter._emit('s');
     const fieldErrors = validateForm();
-    setTouched(deriveInitial(fieldErrors, true));
+    setTouched((t.current = deriveInitial(fieldErrors, true)));
 
     if (!shouldSubmitWhenInvalid && deriveKeys(fieldErrors).length > 0) {
       submittingState[1](false);
@@ -212,28 +221,36 @@ const Form = <Values extends object>({
 
   return (
     <formContext.Provider
-      value={{
-        errors: errors as Errors,
-        formError: formErrorState[0],
-        isDirty: isDirty.current,
-        isSubmitting: submittingState[0],
-        resetForm,
-        setFieldError: (fieldId: string, error?: string) => {
-          setErrors(state => set(state as object, fieldId, error));
-          emitter._emit(fieldId);
-        },
-        setFieldTouched: (fieldId: string, value: boolean) => {
-          setTouched(state => set(state as object, fieldId, value));
-          emitter._emit(fieldId);
-        },
-        setFieldValue: change,
-        submit: handleSubmit,
-        touched: touched as Touched,
-        validate: validateForm,
-        values,
-        on: emitter._on,
-        fieldValidators: fieldValidators.current,
-      }}
+      value={
+        {
+          errors: errors as Errors,
+          formError: formErrorState[0],
+          isDirty: isDirty.current,
+          isSubmitting: submittingState[0],
+          resetForm,
+          setFieldError: (fieldId: string, error?: string) => {
+            setErrors(
+              state => (e.current = set(state as object, fieldId, error))
+            );
+            emitter._emit(fieldId);
+          },
+          setFieldTouched: (fieldId: string, value: boolean) => {
+            setTouched(
+              state => (t.current = set(state as object, fieldId, value))
+            );
+            emitter._emit(fieldId);
+          },
+          setFieldValue: change,
+          submit: handleSubmit,
+          touched: touched as Touched,
+          validate: validateForm,
+          values,
+          on: emitter._on,
+          fieldValidators: fieldValidators.current,
+          getTouched: () => t,
+          getErrors: () => e,
+        } as ArrayHookContext
+      }
     >
       {noForm ? (
         toRender

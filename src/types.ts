@@ -31,6 +31,11 @@ export interface FormHookContext {
   fieldValidators: ValidationTuple[];
 }
 
+export type ArrayHookContext = FormHookContext & {
+  getErrors: () => { current: Errors };
+  getTouched: () => { current: Touched };
+};
+
 export interface FieldInformation<T> {
   error: string;
   touched: boolean;
