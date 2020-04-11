@@ -263,7 +263,6 @@ const Form = <Values extends object>(options: FormOptions<Values>) => {
           onSubmit={handleSubmit}
           className={options.className}
           onKeyDown={options.onKeyDown}
-          autoComplete={options.autoComplete}
         >
           {toRender}
         </form>
