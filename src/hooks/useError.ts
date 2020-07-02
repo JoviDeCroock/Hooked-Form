@@ -1,5 +1,6 @@
+import { useContext } from 'react';
 import { get } from '../helpers/operations';
-import { useContextEmitter } from './useContextEmitter';
+import { formContext } from '../Form';
 
 export interface FieldInformation {
   error: string;
@@ -15,5 +16,5 @@ export default function useError(fieldId: string): string | null {
     );
   }
 
-  return get(useContextEmitter(fieldId).errors, fieldId);
+  return get(useContext(formContext).errors, fieldId);
 }

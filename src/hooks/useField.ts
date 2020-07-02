@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { get } from '../helpers/operations';
 import {
   FieldInformation,
   ValidationTuple,
   PrivateFormHookContext,
 } from '../types';
-import { useContextEmitter } from './useContextEmitter';
+import { formContext } from '../Form';
 
 export interface FieldOperations<T> {
   onBlur: () => void;
@@ -26,7 +26,7 @@ export default function useField<T = any>(
     );
   }
 
-  const ctx = useContextEmitter(fieldId) as PrivateFormHookContext;
+  const ctx = useContext(formContext) as PrivateFormHookContext;
 
   useEffect(() => {
     const tuple: ValidationTuple = [fieldId, validate as (v: any) => string];

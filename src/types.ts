@@ -1,5 +1,3 @@
-import { Force } from './context/emitter';
-
 export interface Values {
   [fieldId: string]: any;
 }
@@ -30,14 +28,7 @@ export interface FormHookContext {
 }
 
 export type PrivateFormHookContext = FormHookContext & {
-  _on: (fieldId: string, cb: Force) => void;
   _fieldValidators: ValidationTuple[];
-};
-
-export type ArrayHookContext = PrivateFormHookContext & {
-  _getErrors: () => { current: Errors };
-  _getTouched: () => { current: Touched };
-  _getValues: () => { current: Values };
 };
 
 export interface FieldInformation<T> {
