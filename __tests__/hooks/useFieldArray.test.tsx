@@ -22,10 +22,7 @@ const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
   let injectedProps: any;
   const TestHookedForm = () => {
     const fieldId = 'friends';
-    const [
-      { add, remove, swap, insert, move, replace },
-      { value },
-    ] = useFieldArray(fieldId);
+    const [{ add, remove, insert }, { value }] = useFieldArray(fieldId);
     injectedProps = { ...useFormConnect(), value };
     return (
       <React.Fragment>
@@ -51,18 +48,6 @@ const makeHookedForm = (HookedFormOptions?: object, props?: object) => {
           onClick={() => insert(1, { name: `${value.length}` })}
         >
           Insert
-        </button>
-        <button data-testid="swap-element" onClick={() => swap(0, 1)}>
-          Swap
-        </button>
-        <button data-testid="move-element" onClick={() => move(0, 1)}>
-          Move
-        </button>
-        <button
-          data-testid="replace-element"
-          onClick={() => replace(1, { name: `hi` })}
-        >
-          Move
         </button>
       </React.Fragment>
     );
@@ -123,26 +108,6 @@ describe('FieldArray', () => {
     expect(values.friends[2].name).toEqual('2');
   });
 
-  it('Should swap fields when asked to', async () => {
-    const { getByTestId, getProps } = makeHookedForm();
-    const swapButton = getByTestId('swap-element');
-    await act(async () => {
-      await fireEvent.click(swapButton);
-    });
-    let { values } = getProps();
-    expect(values.friends).toHaveLength(2);
-    expect(values.friends[0].name).toEqual('J');
-    expect(values.friends[1].name).toEqual('K');
-
-    await act(async () => {
-      await fireEvent.click(swapButton);
-    });
-    ({ values } = getProps());
-    expect(values.friends).toHaveLength(2);
-    expect(values.friends[1].name).toEqual('J');
-    expect(values.friends[0].name).toEqual('K');
-  });
-
   it('Should insert fields when asked to', async () => {
     const { getByTestId, getProps } = makeHookedForm();
     const insertButton = getByTestId('insert-element');
@@ -172,25 +137,6 @@ describe('FieldArray', () => {
     expect(values.friends[3].name).toEqual('J');
   });
 
-  it('Should move fields when asked to', async () => {
-    const { getByTestId, getProps } = makeHookedForm();
-    const moveButton = getByTestId('move-element');
-    await act(async () => {
-      await fireEvent.click(moveButton);
-    });
-    let { values } = getProps();
-    expect(values.friends).toHaveLength(2);
-    expect(values.friends[0].name).toEqual('J');
-    expect(values.friends[1].name).toEqual('K');
-    await act(async () => {
-      await fireEvent.click(moveButton);
-    });
-    ({ values } = getProps());
-    expect(values.friends).toHaveLength(2);
-    expect(values.friends[1].name).toEqual('J');
-    expect(values.friends[0].name).toEqual('K');
-  });
-
   it('Should remove fields when asked to', async () => {
     const { getByTestId, getProps } = makeHookedForm();
     const removeFirstFieldButton = getByTestId('remove-element-0');
@@ -200,15 +146,5 @@ describe('FieldArray', () => {
     const { values } = getProps();
     expect(values.friends).toHaveLength(1);
     expect(values.friends[0].name).toEqual('J');
-  });
-
-  it('Should replace fields when asked to', async () => {
-    const { getByTestId, getProps } = makeHookedForm();
-    const replace = getByTestId('replace-element');
-    await act(async () => {
-      await fireEvent.click(replace);
-    });
-    const { values } = getProps();
-    expect(values.friends[1].name).toEqual('hi');
   });
 });

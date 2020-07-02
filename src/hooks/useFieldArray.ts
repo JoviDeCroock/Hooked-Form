@@ -5,10 +5,7 @@ import { formContext } from '../Form';
 export interface FieldOperations<T> {
   add: (item: T) => void;
   insert: (at: number, element: T) => void;
-  move: (from: number, to: number) => void;
   remove: (toDelete: number) => void;
-  replace: (at: number, element: T) => void;
-  swap: (first: number, second: number) => void;
 }
 
 export interface FieldInformation<T> {
@@ -50,26 +47,6 @@ export default function useFieldArray<T = any>(
         ctx.setFieldTouched(fieldId, touched as any);
         ctx.setFieldError(fieldId, errors as any);
       },
-      move: (from: number, to: number) => {
-        const value = get(ctx.values, fieldId) || [];
-        const touched = get(ctx.touched, fieldId) || [];
-        const errors = get(ctx.errors, fieldId) || [];
-
-        const result = [...value];
-        const newTouched = [...touched];
-        const newErrors = [...errors];
-
-        result.splice(from, 1);
-        result.splice(to, 0, value[from]);
-        newTouched.splice(from, 1);
-        newTouched.splice(to, 0, touched[from]);
-        newErrors.splice(from, 1);
-        newErrors.splice(to, 0, errors[from]);
-
-        ctx.setFieldValue(fieldId, result);
-        ctx.setFieldTouched(fieldId, newTouched as any);
-        ctx.setFieldError(fieldId, newErrors as any);
-      },
       remove: (index: number) => {
         const value = get(ctx.values, fieldId) || [];
         const touched = get(ctx.touched, fieldId) || [];
@@ -82,39 +59,6 @@ export default function useFieldArray<T = any>(
         ctx.setFieldValue(fieldId, value);
         ctx.setFieldTouched(fieldId, touched as any);
         ctx.setFieldError(fieldId, errors as any);
-      },
-      replace: (at: number, element: T) => {
-        const value = get(ctx.values, fieldId) || [];
-        const touched = get(ctx.touched, fieldId) || [];
-        const errors = get(ctx.errors, fieldId) || [];
-
-        value[at] = element;
-        touched[at] = false;
-        delete errors[at];
-
-        ctx.setFieldValue(fieldId, value);
-        ctx.setFieldTouched(fieldId, touched as any);
-        ctx.setFieldError(fieldId, errors as any);
-      },
-      swap: (from: number, to: number) => {
-        const value = get(ctx.values, fieldId) || [];
-        const touched = get(ctx.touched, fieldId) || [];
-        const errors = get(ctx.errors, fieldId) || [];
-
-        const result = [...value];
-        const newTouched = [...touched];
-        const newErrors = [...errors];
-
-        result[from] = value[to];
-        result[to] = value[from];
-        newTouched[from] = touched[to];
-        newTouched[to] = touched[from];
-        newErrors[from] = errors[to];
-        newErrors[to] = errors[from];
-
-        ctx.setFieldValue(fieldId, result);
-        ctx.setFieldTouched(fieldId, newTouched as any);
-        ctx.setFieldError(fieldId, newErrors as any);
       },
     },
     {
