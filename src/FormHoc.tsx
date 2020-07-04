@@ -5,9 +5,9 @@ type FormHocOptions<Values, Props> = FormOptions<Values> & {
   mapPropsToValues?: (props: Props) => Partial<Values>;
 };
 
-const OptionsContainer = <Values extends object, Props extends object>(
+function OptionsContainer<Values extends object, Props extends object>(
   options: FormHocOptions<Values, Props>
-) => {
+) {
   let isMounted = false;
 
   return function FormOuterWrapper(
@@ -48,6 +48,6 @@ const OptionsContainer = <Values extends object, Props extends object>(
       );
     };
   };
-};
+}
 
 export default OptionsContainer;

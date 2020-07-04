@@ -55,7 +55,7 @@ export interface FormOptions<T>
   validateOnChange?: boolean;
 }
 
-const Form = <Values extends object>({
+function Form<Values extends object>({
   children,
   enableReinitialize,
   initialErrors,
@@ -69,7 +69,7 @@ const Form = <Values extends object>({
   validateOnBlur,
   validateOnChange,
   ...formProps // used to inject className, onKeyDown and related on the <form>
-}: FormOptions<Values>) => {
+}: FormOptions<Values>) {
   const fieldValidators = React.useRef<ValidationTuple[]>([]);
   const isDirty = React.useRef(false);
 
@@ -230,6 +230,6 @@ const Form = <Values extends object>({
       )}
     </formContext.Provider>
   );
-};
+}
 
 export default Form;

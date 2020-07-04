@@ -1,6 +1,6 @@
 {
   "name": "hooked-form",
-  "version": "4.3.3",
+  "version": "5.0.0",
   "description": "Forms done with React-Hooks",
   "author": "jdecroock <decroockjovi@gmail.com> (https://twitter.com/JoviDeC)",
   "private": false,
@@ -60,14 +60,14 @@
     "jest": "24.9.0",
     "jest-cli": "24.9.0",
     "lint-staged": "9.5.0",
-    "microbundle": "0.12.0",
+    "microbundle": "0.12.2",
     "prettier": "1.19.1",
     "react": "16.13.0",
     "react-dom": "16.13.0",
     "rimraf": "2.6.3",
     "ts-jest": "24.2.0",
-    "tslib": "1.11.1",
-    "typescript": "3.8.3"
+    "tslib": "2.0.0",
+    "typescript": "3.9.6"
   },
   "dependencies": {},
   "peerDependencies": {
