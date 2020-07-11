@@ -31,10 +31,7 @@ As you can see the first argument of your payload gives you the functions to con
 
 - add, appends the argument you pass into it at the back of the array.
 - insert, accepts a number as the first argument and an element as the second and will put that element at the specified position.
-- move, Accepts two numbers and will move an element from the first number to the second one.
 - remove, Accepts a number and will remove the element at that position.
-- replace, Accepts a number and an element and will replace the element on given position with the one specified in arguments.
-- swap, Accepts two numbers and swaps these two around in terms of position within the array.
 
 The second part is your actual state
 
