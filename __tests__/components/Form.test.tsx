@@ -125,9 +125,9 @@ describe('HookedForm', () => {
       submit();
     });
     const { errors, touched, isSubmitting } = getProps();
-    expect(onSubmit).not.toBeCalled();
     expect(errors.name).toBe('required');
     expect(touched.name).toBeTruthy();
+    expect(onSubmit).not.toBeCalled();
     expect(isSubmitting).toBe(false);
   });
 

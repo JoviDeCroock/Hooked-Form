@@ -1,7 +1,7 @@
-export const deriveKeys = (
+export function deriveKeys(
   obj: { [key: string]: any },
   parentKey?: string
-): Array<string> => {
+): Array<string> {
   parentKey = parentKey || '';
 
   return Object.keys(obj).reduce<Array<string>>((acc, key) => {
@@ -19,4 +19,4 @@ export const deriveKeys = (
 
     return acc;
   }, []);
-};
+}

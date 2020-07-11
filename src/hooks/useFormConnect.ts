@@ -1,4 +1,5 @@
+import { useContext } from 'react';
 import { FormHookContext } from '../types';
-import { useContextEmitter } from './useContextEmitter';
+import { formContext } from '../Form';
 
-export default (): FormHookContext => useContextEmitter('*');
+export default (): FormHookContext => useContext(formContext);
