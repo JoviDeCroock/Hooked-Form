@@ -6,11 +6,6 @@
 [![Bundle size](https://badgen.net/bundlephobia/minzip/hooked-form)](https://badgen.net/bundlephobia/minzip/hooked-form)
 [![codecov](https://codecov.io/gh/JoviDeCroock/Hooked-Form/branch/master/graph/badge.svg)](https://codecov.io/gh/JoviDeCroock/Hooked-Form)
 
-This form-library aims at having a minimal footprint in terms of size and bring high performance out of the box, without you having
-to look out for optimizations with `react.memo` or `shouldComponentUpdate`. This performance is acquired because this library ignores
-all emits from context since this by default signals every hook/component. Instead it has an internal emitter that only notifies the
-relevant parts.
-
 [Documentation](https://jovidecroock.github.io/Hooked-Form/)
 
 [Example](https://codesandbox.io/s/sweet-poincare-3km8r4k16)
@@ -124,6 +119,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
