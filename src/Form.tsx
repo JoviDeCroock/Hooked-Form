@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { deriveInitial } from './helpers/deriveInitial';
-import { deriveKeys } from './helpers/deriveKeys';
 import {
   Errors,
   FormHookContext,
@@ -128,7 +127,7 @@ function Form<Values extends object>({
     const fieldErrors = validateForm();
     setTouched(deriveInitial(fieldErrors, true));
 
-    if (!shouldSubmitWhenInvalid && deriveKeys(fieldErrors).length > 0) {
+    if (!shouldSubmitWhenInvalid && Object.keys(fieldErrors).length > 0) {
       return submittingState[1](false);
     }
 
