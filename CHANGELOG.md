@@ -1,5 +1,9 @@
 # Releases
 
+## 5.0.0
+
+- Remove granular field updates
+
 ## 4.3.2
 
 - Fix potential issue with registering validators
