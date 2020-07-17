@@ -1,41 +1,14 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>useFieldArray · Hooked-Form</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="This is a helper method for controlling arrays of fields, this can be done manually"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="useFieldArray · Hooked-Form"/><meta property="og:type" content="website"/><meta property="og:url" content="https://jovidecroock.github.io/Hooked-Form/"/><meta property="og:description" content="This is a helper method for controlling arrays of fields, this can be done manually"/><meta property="og:image" content="https://jovidecroock.github.io/Hooked-Form/img/logo.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://jovidecroock.github.io/Hooked-Form/img/logo.png"/><link rel="shortcut icon" href="/Hooked-Form/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/Hooked-Form/js/scrollSpy.js"></script><link rel="stylesheet" href="/Hooked-Form/css/main.css"/><script src="/Hooked-Form/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/Hooked-Form/"><img class="logo" src="/Hooked-Form/img/logo.png" alt="Hooked-Form"/><h2 class="headerTitleWithLogo">Hooked-Form</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/Hooked-Form/docs/components/form" target="_self">API</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>hooks</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">philosophy</h3><ul class=""><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/philosophy/why">Why</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">components</h3><ul class=""><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/components/hookedForm">HookedForm</a></li><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/components/form">Form</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">hooks</h3><ul class=""><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/hooks/useField">useField</a></li><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/hooks/useError">useError</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/Hooked-Form/docs/hooks/useFieldArray">useFieldArray</a></li><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/hooks/useFormConnect">useFormConnect</a></li><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/hooks/useSpy">useSpy</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">types</h3><ul class=""><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/types/staticTyping">Static Typing</a></li></ul></div></div></section></div><script>
-            var coll = document.getElementsByClassName('collapsible');
-            var checkActiveCategory = true;
-            for (var i = 0; i < coll.length; i++) {
-              var links = coll[i].nextElementSibling.getElementsByTagName('*');
-              if (checkActiveCategory){
-                for (var j = 0; j < links.length; j++) {
-                  if (links[j].classList.contains('navListItemActive')){
-                    coll[i].nextElementSibling.classList.toggle('hide');
-                    coll[i].childNodes[1].classList.toggle('rotate');
-                    checkActiveCategory = false;
-                    break;
-                  }
-                }
-              }
-
-              coll[i].addEventListener('click', function() {
-                var arrow = this.childNodes[1];
-                arrow.classList.toggle('rotate');
-                var content = this.nextElementSibling;
-                content.classList.toggle('hide');
-              });
-            }
-
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>useFieldArray · Hooked-Form</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;This is a helper method for controlling arrays of fields, this can be done manually&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="useFieldArray · Hooked-Form"/><meta property="og:type" content="website"/><meta property="og:url" content="https://jovidecroock.github.io/Hooked-Form/index.html"/><meta property="og:description" content="&lt;p&gt;This is a helper method for controlling arrays of fields, this can be done manually&lt;/p&gt;
+"/><meta property="og:image" content="https://jovidecroock.github.io/Hooked-Form/img/logo.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://jovidecroock.github.io/Hooked-Form/img/logo.png"/><link rel="shortcut icon" href="/Hooked-Form/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/Hooked-Form/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/Hooked-Form/"><img class="logo" src="/Hooked-Form/img/logo.png" alt="Hooked-Form"/><h2 class="headerTitleWithLogo">Hooked-Form</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/Hooked-Form/docs/components/form" target="_self">API</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>hooks</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">philosophy</h3><ul><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/philosophy/why">Why</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">components</h3><ul><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/components/hookedForm">HookedForm</a></li><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/components/form">Form</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">hooks</h3><ul><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/hooks/useField">useField</a></li><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/hooks/useError">useError</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/Hooked-Form/docs/hooks/useFieldArray">useFieldArray</a></li><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/hooks/useFormConnect">useFormConnect</a></li><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/hooks/useSpy">useSpy</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">types</h3><ul><li class="navListItem"><a class="navItem" href="/Hooked-Form/docs/types/staticTyping">Static Typing</a></li></ul></div></div></section></div><script>
             document.addEventListener('DOMContentLoaded', function() {
               createToggler('#navToggler', '#docsNav', 'docsSliderActive');
               createToggler('#tocToggler', 'body', 'tocActive');
 
-              var headings = document.querySelector('.toc-headings');
+              const headings = document.querySelector('.toc-headings');
               headings && headings.addEventListener('click', function(event) {
-                var el = event.target;
-                while(el !== headings){
-                  if (el.tagName === 'A') {
-                    document.body.classList.remove('tocActive');
-                    break;
-                  } else{
-                    el = el.parentNode;
-                  }
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
                 }
               }, false);
 
@@ -54,7 +27,7 @@
                 };
               }
             });
-        </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 id="__docusaurus" class="postHeaderTitle">useFieldArray</h1></header><article><div><span><p>This is a helper method for controlling arrays of fields, this can be done manually
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">useFieldArray</h1></header><article><div><span><p>This is a helper method for controlling arrays of fields, this can be done manually
 but who doens't like a little abstraction to make the day?</p>
 <pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> Friends = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
   <span class="hljs-keyword">const</span> [
@@ -70,18 +43,15 @@ but who doens't like a little abstraction to make the day?</p>
         <span class="hljs-tag">&lt;/<span class="hljs-name">Fragment</span>&gt;</span>
       ))}
       <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> add({ id: value.length })}&gt;Add friend<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">Fragment</span>&gt;</span></span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">Fragment</span>&gt;</span>
   )
 };
-</code></pre>
+</span></code></pre>
 <p>As you can see the first argument of your payload gives you the functions to control the array state</p>
 <ul>
 <li>add, appends the argument you pass into it at the back of the array.</li>
 <li>insert, accepts a number as the first argument and an element as the second and will put that element at the specified position.</li>
-<li>move, Accepts two numbers and will move an element from the first number to the second one.</li>
 <li>remove, Accepts a number and will remove the element at that position.</li>
-<li>replace, Accepts a number and an element and will replace the element on given position with the one specified in arguments.</li>
-<li>swap, Accepts two numbers and swaps these two around in terms of position within the array.</li>
 </ul>
 <p>The second part is your actual state</p>
 <ul>
