@@ -42,6 +42,7 @@ export default function useFieldArray<T = any>(
 
         ctx.setFieldValue(fieldId, value);
         ctx.setFieldTouched(fieldId, touched as any);
+
         if (errors) {
           errors.splice(at, 0, undefined);
           ctx.setFieldError(fieldId, errors as any);
@@ -56,6 +57,7 @@ export default function useFieldArray<T = any>(
 
         ctx.setFieldValue(fieldId, value);
         ctx.setFieldTouched(fieldId, touched as any);
+
         if (errors) {
           errors.splice(index, 1);
           ctx.setFieldError(fieldId, errors as any);

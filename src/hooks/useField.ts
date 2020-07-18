@@ -29,8 +29,10 @@ export default function useField<T = any>(
   const ctx = useContext(formContext) as PrivateFormHookContext;
 
   useEffect(() => {
-    const tuple: ValidationTuple = [fieldId, validate as (v: any) => string];
+    const tuple: ValidationTuple = [fieldId, validate as (v: T) => string];
+
     if (validate) ctx._fieldValidators.push(tuple);
+
     return () => {
       if (validate) {
         ctx._fieldValidators.splice(ctx._fieldValidators.indexOf(tuple), 1);
