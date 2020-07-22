@@ -7,7 +7,7 @@ export function deriveInitial(
   for (const key in value) {
     if (Array.isArray(value[key])) {
       result[key] = value[key].map((val: any) =>
-        typeof val === 'object'
+        val && typeof val === 'object'
           ? deriveInitial(val, defaultValue)
           : defaultValue
       );
