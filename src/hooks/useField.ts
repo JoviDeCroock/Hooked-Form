@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useRef } from 'react';
 import { get } from '../helpers/operations';
 import {
   FieldInformation,
@@ -28,24 +28,30 @@ export default function useField<T = any>(
 
   const ctx = useContext(formContext) as PrivateFormHookContext;
 
+  const isMounted = useRef<boolean>(false);
+
   useEffect(() => {
     const tuple: ValidationTuple = [fieldId, validate as (v: T) => string];
 
     if (validate) {
       ctx._fieldValidators.push(tuple);
-      // if the validation function changed, we will re-validate the field
-      const newError = validate(get(ctx.values, fieldId));
-      const oldError = get(ctx.errors, fieldId);
 
-      // we only invoke the setFieldError function when the error really changed, otherwise we might
-      // end up in an infinite loop
-      if (newError !== oldError) {
-        ctx.setFieldError(fieldId, newError);
+      if (isMounted.current) {
+        // if the validation function changed, we will re-validate the field
+        const newError = validate(get(ctx.values, fieldId));
+
+        // we only invoke the setFieldError function when the error really changed, otherwise we might
+        // end up in an infinite loop
+        if (newError !== get(ctx.errors, fieldId)) {
+          ctx.setFieldError(fieldId, newError);
+        }
       }
     } else if (get(ctx.errors, fieldId)) {
       // if the validation function was removed and the field had an error assigned previously we remove it
       ctx.setFieldError(fieldId, undefined);
     }
+
+    isMounted.current = true;
 
     return () => {
       if (validate) {
