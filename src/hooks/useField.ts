@@ -38,7 +38,7 @@ export default function useField<T = any>(
         ctx._fieldValidators.splice(ctx._fieldValidators.indexOf(tuple), 1);
       }
     };
-  }, [fieldId]);
+  }, [fieldId, validate]);
 
   return [
     {
