@@ -174,5 +174,90 @@ describe('useField', () => {
 
       expect(nameErrorField.textContent).toEqual('');
     });
+
+    it('should support changing the validation function', () => {
+      type ValidateFn = (val: string | undefined) => string | undefined;
+      const validate1: ValidateFn = (val: any) =>
+        val === 'upper' ? 'bad' : undefined;
+      const validate2: ValidateFn = (val: any) =>
+        val === 'upper' ? undefined : 'bad';
+      let setValidate:
+        | React.Dispatch<React.SetStateAction<{ validate: ValidateFn }>>
+        | undefined;
+
+      function Form() {
+        const [{ validate }, _setValidate] = React.useState({
+          validate: validate1,
+        });
+        setValidate = _setValidate;
+
+        return (
+          <HookedForm onSubmit={() => null}>
+            <StringField fieldId="name" val={validate} />
+          </HookedForm>
+        );
+      }
+
+      const { getByTestId } = render(<Form />);
+
+      const nameField = getByTestId('name');
+      const nameErrorField = getByTestId('name-error');
+      act(() => {
+        fireEvent.change(nameField, { target: { value: 'upper' } });
+      });
+
+      expect((nameField as any).value).toEqual('upper');
+      expect(nameErrorField.textContent).toEqual('bad');
+
+      act(() => {
+        setValidate && setValidate({ validate: validate2 });
+      });
+
+      expect(nameErrorField.textContent).toEqual('');
+    });
+
+    it('should support removing the validation function', () => {
+      type ValidateFn = (val: string | undefined) => string | undefined;
+      const validate1: ValidateFn = (val: any) =>
+        val === 'upper' ? 'bad' : undefined;
+
+      let setValidate:
+        | React.Dispatch<
+            React.SetStateAction<{ validate: ValidateFn | undefined }>
+          >
+        | undefined;
+
+      function Form() {
+        const [{ validate }, _setValidate] = React.useState<{
+          validate: ValidateFn | undefined;
+        }>({
+          validate: validate1,
+        });
+        setValidate = _setValidate;
+
+        return (
+          <HookedForm onSubmit={() => null}>
+            <StringField fieldId="name" val={validate} />
+          </HookedForm>
+        );
+      }
+
+      const { getByTestId } = render(<Form />);
+
+      const nameField = getByTestId('name');
+      const nameErrorField = getByTestId('name-error');
+      act(() => {
+        fireEvent.change(nameField, { target: { value: 'upper' } });
+      });
+
+      expect((nameField as any).value).toEqual('upper');
+      expect(nameErrorField.textContent).toEqual('bad');
+
+      act(() => {
+        setValidate && setValidate({ validate: undefined });
+      });
+
+      expect(nameErrorField.textContent).toEqual('');
+    });
   });
 });
