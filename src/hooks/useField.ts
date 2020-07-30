@@ -39,7 +39,7 @@ export default function useField<T = any>(
 
       // we only invoke the setFieldError function when the error really changed, otherwise we might
       // end up in an infinite loop
-      if (newError != oldError) {
+      if (newError !== oldError) {
         ctx.setFieldError(fieldId, newError);
       }
     } else if (get(ctx.errors, fieldId)) {
